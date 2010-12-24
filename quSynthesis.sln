@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "quSynthesis", "quSynthesis\quSynthesis.vcxproj", "{C22AA8EA-C7D4-4FB5-820F-62DFD82921FD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "quSynthesis", "quSynthesis\quSynthesis.vcxproj", "{A37942ED-F67E-4C74-8EF4-B2D65D71A0E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C22AA8EA-C7D4-4FB5-820F-62DFD82921FD}.Debug|Win32.ActiveCfg = Debug|Win32
-		{C22AA8EA-C7D4-4FB5-820F-62DFD82921FD}.Debug|Win32.Build.0 = Debug|Win32
-		{C22AA8EA-C7D4-4FB5-820F-62DFD82921FD}.Release|Win32.ActiveCfg = Release|Win32
-		{C22AA8EA-C7D4-4FB5-820F-62DFD82921FD}.Release|Win32.Build.0 = Release|Win32
+		{A37942ED-F67E-4C74-8EF4-B2D65D71A0E0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A37942ED-F67E-4C74-8EF4-B2D65D71A0E0}.Debug|Win32.Build.0 = Debug|Win32
+		{A37942ED-F67E-4C74-8EF4-B2D65D71A0E0}.Release|Win32.ActiveCfg = Release|Win32
+		{A37942ED-F67E-4C74-8EF4-B2D65D71A0E0}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
