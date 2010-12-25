@@ -3,9 +3,9 @@
 class CQueueItem
 {
 public:
-  int *pIn;
-  int *pOut;
-  int size;
+  ULONGLONG *pIn;
+  ULONGLONG *pOut;
+  ULONGLONG nSize;
 };
 
 class CQueue
@@ -13,14 +13,14 @@ class CQueue
 public:
   CQueue(void);
   ~CQueue(void);
-  void Push(CQueueItem &);
-  void Pop(CQueueItem &);
+  void Push(PULONGLONG pIn, PULONGLONG pOut, ULONGLONG nSize);
+  CQueueItem *Pop();
+  bool Empty(){return m_Queue.size() <= 0;}
 
 private:
   HANDLE m_hMutex;
-  queue<int *> m_inQueue;
-  queue<int *> m_outQueue;
-  void Lock();
-  void Release();
+  queue<CQueueItem*> m_Queue;
+  void Lock() { WaitForSingleObject(m_hMutex, INFINITE);}
+  void Release(){::ReleaseMutex(m_hMutex);}
 };
 

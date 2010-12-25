@@ -9,7 +9,6 @@
 using namespace System;
 using namespace System::Collections::Generic;
 using namespace std;
-using namespace msclr::interop;
 using namespace System::IO;
 
 #define SRC "..\\inputs\\"
@@ -21,6 +20,7 @@ namespace QuLogic {
     array<String^, 1>^ m_Files;
     StreamReader ^m_sr;
     ifstream *m_fsCurrent;
+    ULONGLONG *m_pInput;
 
   public:
     property String^ Name;
@@ -37,26 +37,32 @@ namespace QuLogic {
       if ( !Directory::Exists(sDir) )
         throw gcnew Exception(sDir + " Does not exist");
 
-       array<String^, 1>^ files = Directory::GetFiles(sDir, FilePrefix + ".txt");
+      array<String^, 1>^ files = Directory::GetFiles(sDir, FilePrefix + ".txt");
 
       m_sr = gcnew StreamReader(files[0]);
+      m_pInput = new ULONGLONG[m_nTerms];
     }
 
-    vector<ULONGLONG> Next()
+    ~FileSrc()
     {
-      vector<ULONGLONG> v;
+      delete m_pInput;
+    }
 
+    PULONGLONG Next()
+    {
       String ^s;
       if(m_sr->Peek() >= 0)
         s = m_sr->ReadLine();
-  
-      array<String^>^ list = s->Split(' ');
+      else
+        return NULL;
 
+      array<String^>^ list = s->Split(' ');
+      PULONGLONG p = m_pInput;
       Name = list[0];
       for (int i=0; i<m_nTerms; i++)
-        v.push_back(Convert::ToUInt64(list[i+1]));
+        *p++ = Convert::ToUInt64(list[i+1]);
 
-      return v;
+      return m_pInput;
     }
   };
 }

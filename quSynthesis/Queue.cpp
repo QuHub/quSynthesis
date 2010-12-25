@@ -14,35 +14,28 @@ CQueue::~CQueue(void)
   Release();
 }
 
-void CQueue::Push(CQueueItem &qi)
+void CQueue::Push(PULONGLONG pIn, PULONGLONG pOut, ULONGLONG nSize)
 {
   Lock(); 
-  m_inQueue.push(qi.pIn);
-  m_outQueue.push(qi.pOut);
+  CQueueItem *qi = new CQueueItem();
+  qi->pOut = pOut;
+  qi->pIn =  pIn;
+  qi->nSize = nSize;
+
+  m_Queue.push(qi);
   Release();
 }
 
 
-void CQueue::Pop(CQueueItem &qi)
+CQueueItem *CQueue::Pop()
 {
-  if (m_inQueue.size() <= 0)
-    return;
+  if (Empty())
+    return NULL;
 
   Lock(); 
-  qi.pIn = m_inQueue.front();
-  qi.pOut = m_outQueue.front();
-  m_inQueue.pop();
-  m_outQueue.pop();
+  CQueueItem *qi  = m_Queue.front();
+  m_Queue.pop();
   Release();
+  return qi;
 }
 
-void CQueue::Lock()
-{
-  WaitForSingleObject(m_hMutex, INFINITE);
-}
-
-
-void CQueue::Release()
-{
-  ::ReleaseMutex(m_hMutex);
-}
