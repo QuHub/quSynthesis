@@ -143,8 +143,8 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="config.h" />
     <ClInclude Include="FileSrc.h" />
+    <ClInclude Include="Globals.h" />
     <ClInclude Include="Miller.h" />
     <ClInclude Include="QuAlgorithm.h" />
     <ClInclude Include="Queue.h" />

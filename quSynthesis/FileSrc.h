@@ -59,6 +59,7 @@ namespace QuLogic {
       array<String^>^ list = s->Split(' ');
       PULONGLONG p = m_pInput;
       Name = list[0];
+      Console::WriteLine(Name);
       for (int i=0; i<m_nTerms; i++)
         *p++ = Convert::ToUInt64(list[i+1]);
 

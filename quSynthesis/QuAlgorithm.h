@@ -29,7 +29,7 @@ namespace QuLogic {
       GetSystemInfo( &sysinfo );
 
       // Lanuch threads as many as there are cores
-      int m_nThreads = 1; // sysinfo.dwNumberOfProcessors;
+      int m_nThreads = sysinfo.dwNumberOfProcessors;
 
       m_phMutex = new HANDLE[m_nThreads];
       m_pSynth = new CSynthesizer[m_nThreads];
@@ -39,7 +39,7 @@ namespace QuLogic {
       }
     }
 
-    void virtual Synthesize(PULONGLONG pOut){};
+    void virtual Synthesize(PULONGLONG pOut){throw "Must implement this";}
 
     void WaitForQueue()
     {

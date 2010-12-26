@@ -6,7 +6,7 @@
 #pragma once
 
 #include "targetver.h"
-
+#include <math.h>
 #include <stdio.h>
 #include <tchar.h>
 #include <Windows.h>
@@ -21,4 +21,4 @@ using namespace std;
 
 #include "Synthesizer.h"
 #include "Queue.h"
-extern CQueue gQueue;
+extern QuLogic::CQueue gQueue;

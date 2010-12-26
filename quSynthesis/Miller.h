@@ -22,7 +22,7 @@ public:
   void virtual Synthesize(PULONGLONG pOut) override
   {
     cout << "Ready to synthesize function\n";
-    gQueue.Push(m_pIn, pOut, m_nTerms);
+    gQueue.Push(m_pIn, pOut, m_nBits);
     cout << "Pushed it to Queue\n";
 
     WaitForQueue();
