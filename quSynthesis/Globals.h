@@ -1,17 +1,22 @@
 #pragma once
+
 namespace QuLogic {
   class CGlobals 
   {
   public:
-    static int m_Ones[256];
+    int m_Ones[256];
+    HANDLE m_hPrintMutex;
     CGlobals(void)
     {
       for (int i=0; i<256; i++)
         m_Ones[i] = NumOfOnes(i);
+    
+      if (!ghPrintMutex)
+        ghPrintMutex = CreateMutex(NULL, false, NULL);
     }
 
 
-    static int CGlobals::NumOfOnes(int num)
+    int CGlobals::NumOfOnes(int num)
     {
       int nCount = 0;
       for (int i=0; i<8; i++) {
@@ -20,5 +25,15 @@ namespace QuLogic {
       }
       return nCount;
     }
+#ifndef Print
+    void CGlobals::Print(char *p)
+    {
+     // WaitForSingleObject(ghPrintMutex, INFINITE); 
+     // cout << GetCurrentThreadId() << ": " << p << "\n";
+     // ::ReleaseMutex(ghPrintMutex); 
+    }
+#endif
+    void Lock(HANDLE hMutex) { WaitForSingleObject(hMutex, INFINITE); }
+    void Release(HANDLE hMutex){::ReleaseMutex(hMutex); }
   };
 }

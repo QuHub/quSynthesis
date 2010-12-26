@@ -1,16 +1,16 @@
 #pragma once
 namespace QuLogic {
 
-class CSynthesizer : public CThread
+class CSynthesizer : public CThread, CGlobals
 {
 public:
   CSynthesizer(void);
   ~CSynthesizer(void);
   DWORD Run( LPVOID /* arg */ );
   HANDLE m_hMutex;
-  void Lock() { WaitForSingleObject(m_hMutex, INFINITE);}
-  void Release(){::ReleaseMutex(m_hMutex);}
-  void Resize(PULONGLONG &pBuf);
+  void Lock() { WaitForSingleObject(m_hMutex, INFINITE); Print("Acquired Lock");}
+  void Release(){::ReleaseMutex(m_hMutex); Print("Released Lock");}
+  void Resize();
   void Process(ULONGLONG inTerm, ULONGLONG outTerm);
   ULONGLONG Propogate(ULONGLONG outTerm);
   ULONGLONG QuantumCost();

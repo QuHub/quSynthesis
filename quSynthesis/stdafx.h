@@ -12,12 +12,14 @@
 #include <Windows.h>
 #include "Thread.h"
 
-
+#define Print(x) 
+extern HANDLE ghPrintMutex;
 
 // TODO: reference additional headers your program requires here
 #include <iostream>
 #include <queue>
 using namespace std;
+#include "Globals.h"
 
 #include "Synthesizer.h"
 #include "Queue.h"

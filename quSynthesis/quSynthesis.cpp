@@ -14,7 +14,7 @@ using namespace System;
 using namespace QuLogic;
 
 #define FILE_PATTERN "function*"
-#define NBITS 4
+#define NBITS 11
 
 #define ALGO CMiller
 

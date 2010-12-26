@@ -1,12 +1,12 @@
 #pragma once
 namespace QuLogic {
 
-  ref class QuAlgorithm
+  class QuAlgorithm : public CGlobals
   {
   public:
     ULONGLONG m_nBits;
     ULONGLONG m_nTerms;
-    property String^ Name;
+    PCHAR Name;
     HANDLE *m_phMutex;
     int m_nThreads;
     CSynthesizer *m_pSynth;
@@ -29,7 +29,7 @@ namespace QuLogic {
       GetSystemInfo( &sysinfo );
 
       // Lanuch threads as many as there are cores
-      int m_nThreads = sysinfo.dwNumberOfProcessors;
+      m_nThreads = sysinfo.dwNumberOfProcessors;
 
       m_phMutex = new HANDLE[m_nThreads];
       m_pSynth = new CSynthesizer[m_nThreads];
@@ -43,10 +43,13 @@ namespace QuLogic {
 
     void WaitForQueue()
     {
+      Print("Waiting for Queue To Empty");
       while (!gQueue.Empty())
-        Sleep(10);
+        Sleep(1);
 
+      Print("Waiting for All Mutexes");
       WaitForMultipleObjects(m_nThreads, m_phMutex, true, INFINITE);
+      Print("All Mutexes are released");
     }
 
   };

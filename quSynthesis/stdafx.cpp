@@ -4,4 +4,5 @@
 
 #include "stdafx.h"
 
+HANDLE ghPrintMutex;
 

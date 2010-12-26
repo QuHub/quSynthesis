@@ -2,7 +2,7 @@
 #include "QuAlgorithm.h"
 
 namespace QuLogic {
-ref class CMiller : QuAlgorithm
+class CMiller : QuAlgorithm
 {
 public:
   PULONGLONG m_pIn;
@@ -21,12 +21,14 @@ public:
 
   void virtual Synthesize(PULONGLONG pOut) override
   {
-    cout << "Ready to synthesize function\n";
-    gQueue.Push(m_pIn, pOut, m_nBits);
-    cout << "Pushed it to Queue\n";
+    for (int i=0; i<1000; i++) {
+      Print("Ready to synthesize function");
+      gQueue.Push(m_pIn, pOut, m_nBits);
+      Print("Pushed it to Queue");
+    }
 
     WaitForQueue();
-    cout << "Done after a long wait\n";
+    Print("Done after a long wait");
   }
 };
 

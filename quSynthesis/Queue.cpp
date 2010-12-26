@@ -19,27 +19,34 @@ namespace QuLogic {
 
   void CQueue::Push(PULONGLONG pIn, PULONGLONG pOut, ULONGLONG nBits)
   {
-    Lock(); 
+
     CQueueItem *qi = new CQueueItem();
     qi->pOut = pOut;
     qi->pIn =  pIn;
     qi->nSize = (ULONGLONG)Math::Pow(2,(double)nBits);
     qi->nBits = nBits;
 
+    Print("In: Push");
+    Lock(); 
     m_Queue.push(qi);
     Release();
+    Print("Out: Push");
   }
 
 
   CQueueItem *CQueue::Pop()
   {
-    if (Empty())
+    Print("In: Pop");
+    Lock();
+    if (Empty()) {
+      Print("Out: Pop Empty");
+      Release();
       return NULL;
-
-    Lock(); 
-    CQueueItem *qi  = m_Queue.front();
+    }
+    CQueueItem *qi = m_Queue.front();
     m_Queue.pop();
     Release();
+    Print("Out: Pop");
     return qi;
   }
 

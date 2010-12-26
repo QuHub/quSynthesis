@@ -1,7 +1,6 @@
 #include "StdAfx.h"
 #include "Synthesizer.h"
 #include <math.h>
-#include "Globals.h"
 using namespace System;
 
 namespace QuLogic {
@@ -19,8 +18,8 @@ namespace QuLogic {
       CQueueItem *qi = gQueue.Pop();
       if (!qi) {
         Release();
-        Sleep(10);
-        cout << "Nothing to do\n" ;
+        Sleep(1);
+        Print("Nothing to do") ;
         continue;
       }
 
@@ -36,7 +35,7 @@ namespace QuLogic {
 
       for (int i=0; i < qi->nSize; i++)
         Process(*pIn++, *pOut++);
-      cout << "We are doing it dude\n";
+      Print("We are doing it dude");
       delete m_pTarget;
       delete m_pControl;
       Release();
@@ -64,7 +63,7 @@ namespace QuLogic {
       for (int j = 0; j< m_nBits; j++) {
         if ( (diff & mask) && !(outTerm & mask)) {
           if (m_nGates > m_nBufSize - 8)  // make sure there is enough memory
-            Resize(m_pTarget), Resize(m_pControl);
+            Resize();
 
           m_pControl[m_nGates] = outTerm & ~mask;		// clear inTerm bit at current bit position
           m_pTarget[m_nGates++] = mask;						// Mark bit position for as NOT gate
@@ -79,7 +78,7 @@ namespace QuLogic {
       for (int j = 0; j< m_nBits; j++) {
         if ( (diff & mask) && (outTerm & mask)) {
           if (m_nGates > m_nBufSize - 8)  // make sure there is enough memory
-            Resize(m_pTarget), Resize(m_pControl);
+            Resize();
 
           m_pControl[m_nGates] = outTerm & ~mask;		// clear inTerm bit at current bit position
           m_pTarget[m_nGates++] = mask;						// Mark bit position for as NOT gate
@@ -139,18 +138,24 @@ namespace QuLogic {
     ULONGLONG nCount=0;
 
     for (int i=0; i<8; i++) {
-      nCount += CGlobals::NumOfOnes(n & 0xFF);
+      nCount += NumOfOnes(n & 0xFF);
       n >>= 8;
     }
     return nCount;
   }
 
-  void CSynthesizer::Resize(PULONGLONG &pBuf)
-  { 
+  void CSynthesizer::Resize()
+  {
     PULONGLONG p=new ULONGLONG[m_nBufSize+2048]; 
-    CopyMemory(p, pBuf, m_nBufSize*sizeof(ULONGLONG));
-    delete pBuf;
-    pBuf = p;
+    CopyMemory(p, m_pControl, m_nBufSize*sizeof(ULONGLONG));
+    delete m_pControl;
+    m_pControl= p;
+
+    p=new ULONGLONG[m_nBufSize+2048]; 
+    CopyMemory(p, m_pTarget, m_nBufSize*sizeof(ULONGLONG));
+    delete m_pTarget;
+    m_pTarget= p;
+
     m_nBufSize += 2048;
   }
 
