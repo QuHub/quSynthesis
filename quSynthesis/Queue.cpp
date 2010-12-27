@@ -3,7 +3,6 @@
 
 using namespace System;
 
-QuLogic::CQueue gQueue;
 namespace QuLogic {
 
   CQueue::CQueue(void) : m_hMutex(NULL)

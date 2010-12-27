@@ -5,4 +5,5 @@
 #include "stdafx.h"
 
 HANDLE ghPrintMutex;
-
+QuLogic::CQueue gQueue;
+QuLogic::CResult gResult;

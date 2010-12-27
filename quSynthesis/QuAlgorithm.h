@@ -31,6 +31,9 @@ namespace QuLogic {
       // Lanuch threads as many as there are cores
       m_nThreads = sysinfo.dwNumberOfProcessors;
 
+      // A set of Mutex objects necessary to figure out when all threads
+      // Have finished processing their inputs, after queue has been emptied.
+      // These Mutecis are used in WaitForQueue()
       m_phMutex = new HANDLE[m_nThreads];
       m_pSynth = new CSynthesizer[m_nThreads];
       for (int i=0; i<m_nThreads; i++) {
@@ -50,8 +53,14 @@ namespace QuLogic {
       Print("Waiting for All Mutexes");
       WaitForMultipleObjects(m_nThreads, m_phMutex, true, INFINITE);
       Print("All Mutexes are released");
-    }
 
+      // WaitForMultipleObjects() will hold the lock on all mutecis, which means
+      // they have to be released in order for the threads to proceed...
+      for (int i=0; i<m_nThreads; i++) {
+        ::ReleaseMutex(m_phMutex[i]);
+      }
+      Print("Releasing All Mutecis");
+    }
   };
 
 

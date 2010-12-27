@@ -14,28 +14,22 @@ using namespace System;
 using namespace QuLogic;
 
 #define FILE_PATTERN "function*"
-#define NBITS 11
+#define NBITS 4
 
 #define ALGO CMiller
 
 int main(array<System::String ^> ^args)
 {
-
 	FileSrc fs(NBITS, FILE_PATTERN);
 	
 	PULONGLONG p;
 	
   ALGO algo(NBITS);
 	while (p = fs.Next() ) {
+    Console::WriteLine("Function: " + fs.Name);
     algo.Synthesize(p);
   }
   
 	return 0;
 }
 
-
-void Fill(int *p, int value)
-{
-	for (int i=0; i<1000; i++)
-		p[i] = value;
-}

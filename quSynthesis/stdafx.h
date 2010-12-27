@@ -20,7 +20,8 @@ extern HANDLE ghPrintMutex;
 #include <queue>
 using namespace std;
 #include "Globals.h"
-
-#include "Synthesizer.h"
 #include "Queue.h"
+#include "Result.h"
+#include "Synthesizer.h"
 extern QuLogic::CQueue gQueue;
+extern QuLogic::CResult gResult;

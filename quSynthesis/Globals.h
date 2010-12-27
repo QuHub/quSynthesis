@@ -6,6 +6,7 @@ namespace QuLogic {
   public:
     int m_Ones[256];
     HANDLE m_hPrintMutex;
+    inline int Ones(int i){return m_Ones[i];}
     CGlobals(void)
     {
       for (int i=0; i<256; i++)
@@ -20,7 +21,7 @@ namespace QuLogic {
     {
       int nCount = 0;
       for (int i=0; i<8; i++) {
-        nCount = num & 1;
+        nCount += num & 1;
         num >>= 1;
       }
       return nCount;
@@ -28,9 +29,9 @@ namespace QuLogic {
 #ifndef Print
     void CGlobals::Print(char *p)
     {
-     // WaitForSingleObject(ghPrintMutex, INFINITE); 
-     // cout << GetCurrentThreadId() << ": " << p << "\n";
-     // ::ReleaseMutex(ghPrintMutex); 
+      WaitForSingleObject(ghPrintMutex, INFINITE); 
+      cout << GetCurrentThreadId() << ": " << p << "\n";
+      ::ReleaseMutex(ghPrintMutex); 
     }
 #endif
     void Lock(HANDLE hMutex) { WaitForSingleObject(hMutex, INFINITE); }

@@ -5,3 +5,4 @@ outputs*
 *.opensdf
 ipch*
 x64*
+out.txt

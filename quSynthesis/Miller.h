@@ -21,13 +21,13 @@ public:
 
   void virtual Synthesize(PULONGLONG pOut) override
   {
-    for (int i=0; i<1000; i++) {
-      Print("Ready to synthesize function");
-      gQueue.Push(m_pIn, pOut, m_nBits);
-      Print("Pushed it to Queue");
-    }
+    gResult.Reset();
+    Print("Ready to synthesize function");
+    gQueue.Push(m_pIn, pOut, m_nBits);
+    Print("Pushed it to Queue");
 
     WaitForQueue();
+    gResult.PrintResult();
     Print("Done after a long wait");
   }
 };

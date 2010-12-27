@@ -7,18 +7,18 @@ public:
   CSynthesizer(void);
   ~CSynthesizer(void);
   DWORD Run( LPVOID /* arg */ );
-  HANDLE m_hMutex;
   void Lock() { WaitForSingleObject(m_hMutex, INFINITE); Print("Acquired Lock");}
   void Release(){::ReleaseMutex(m_hMutex); Print("Released Lock");}
   void Resize();
   void Process(ULONGLONG inTerm, ULONGLONG outTerm);
   ULONGLONG Propogate(ULONGLONG outTerm);
   ULONGLONG QuantumCost();
-  ULONGLONG GateCost(int i);
+  inline ULONGLONG GateCost(int i);
   ULONGLONG ControlLines(ULONGLONG n);
 
 
 public:
+  HANDLE m_hMutex;
   PULONGLONG m_pTarget;   // Array holding target bit value
 	PULONGLONG m_pControl;  // Array holding control line values
 	ULONGLONG m_nGates;     // Number of gates found

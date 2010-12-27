@@ -35,13 +35,16 @@ namespace QuLogic {
 
       for (int i=0; i < qi->nSize; i++)
         Process(*pIn++, *pOut++);
-      Print("We are doing it dude");
+      
+      gResult.Save(m_pTarget, m_pControl, m_nBufSize, QuantumCost(), qi);
       delete m_pTarget;
       delete m_pControl;
       Release();
     }
     return 0;
   }
+
+
 
   /// void CSynthesizer::Process(ULONGLONG inTerm, ULONGLONG outTerm)
   ///
@@ -66,8 +69,8 @@ namespace QuLogic {
             Resize();
 
           m_pControl[m_nGates] = outTerm & ~mask;		// clear inTerm bit at current bit position
-          m_pTarget[m_nGates++] = mask;						// Mark bit position for as NOT gate
-          diff &= ~mask;								// reset bit in diff, since it should be same in outTerm
+          m_pTarget[m_nGates++] = mask;						  // Mark bit position for as NOT gate
+          diff &= ~mask;								            // reset bit in diff, since it should be same in outTerm
           outTerm ^= mask;
         }
         mask <<= 1;
@@ -105,10 +108,14 @@ namespace QuLogic {
 
   ULONGLONG CSynthesizer::QuantumCost()
   {
-    ULONGLONG nCost=0;
-
+    PULONGLONG pnCount = new ULONGLONG[m_nBits];
+    ZeroMemory(pnCount, m_nBits * sizeof(ULONGLONG));
     for (int i=0; i<m_nGates; i++) 
-      nCost += GateCost(i);
+      pnCount[ControlLines(m_pControl[i])]++;
+
+    ULONGLONG nCost=0;
+    for (int i=0; i<m_nBits; i++)
+      nCost += GateCost(i) * pnCount[i];
 
     return nCost;
   }
@@ -123,7 +130,7 @@ namespace QuLogic {
   ///
   ULONGLONG CSynthesizer::GateCost(int i)
   {
-    return Math::Max((ULONGLONG)1, (ULONGLONG)Math::Pow(2, 1 + ControlLines(m_pControl[i])) - 3);
+    return Math::Max(1, (int)Math::Pow(2, 1 + i) - 3);
   }
 
   ///   ULONGLONG CSynthesizer::ControlLines(ULONGLONG n)
@@ -138,7 +145,7 @@ namespace QuLogic {
     ULONGLONG nCount=0;
 
     for (int i=0; i<8; i++) {
-      nCount += NumOfOnes(n & 0xFF);
+      nCount += Ones(n & 0xFF);
       n >>= 8;
     }
     return nCount;
