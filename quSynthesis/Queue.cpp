@@ -18,7 +18,6 @@ namespace QuLogic {
 
   void CQueue::Push(PULONGLONG pIn, PULONGLONG pOut, ULONGLONG nBits)
   {
-
     CQueueItem *qi = new CQueueItem();
     qi->pOut = pOut;
     qi->pIn =  pIn;

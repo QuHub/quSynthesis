@@ -19,9 +19,17 @@ extern HANDLE ghPrintMutex;
 #include <iostream>
 #include <queue>
 using namespace std;
+using namespace System;
 #include "Globals.h"
 #include "Queue.h"
 #include "Result.h"
 #include "Synthesizer.h"
+#include "Hasse.h"
+#include "CoveredSetPartition.h"
+
 extern QuLogic::CQueue gQueue;
 extern QuLogic::CResult gResult;
+
+#include "QuConductor.h"
+#include "GAConductor.h"
+

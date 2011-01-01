@@ -26,7 +26,7 @@ public:
     gQueue.Push(m_pIn, pOut, m_nBits);
     Print("Pushed it to Queue");
 
-    WaitForQueue();
+    //WaitForQueue();
     gResult.PrintResult();
     Print("Done after a long wait");
   }

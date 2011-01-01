@@ -16,20 +16,24 @@ using namespace QuLogic;
 #define FILE_PATTERN "function*"
 #define NBITS 4
 
-#define ALGO CMiller
+// STEP(1): Add your algoirthm here
+#define ALGO CoveredSetPartition::typeid
+//#define ALGO Nouraddin::typeid
+//#define ALGO Miller::typeid
+
 
 int main(array<System::String ^> ^args)
 {
-	FileSrc fs(NBITS, FILE_PATTERN);
-	
+  GAConductor algo(NBITS, ALGO);
+
 	PULONGLONG p;
-	
-  ALGO algo(NBITS);
+  FileSrc fs(NBITS, FILE_PATTERN);
+
 	while (p = fs.Next() ) {
-    Console::WriteLine("Function: " + fs.Name);
-    algo.Synthesize(p);
-  }
-  
+		Console::WriteLine("Function: " + fs.Name);
+		algo.Synthesize(p);
+	}
+	
 	return 0;
 }
 
