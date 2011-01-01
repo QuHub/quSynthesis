@@ -14,7 +14,7 @@ using namespace System;
 using namespace QuLogic;
 
 #define FILE_PATTERN "function*"
-#define NBITS 4
+#define NBITS 5
 
 // STEP(1): Add your algoirthm here
 #define ALGO CoveredSetPartition::typeid

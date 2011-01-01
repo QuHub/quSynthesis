@@ -6,7 +6,10 @@ namespace QuLogic {
 	public:
 		ULONGLONG m_nBits;
 		ULONGLONG m_nTerms;
+    ULONGLONG m_QuantumCost;
 		PCHAR Name;
+    PULONGLONG m_pIn;
+    PULONGLONG m_pOut;
 
 	public:
 		QuAlgorithm(void){};
@@ -17,10 +20,7 @@ namespace QuLogic {
 		}
 
 		void virtual Synthesize(PULONGLONG pOut) {throw "Must implement this";}
-		int virtual QuantumCost() {throw "Must implement this";}
-    int virtual Mutate() {throw "Must implement this";}
-
-
+    void virtual Mutate() {throw "Must implement this";}
 	};
 
 

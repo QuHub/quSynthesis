@@ -15,8 +15,8 @@ namespace QuLogic {
     while(1) {
       // Look for something in the queue and synthesize it
       Lock();
-      CQueueItem *qi = gQueue.Pop();
-      if (!qi) {
+      QuAlgorithm *qa = gQueue.Pop();
+      if (!qa) {
         Release();
         Sleep(1);
         Print("Nothing to do") ;
@@ -28,15 +28,15 @@ namespace QuLogic {
       m_pControl = new ULONGLONG[m_nBufSize];
 
       m_nGates = 0;
-      m_nBits = qi->nBits;
+      m_nBits = qa->m_nBits;
 
-      PULONGLONG pIn = qi->pIn;
-      PULONGLONG pOut = qi->pOut;
+      PULONGLONG pIn = qa->m_pIn;
+      PULONGLONG pOut = qa->m_pOut;
 
-      for (int i=0; i < qi->nSize; i++)
+      for (int i=0; i < qa->m_nTerms; i++)
         Process(*pIn++, *pOut++);
       
-      gResult.Save(m_pTarget, m_pControl, m_nBufSize, QuantumCost(), qi);
+      qa->m_QuantumCost = QuantumCost();
       delete m_pTarget;
       delete m_pControl;
       Release();

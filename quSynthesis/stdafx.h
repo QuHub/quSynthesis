@@ -21,15 +21,15 @@ extern HANDLE ghPrintMutex;
 using namespace std;
 using namespace System;
 #include "Globals.h"
+#include "QuAlgorithm.h"
 #include "Queue.h"
 #include "Result.h"
 #include "Synthesizer.h"
 #include "Hasse.h"
-#include "CoveredSetPartition.h"
-
 extern QuLogic::CQueue gQueue;
 extern QuLogic::CResult gResult;
 
+#include "CoveredSetPartition.h"
 #include "QuConductor.h"
 #include "GAConductor.h"
 

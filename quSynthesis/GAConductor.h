@@ -28,7 +28,7 @@ namespace QuLogic
         delete m_pAlgo[i];
     }
 
-    GAConductor(int nBits, Type^ T) : QuConductor()
+    GAConductor(int nBits, Type^ T) : QuConductor(nBits)
     {
       m_rnd = gcnew Random();
       // Setup population of individuals randomly
@@ -54,8 +54,13 @@ namespace QuLogic
       m_BestFit = MAXLONGLONG;
       for (int i=0; i<N_POP; i++) {
         m_pAlgo[i]->Synthesize(pOut);
+      }
 
-        int qCost = m_pAlgo[i]->QuantumCost();
+      WaitForQueue();
+
+      for (int i=0; i<N_POP; i++) {
+        ULONGLONG qCost = m_pAlgo[i]->m_QuantumCost;
+        cout << i << ": " << qCost << "\n";
         m_ParentTotalFitness += qCost;
         if (m_BestFit > qCost)
           m_BestFit = qCost;
@@ -93,7 +98,7 @@ namespace QuLogic
       double val=0;
 
       for (int i=0; i < N_POP; i++) {
-        val += m_pAlgo[i]->QuantumCost()/m_ParentTotalFitness;
+        val += m_pAlgo[i]->m_QuantumCost/m_ParentTotalFitness;
         if (rnd < val)
           return m_pAlgo[i];
       }

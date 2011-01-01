@@ -28,7 +28,7 @@ namespace QuLogic {
 
   public:
     PULONGLONG m_pSequence;
-    CHasse(int nBits)
+    CHasse(int nBits, int offset)
     {
       Initialize(nBits);
 
@@ -36,9 +36,13 @@ namespace QuLogic {
       PULONGLONG p=m_pSequence;
       for (int i=0; i<m_nBands; i++) {
         random_shuffle(m_pBands[i].begin(), m_pBands[i].end());
-        copy(m_pBands[i].begin(), m_pBands[i].end(), p);
+        CopyMemory(p, &m_pBands[i][0], m_pBands[i].size() * sizeof(ULONGLONG));
         p += m_pBands[i].size();
       }
+
+      // Add offset to values
+      for (int i=0; i<m_nTerms; i++)
+        m_pSequence[i] += offset << nBits;
     }
 
     ~CHasse()

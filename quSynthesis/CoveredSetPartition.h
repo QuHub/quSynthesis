@@ -10,13 +10,36 @@ namespace QuLogic {
   public:
     int m_nSets;
     vector<CHasse*> m_pInput;
+    ULONGLONG m_nQuantumCost;
 
     CoveredSetPartition(void)  {}
     CoveredSetPartition(int nBits) : QuAlgorithm(nBits)
     {
       m_nSets = (int)Math::Pow(2,M);
       for (int i=0; i<m_nSets; i++)
-        m_pInput.push_back(new CHasse(nBits - M));
+        m_pInput.push_back(new CHasse(nBits - M, i));
+    }
+
+    void virtual Synthesize(PULONGLONG pOut) 
+    {
+      m_pOut = pOut;
+      Input();
+      gQueue.Push(this);
+    }
+
+    PULONGLONG Input()
+    {
+      PULONGLONG p = m_pIn = new ULONGLONG[m_nTerms];
+      for (int i=0; i<m_nSets; i++) {
+        CopyMemory(p, m_pInput[i]->m_pSequence, sizeof(ULONGLONG) * m_pInput[i]->m_nTerms);
+        p += m_pInput[i]->m_nTerms;
+      }
+      return m_pIn;
+    }
+
+    void Mutate()
+    {
+
     }
 
     ~CoveredSetPartition(void) 

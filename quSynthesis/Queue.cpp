@@ -16,6 +16,16 @@ namespace QuLogic {
     Release();
   }
 
+  void CQueue::Push(QuAlgorithm *qa)
+  {
+    Print("In: Push");
+    Lock(); 
+    m_qaQueue.push(qa);
+    Release();
+    Print("Out: Push");
+  }
+
+
   void CQueue::Push(PULONGLONG pIn, PULONGLONG pOut, ULONGLONG nBits)
   {
     CQueueItem *qi = new CQueueItem();
@@ -32,7 +42,7 @@ namespace QuLogic {
   }
 
 
-  CQueueItem *CQueue::Pop()
+  QuAlgorithm *CQueue::Pop()
   {
     Print("In: Pop");
     Lock();
@@ -41,11 +51,11 @@ namespace QuLogic {
       Release();
       return NULL;
     }
-    CQueueItem *qi = m_Queue.front();
-    m_Queue.pop();
+    QuAlgorithm *qa = m_qaQueue.front();
+    m_qaQueue.pop();
     Release();
     Print("Out: Pop");
-    return qi;
+    return qa;
   }
 
 }

@@ -4,8 +4,6 @@ namespace QuLogic {
 	class QuConductor : public CGlobals
 	{
 	public:
-		ULONGLONG m_nBits;
-		ULONGLONG m_nTerms;
 		PCHAR Name;
 		HANDLE *m_phMutex;
 		int m_nThreads;
@@ -21,9 +19,6 @@ namespace QuLogic {
 		}
 		QuConductor(int nBits)
 		{
-			m_nBits = nBits;
-			m_nTerms = (ULONGLONG)Math::Pow(2,(double)nBits);
-
 			// Allocate a set of Worker Threads based on the number of CPU cores for synthesizing outputs.
 			SYSTEM_INFO sysinfo;
 			GetSystemInfo( &sysinfo );
