@@ -16,10 +16,11 @@ namespace QuLogic {
 			m_nTerms = (ULONGLONG)Math::Pow(2,(double)nBits);
 		}
 
-		void virtual Synthesize(PULONGLONG pOut)
-		{
-			throw "Must implement this";
-		}
+		void virtual Synthesize(PULONGLONG pOut) {throw "Must implement this";}
+		int virtual QuantumCost() {throw "Must implement this";}
+    int virtual Mutate() {throw "Must implement this";}
+
+
 	};
 
 

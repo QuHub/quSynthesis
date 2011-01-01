@@ -8,13 +8,15 @@
 #include <vcclr.h>
 using namespace System::Reflection;
 
+#define CROSS_OVER SinglePointCrossOver
+
 namespace QuLogic 
 {
   class GAConductor: QuConductor {
 
   private:
-    int m_bestFit;
-    int m_m_parentFitness;
+    int m_BestFit;
+    int m_ParentTotalFitness;
     gcroot<Random^> m_rnd; 
 
   public:
@@ -41,47 +43,60 @@ namespace QuLogic
       // Calculate Cost Function for all individuals
       for (int r=0; r<N_RUN; r++) {
         for (int g=0; g<N_GEN; g++) {
-          DoGeneration(g);
+          DoGeneration(g, pOut);
         }
       }
     }
 
-    void DoGeneration(int gen)
+    void DoGeneration(int gen, PULONGLONG pOut)
     {
-      //m_parentFitness = 0;
-      //m_bestFit = MAXLONGLONG;
-      //for (int i=0; i<N_POP; i++) {
-      //  m_pAlgo[i]->Synthesize(pOut);
+      m_ParentTotalFitness = 0;
+      m_BestFit = MAXLONGLONG;
+      for (int i=0; i<N_POP; i++) {
+        m_pAlgo[i]->Synthesize(pOut);
 
-      //  parentFitness += m_pAlgo[i]->Cost();
-      //  if (bestFit > m_pAlgo[i]->Cost())
-      //    bestFit = m_pAlgo[i]->Cost();
-      //}
+        int qCost = m_pAlgo[i]->QuantumCost();
+        m_ParentTotalFitness += qCost;
+        if (m_BestFit > qCost)
+          m_BestFit = qCost;
+      }
 
-      //Breed();
-      //Cull();
+      Breed();
+      Cull();
+    }
+
+    void Cull()
+    {
+
+
     }
 
     void Breed()
     {
-      //for (int i=0; i<N_POP; i++) {
-      //  QuAlgorithm *p1 = Roulette();  
-      //  QuAlgorithm *p1 = Roulette();
-      //  m_pAlgo[i+N_POP] = CROSS_OVER(p1, p2, PC);
-      //  m_pAlgo[i+N_POP]->Mutate();
-      //}
+      for (int i=0; i<N_POP; i++) {
+        QuAlgorithm *p1 = Roulette();  
+        QuAlgorithm *p2 = Roulette();
+        m_pAlgo[i+N_POP] = CROSS_OVER(p1, p2, PC);
+        m_pAlgo[i+N_POP]->Mutate();
+      }
+    }
+
+    QuAlgorithm *SinglePointCrossOver(QuAlgorithm *p1, QuAlgorithm *p2, double Prob)
+    {
+
+      return p1;
     }
 
     QuAlgorithm *Roulette()
     {
-      //double rnd = m_rnd.NextDouble();
-      //double val=0;
+      double rnd = m_rnd->NextDouble();
+      double val=0;
 
-      //for (int i=0; i < POP_SIZE; i++) {
-      //  val += m_pAlgo[i]->QauntumCost()/m_ParentTotalFitness;
-      //  if (rnd < val)
-      //    return m_pAlgo[i];
-      //}
+      for (int i=0; i < N_POP; i++) {
+        val += m_pAlgo[i]->QuantumCost()/m_ParentTotalFitness;
+        if (rnd < val)
+          return m_pAlgo[i];
+      }
 
       return m_pAlgo[N_POP-1];
     }

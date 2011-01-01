@@ -33,7 +33,7 @@ int main(array<System::String ^> ^args)
 		Console::WriteLine("Function: " + fs.Name);
 		algo.Synthesize(p);
 	}
-	
+
 	return 0;
 }
 
