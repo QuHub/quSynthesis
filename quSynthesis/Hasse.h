@@ -17,7 +17,7 @@ namespace QuLogic {
       m_nBits = nBits;
       m_nTerms = (int)Math::Pow(2, nBits);
       m_nBands = nBits + 1;                 // For binary, nBands = nBits + 1
-      m_pBands = new vector<ULONGLONG>[m_nBands];
+      m_pBands = new vector<ULONGLONG>[m_nBands];   // Delete only once at the end of the or on TotalReset();
 
       // Allocate space for each bands
       for (int i=0; i<m_nTerms; i++)
@@ -27,27 +27,29 @@ namespace QuLogic {
     }
 
   public:
-    PULONGLONG m_pSequence;
     CHasse(int nBits, int offset)
     {
       Initialize(nBits);
 
-      m_pSequence = new ULONGLONG[m_nTerms];
-      PULONGLONG p=m_pSequence;
       for (int i=0; i<m_nBands; i++) {
         random_shuffle(m_pBands[i].begin(), m_pBands[i].end());
-        CopyMemory(p, &m_pBands[i][0], m_pBands[i].size() * sizeof(ULONGLONG));
-        p += m_pBands[i].size();
       }
+    }
 
-      // Add offset to values
-      for (int i=0; i<m_nTerms; i++)
-        m_pSequence[i] += offset << nBits;
+    int GetSequence(PULONGLONG p, int offset)
+    {
+      int n=0;
+      for (int i=0; i<m_nBands; i++) {
+        for (int j=0; j<m_pBands[i].size(); j++) {
+          *p++ = m_pBands[i][j] + offset;
+          n++;
+        }
+      }
+      return n;
     }
 
     ~CHasse()
     {
-      delete m_pSequence;
     }
   };
 

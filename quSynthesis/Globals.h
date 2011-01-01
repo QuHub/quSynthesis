@@ -65,12 +65,12 @@ namespace QuLogic {
 
       ULONGLONG nMrF = 1;
       do 
-      nMrF *= nMr;
-      while(nMr--);
+       nMrF *= nMr;
+      while(--nMr);
 
       // Calc n!/r!
       ULONGLONG c = 1;
-      while (r<=n)
+      while (r<n)
         c *= ++r;
 
       return c / nMrF;

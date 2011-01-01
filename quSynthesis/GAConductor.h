@@ -1,12 +1,12 @@
 #pragma once
+// BestCost         3261193(M=3)  3398744(M=2)      3407896       3398961
+#define N_POP 100 // 100             100           200
+#define N_GEN 300 // 200             300           500
+#define N_RUN 10  // 10              10            20
+#define PM    0.3 // 0.3             0.15          0.1
+#define PC    0.7 // 0.7             0.6           0.6
 
-#define N_POP 100
-#define N_GEN 400
-#define N_RUN 10
-#define PM 0.45
-#define PC 0.6
-#include <vcclr.h>
-using namespace System::Reflection;
+
 
 #define CROSS_OVER SinglePointCrossOver
 
@@ -16,8 +16,8 @@ namespace QuLogic
 
   private:
     int m_BestFit;
-    int m_ParentTotalFitness;
-    gcroot<Random^> m_rnd; 
+    double m_ParentTotalFitness;
+    gcroot<Type^> m_AlgoType;
 
   public:
     QuAlgorithm *m_pAlgo[N_POP*2];
@@ -30,18 +30,26 @@ namespace QuLogic
 
     GAConductor(int nBits, Type^ T) : QuConductor(nBits)
     {
-      m_rnd = gcnew Random();
+      m_AlgoType = T;
+      ZeroMemory(m_pAlgo, sizeof(PVOID) * 2 * N_POP);
+    }
+
+    void InitPopulation()
+    {
       // Setup population of individuals randomly
       for (int i=0; i<N_POP; i++) {
         // STEP(2): Add your new algorithm here...
-        if(T->Name == "CoveredSetPartition") m_pAlgo[i] = new CoveredSetPartition(nBits);
+        if(m_AlgoType->Name == "CoveredSetPartition") m_pAlgo[i] = new CoveredSetPartition(m_nBits);
       }
     }
 
     void Synthesize(PULONGLONG pOut)
     {
+      m_BestFit = MAXLONGLONG;
       // Calculate Cost Function for all individuals
       for (int r=0; r<N_RUN; r++) {
+        Console::WriteLine("Run: {0}", r);
+        InitPopulation();
         for (int g=0; g<N_GEN; g++) {
           DoGeneration(g, pOut);
         }
@@ -51,7 +59,6 @@ namespace QuLogic
     void DoGeneration(int gen, PULONGLONG pOut)
     {
       m_ParentTotalFitness = 0;
-      m_BestFit = MAXLONGLONG;
       for (int i=0; i<N_POP; i++) {
         m_pAlgo[i]->Synthesize(pOut);
       }
@@ -60,10 +67,11 @@ namespace QuLogic
 
       for (int i=0; i<N_POP; i++) {
         ULONGLONG qCost = m_pAlgo[i]->m_QuantumCost;
-        cout << i << ": " << qCost << "\n";
         m_ParentTotalFitness += qCost;
-        if (m_BestFit > qCost)
+        if (m_BestFit > qCost) {
           m_BestFit = qCost;
+          Console::WriteLine("Gen: {0}, BestCost: {1}", gen, m_BestFit);
+        }
       }
 
       Breed();
@@ -72,8 +80,10 @@ namespace QuLogic
 
     void Cull()
     {
-
-
+      for (int i=0; i<N_POP; i++) {
+        delete m_pAlgo[i];
+        m_pAlgo[i] = m_pAlgo[i+N_POP];
+      }
     }
 
     void Breed()
@@ -81,20 +91,16 @@ namespace QuLogic
       for (int i=0; i<N_POP; i++) {
         QuAlgorithm *p1 = Roulette();  
         QuAlgorithm *p2 = Roulette();
-        m_pAlgo[i+N_POP] = CROSS_OVER(p1, p2, PC);
-        m_pAlgo[i+N_POP]->Mutate();
+        m_pAlgo[i+N_POP] = p1->CROSS_OVER(p2, PC);
+        m_pAlgo[i+N_POP]->Mutate(PM);
       }
     }
 
-    QuAlgorithm *SinglePointCrossOver(QuAlgorithm *p1, QuAlgorithm *p2, double Prob)
-    {
 
-      return p1;
-    }
 
     QuAlgorithm *Roulette()
     {
-      double rnd = m_rnd->NextDouble();
+      double rnd = Rand::NextDouble();
       double val=0;
 
       for (int i=0; i < N_POP; i++) {

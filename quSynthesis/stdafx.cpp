@@ -4,9 +4,15 @@
 
 #include "stdafx.h"
 
+namespace QuLogic
+{
+  int *BandBoundary=NULL;
+  int PartitionSize=3;
+}
+
 HANDLE ghPrintMutex;
 QuLogic::CQueue gQueue;
-QuLogic::CResult gResult;
+//QuLogic::CResult gResult;
 int QuLogic::CHasse::m_nBits;
 int QuLogic::CHasse::m_nTerms;
 int QuLogic::CHasse::m_nBands;

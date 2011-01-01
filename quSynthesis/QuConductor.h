@@ -5,6 +5,7 @@ namespace QuLogic {
 	{
 	public:
 		PCHAR Name;
+    int m_nBits;
 		HANDLE *m_phMutex;
 		int m_nThreads;
 		CSynthesizer *m_pSynth;
@@ -19,6 +20,7 @@ namespace QuLogic {
 		}
 		QuConductor(int nBits)
 		{
+      m_nBits = nBits;
 			// Allocate a set of Worker Threads based on the number of CPU cores for synthesizing outputs.
 			SYSTEM_INFO sysinfo;
 			GetSystemInfo( &sysinfo );

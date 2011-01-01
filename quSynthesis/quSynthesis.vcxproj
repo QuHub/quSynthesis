@@ -153,7 +153,7 @@
     <ClInclude Include="QuAlgorithm.h" />
     <ClInclude Include="QuConductor.h" />
     <ClInclude Include="Queue.h" />
-    <ClInclude Include="Result.h" />
+    <ClInclude Include="Rand.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Synthesizer.h" />
     <ClInclude Include="targetver.h" />
@@ -162,6 +162,7 @@
   <ItemGroup>
     <ClCompile Include="Queue.cpp" />
     <ClCompile Include="quSynthesis.cpp" />
+    <ClCompile Include="Rand.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
