@@ -9,6 +9,7 @@
 
 
 #define CROSS_OVER SinglePointCrossOver
+//#define CROSS_OVER TwoPointCrossOver
 
 namespace QuLogic 
 {

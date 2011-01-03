@@ -25,32 +25,33 @@ using namespace QuLogic;
 namespace QuLogic {
   void TotalReset()
   {
-      if(BandBoundary) delete BandBoundary;
-      BandBoundary=NULL;
-      PartitionSize=0;
-      CHasse::m_fInitialized = false;
-      CGlobals::m_fInitialized = false;
-      if(CHasse::m_pBands) CHasse::m_pBands->clear();
+    if(BandBoundary) delete BandBoundary;
+    BandBoundary=NULL;
+    PartitionSize=0;
+    CHasse::m_fInitialized = false;
+    CGlobals::m_fInitialized = false;
+    if(CHasse::m_pBands) CHasse::m_pBands->clear();
   }
 }
 
 int main(array<System::String ^> ^args)
 {
-  for (int i=1; i<NBITS-3; i++) {
-    QuLogic::TotalReset();
-    QuLogic::PartitionSize = i;
-    Console::WriteLine("PartitionSize: {0}", i);
-    GAConductor *algo = new GAConductor(NBITS, ALGO);
-
-	  PULONGLONG p;
-    FileSrc fs(NBITS, FILE_PATTERN);
-
-	  while (p = fs.Next() ) {
-		  Console::WriteLine("Function: " + fs.Name);
-		  algo->Synthesize(p);
-	  }
-    delete algo;
+  QuLogic::TotalReset();
+  QuLogic::PartitionSize = 3;
+  if (args[0]->Length > 0) {
+    QuLogic::PartitionSize = Convert::ToInt64(args[0]);
   }
+  Console::WriteLine("PartitionSize: {0}", QuLogic::PartitionSize );
+  GAConductor *algo = new GAConductor(NBITS, ALGO);
 
-	return 0;
+  PULONGLONG p;
+  FileSrc fs(NBITS, FILE_PATTERN);
+
+  while (p = fs.Next() ) {
+    Console::WriteLine("Function: " + fs.Name);
+    algo->Synthesize(p);
+  }
+  delete algo;
+
+  return 0;
 }

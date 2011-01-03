@@ -46,7 +46,6 @@ namespace QuLogic {
       BandBoundary = new int[nBands];
       
       for (int i=0, n=0, k=0; i<m_nSets; i++) {
-        int bands = m_pInput[i]->m_nBands;
         for (int j=0; j<m_pInput[i]->m_nBands; j++) {
           n += CGlobals::nCr(m_nBits-M, j);
           BandBoundary[k++] = n;
