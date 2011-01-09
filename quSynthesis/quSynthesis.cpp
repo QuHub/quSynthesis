@@ -38,7 +38,7 @@ int main(array<System::String ^> ^args)
 {
   QuLogic::TotalReset();
   QuLogic::PartitionSize = 3;
-  if (args[0]->Length > 0) {
+  if (args->Length > 0) {
     QuLogic::PartitionSize = Convert::ToInt64(args[0]);
   }
   Console::WriteLine("PartitionSize: {0}", QuLogic::PartitionSize );
