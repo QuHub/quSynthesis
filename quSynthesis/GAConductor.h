@@ -9,7 +9,7 @@
 
 
 #define CROSS_OVER SinglePointCrossOver
-//#define CROSS_OVER TwoPointCrossOver
+#define CROSS_OVER2 TwoPointCrossOver
 
 namespace QuLogic 
 {
@@ -92,7 +92,7 @@ namespace QuLogic
       for (int i=0; i<N_POP; i++) {
         QuAlgorithm *p1 = Roulette();  
         QuAlgorithm *p2 = Roulette();
-        m_pAlgo[i+N_POP] = p1->CROSS_OVER(p2, PC);
+        m_pAlgo[i+N_POP] = p1->CROSS_OVER2(p2, PC);
         m_pAlgo[i+N_POP]->Mutate(PM);
       }
     }

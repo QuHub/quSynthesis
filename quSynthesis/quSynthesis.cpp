@@ -14,7 +14,7 @@ using namespace System;
 using namespace QuLogic;
 
 #define FILE_PATTERN "function*"
-#define NBITS 11
+#define NBITS 6
 
 // STEP(1): Add your algoirthm here
 // STEP(2): See the Conductor Class for details..
@@ -38,7 +38,7 @@ int main(array<System::String ^> ^args)
 {
   QuLogic::TotalReset();
   QuLogic::PartitionSize = 3;
-  if (args[0]->Length > 0) {
+  if (args->Length > 0) {
     QuLogic::PartitionSize = Convert::ToInt64(args[0]);
   }
   Console::WriteLine("PartitionSize: {0}", QuLogic::PartitionSize );

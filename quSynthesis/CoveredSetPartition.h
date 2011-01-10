@@ -67,6 +67,27 @@ namespace QuLogic {
       return p;
     }
 
+	QuAlgorithm *TwoPointCrossOver(QuAlgorithm *other, double Prob)
+    {
+      QuAlgorithm *p = m_QuantumCost < other->m_QuantumCost ? Copy() : other->Copy();     // Best Fit
+
+
+      if (Rand::NextDouble() < Prob) {
+        QuAlgorithm *q = m_QuantumCost < other->m_QuantumCost ? other : this;             // Less Fit
+
+        int nFirst = QuLogic::BandBoundary[Rand::NextInteger(nBands)];
+		int nSecond = QuLogic::BandBoundary[Rand::NextInteger(nBands)];
+
+		//cout << m_nTerms << " " << nFirst << " " << nSecond << endl;
+		if(nSecond < nFirst) {
+			int tmp = nSecond;
+			nSecond = nFirst;
+			nFirst = tmp;
+		}
+		CopyMemory(p->m_pIn + nFirst, q->m_pIn + nFirst, (nSecond - nFirst) * sizeof(ULONGLONG));
+      }
+      return p;
+    }
     void Synthesize(PULONGLONG pOut) 
     {
       m_pOut = pOut;

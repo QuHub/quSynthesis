@@ -25,6 +25,7 @@ namespace QuLogic {
     void virtual Mutate(double Prob) {throw "Must implement this";}
     QuAlgorithm virtual *Copy() {throw "Must implement this";}
     QuAlgorithm virtual *SinglePointCrossOver(QuAlgorithm *p, double Prob){throw "Must implement this";}
+	QuAlgorithm virtual *TwoPointCrossOver(QuAlgorithm *p, double Prob){throw "Must implement this";}
     virtual ~QuAlgorithm(){};
 	};
 
