@@ -5,6 +5,7 @@ using namespace System;
 
 namespace QuLogic {
 
+	
   CSynthesizer::CSynthesizer(void) 
   {
   }
@@ -35,12 +36,20 @@ namespace QuLogic {
 
       for (int i=0; i < qa->m_nTerms; i++)
         Process(*pIn++, *pOut++);
-      
+
+	  
+		  qa->m_pTarget = m_pTarget;
+		  qa->m_pControl = m_pControl;
+	 
       qa->m_QuantumCost = QuantumCost();
-      delete m_pTarget;
-      delete m_pControl;
+	  qa->m_nGates = m_nGates;
+	  
+	  
+	  // till here everything is saved ok.
+	  
       Release();
     }
+	
     return 0;
   }
 
@@ -91,6 +100,8 @@ namespace QuLogic {
         mask <<= 1;
       }
     }	
+	//Target = m_pTarget;
+	//cout << "m_nGates:" << m_nGates << endl;
   }
 
 

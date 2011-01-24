@@ -14,7 +14,7 @@ using namespace System;
 using namespace QuLogic;
 
 #define FILE_PATTERN "function*"
-#define NBITS 6
+#define NBITS 4
 
 // STEP(1): Add your algoirthm here
 // STEP(2): See the Conductor Class for details..
@@ -37,21 +37,36 @@ namespace QuLogic {
 int main(array<System::String ^> ^args)
 {
   QuLogic::TotalReset();
-  QuLogic::PartitionSize = 3;
+  QuLogic::PartitionSize = 0;
   if (args->Length > 0) {
     QuLogic::PartitionSize = Convert::ToInt64(args[0]);
   }
   Console::WriteLine("PartitionSize: {0}", QuLogic::PartitionSize );
-  GAConductor *algo = new GAConductor(NBITS, ALGO);
+  StreamReader ^file = gcnew StreamReader("parameters.txt");
+  String ^line;
+ line = file->ReadLine();
+ int counter = 0;
+  while( line = file->ReadLine())
+  {
+	  counter++;
+	  array<String^>^ list = line->Split('	');
+	  int genes = Convert::ToInt32(list[0]);
+	  int run = Convert::ToInt32(list[1]);
+	  double pm = Convert::ToDouble(list[2]);
+	  double pc = Convert::ToDouble(list[3]);
 
-  PULONGLONG p;
-  FileSrc fs(NBITS, FILE_PATTERN);
+	  GAConductor *algo = new GAConductor(NBITS, ALGO, genes, run, pm, pc);
 
-  while (p = fs.Next() ) {
-    Console::WriteLine("Function: " + fs.Name);
-    algo->Synthesize(p);
+	  PULONGLONG p;
+	  FileSrc fs(NBITS, FILE_PATTERN);
+
+	  while (p = fs.Next() ) {
+		Console::WriteLine("Function: " + fs.Name);
+		algo->Synthesize(p);
+		algo->PrintResult(fs.Name, counter);
+	  }
+  
+	  //delete algo;
   }
-  delete algo;
-
   return 0;
 }

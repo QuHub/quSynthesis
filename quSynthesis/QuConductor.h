@@ -1,7 +1,8 @@
 #pragma once
+#include "Result.h"
 namespace QuLogic {
 
-	class QuConductor : public CGlobals
+	class QuConductor : public CGlobals, public CResult
 	{
 	public:
 		PCHAR Name;
@@ -26,7 +27,7 @@ namespace QuLogic {
 			GetSystemInfo( &sysinfo );
 
 			// Lanuch threads as many as there are cores
-			m_nThreads = sysinfo.dwNumberOfProcessors;
+			m_nThreads = sysinfo.dwNumberOfProcessors-1;
 
 			// A set of Mutex objects necessary to figure out when all threads
 			// Have finished processing their inputs, after queue has been emptied.
