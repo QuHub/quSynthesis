@@ -19,7 +19,6 @@ namespace QuLogic {
     ULONGLONG m_nFiles, m_nSequence, m_nBits, m_nTerms;
     array<String^, 1>^ m_Files;
     StreamReader ^m_sr;
-    ifstream *m_fsCurrent;
     ULONGLONG *m_pInput;
 
   public:

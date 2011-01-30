@@ -1,14 +1,6 @@
 #pragma once
 // BestCost         3261193(M=3)  3398744(M=2)      3407896       3398961
 #define N_POP 100 // 100             100           200
-//#define N_GEN 300 // 200             300           500
-//#define N_RUN 10  // 10              10            20
-//#define PM    0.3 // 0.3             0.15          0.1
-//#define PC    0.7 // 0.7             0.6           0.6
-
-// N_POP N_GEN N_RUN PM PC
-//  100  300  10 0.3. 0.7
-
 
 #include <iostream>
 using namespace System;
@@ -25,43 +17,36 @@ namespace QuLogic
 
   private:
     int m_BestFit;
-	int nBestFit;
-	int m_nTerms;
+    int m_nTerms;
 
-	//int N_POP;
-	int N_GEN;
-    int N_RUN;
-	double PM;
-	double PC;
-
+    int m_nGen;
+    int m_nRun;
+    double m_Pm;
+    double m_Pc;
+    int m_nCrossOver;
+    gcroot<StreamReader^> m_sr;
 
     double m_ParentTotalFitness;
     gcroot<Type^> m_AlgoType;
 
-	
-
   public:
     QuAlgorithm *m_pAlgo[N_POP*2];
-	  //QuAlgorithm *m_pAlgo;
-	
+
     ~GAConductor()
     {
       for (int i=0; i<N_POP; i++)
         delete m_pAlgo[i];
+
+      delete m_sr;
     }
 
-    GAConductor(int nBits, Type^ T, int n_gen, int n_run, double pm, double pc) : QuConductor(nBits)
+    GAConductor(int nBits, Type^ T) : QuConductor(nBits)
     {
-	  // Read a file that has the parameters
-		//N_POP = 100 ;
-		N_GEN = n_gen ;
-		N_RUN = n_run  ;
-		PM    = pm ;
-		PC    = pc ;
-		
+      m_sr = gcnew StreamReader("GAParams.csv");
+      m_sr->ReadLine();  // Skip Header;
+
       m_AlgoType = T;
       ZeroMemory(m_pAlgo, sizeof(PVOID) * 2 * N_POP);
-	  nBestFit = 0;
     }
 
     void InitPopulation()
@@ -73,45 +58,44 @@ namespace QuLogic
       }
     }
 
+    bool ReadGAParams()
+    {
+      String ^s;
+      if(m_sr->Peek() >= 0)
+        s = m_sr->ReadLine();
+      else
+        return false;
+
+      array<String^>^ list = s->Split(',');
+
+      if (list->Length == 5) {
+        // m_nGen,m_nRun,m_Pm,m_Pc
+        m_nGen = Convert::ToUInt64(list[0]);
+        m_nRun = Convert::ToUInt64(list[1]);
+        m_Pm = Convert::ToDouble(list[2]);
+        m_Pc = Convert::ToDouble(list[3]);
+        m_nCrossOver = list[4] == "Single" ? 0 : 1;
+        return true;
+      }
+      return false;
+    }
+
     void Synthesize(PULONGLONG pOut)
     {
-      m_BestFit = MAXLONGLONG;
-	  
-      // Calculate Cost Function for all individuals
-      for (int r=0; r<N_RUN; r++) {
-        Console::WriteLine("Run: {0}", r);
-        InitPopulation();
-        for (int g=0; g<N_GEN; g++) {
-          DoGeneration(g, pOut);
+      InitPopulation();
+      while(ReadGAParams()) {
+        m_BestFit = MAXLONGLONG;
+
+        // Calculate Cost Function for all individuals
+        for (int r=0; r<m_nRun; r++) {
+          Console::WriteLine("Run: {0}", r);
+          for (int g=0; g<m_nGen; g++) {
+            DoGeneration(g, pOut);
+          }
+          PrintResult();
         }
+        break;
       }
-
-	  m_pAlgo[nBestFit]->m_QuantumCost = m_BestFit;
-	  m_pAlgo[nBestFit]->m_nGates = m_nGates;
-
-	  
-	  m_pAlgo[nBestFit]->m_pControl = new ULONGLONG[m_nGates];
-	  m_pAlgo[nBestFit]->m_pTarget = new ULONGLONG[m_nGates];
-	  m_pAlgo[nBestFit]->m_pIn = new ULONGLONG[m_nTerms];
-	  m_pAlgo[nBestFit]->m_pOut = new ULONGLONG[m_nTerms];
-	  
-	  for(int j=0;j<m_nGates;j++)
-	  {
-		  m_pAlgo[nBestFit]->m_pControl[j] = m_pControl[j];
-		  m_pAlgo[nBestFit]->m_pTarget[j] = m_pTarget[j];
-	  }
-	  for(int j=0;j<m_nTerms;j++)
-	  {
-		  m_pAlgo[nBestFit]->m_pIn[j] = m_pIn[j];
-		  m_pAlgo[nBestFit]->m_pOut[j] = m_pOut[j];
-	  }
-	  
-	  delete m_pControl;
-	  delete m_pTarget;
-	  delete m_pIn;
-	  delete m_pOut;
-
-	  SaveResult(m_pAlgo[nBestFit]);
     }
 
     void DoGeneration(int gen, PULONGLONG pOut)
@@ -128,49 +112,11 @@ namespace QuLogic
         m_ParentTotalFitness += qCost;
         if (m_BestFit > qCost) {
           m_BestFit = qCost;
-		  Console::WriteLine("Gen: {0}, BestCost: {1}", gen, m_BestFit);
-		  m_nGates = m_pAlgo[i]->m_nGates;
-		  m_nTerms = m_pAlgo[i]->m_nTerms;
-
-		  m_pControl = new ULONGLONG[m_nGates];
-		  m_pTarget = new ULONGLONG[m_nGates];
-		  for(int j=0;j<m_nGates;j++)
-		  {
-			  m_pTarget[j] = m_pAlgo[i]->m_pTarget[j];
-			  m_pControl[j] = m_pAlgo[i]->m_pControl[j];
-		  }
-
-		  m_pIn = new ULONGLONG[m_nTerms];
-		  m_pOut = new ULONGLONG[m_nTerms];
-
-		  for(int j=0;j<m_nTerms;j++)
-		  {
-			  m_pIn[j] = m_pAlgo[i]->m_pIn[j];
-			  m_pOut[j] = m_pAlgo[i]->m_pOut[j];
-		  }
-		  /*
-		  Console::WriteLine("Input:");
-		  for(int j=0;j<m_pAlgo[i]->m_nTerms;j++)
-			  Console::Write(m_pAlgo[i]->m_pIn[j] + ",");
-		  Console::WriteLine("\n-------------------------------------------------");
-		  Console::WriteLine("Output:");
-		  for(int j=0;j<m_pAlgo[i]->m_nTerms;j++)
-			  Console::Write(m_pAlgo[i]->m_pOut[j] + ",");
-		  Console::WriteLine("\n-------------------------------------------------");
-		  Console::WriteLine("Control:");
-		  for(int j=0;j<m_pAlgo[i]->m_nGates;j++)
-			  Console::Write(m_pAlgo[i]->m_pControl[j] + ",");
-		  Console::WriteLine("\n-------------------------------------------------");
-		  Console::WriteLine("Target:");
-		  for(int j=0;j<m_pAlgo[i]->m_nGates;j++)
-			  Console::Write(m_pAlgo[i]->m_pTarget[j] + ",");
-		  Console::WriteLine("\n-------------------------------------------------");
-		  // till here everyting is ok with control & target
-		  */
-		  nBestFit = i;
+          Console::WriteLine("Gen: {0}, BestCost: {1}", gen, m_BestFit);
+          SaveResult(m_pAlgo[i]);
         }
       }
-	  
+
       Breed();
       Cull();
     }
@@ -188,13 +134,10 @@ namespace QuLogic
       for (int i=0; i<N_POP; i++) {
         QuAlgorithm *p1 = Roulette();  
         QuAlgorithm *p2 = Roulette();
-        m_pAlgo[i+N_POP] = p1->CROSS_OVER(p2, PC);
-		//m_pAlgo[i+N_POP] = p1->CROSS_OVER(p2, PC);
-
-        m_pAlgo[i+N_POP]->Mutate(PM);
+        m_pAlgo[i+N_POP] = m_nCrossOver == 0 ? p1->SinglePointCrossOver(p2, m_Pc) : p1->TwoPointCrossOver(p2, m_Pc);
+        m_pAlgo[i+N_POP]->Mutate(m_Pm);
       }
     }
-
 
 
     QuAlgorithm *Roulette()
@@ -211,7 +154,5 @@ namespace QuLogic
       return m_pAlgo[N_POP-1];
     }
   };
-
-
 }
 

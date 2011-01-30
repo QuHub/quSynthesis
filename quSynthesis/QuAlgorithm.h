@@ -1,45 +1,64 @@
 #pragma once
 namespace QuLogic {
 
-	class QuAlgorithm 
-	{
-	public:
-		ULONGLONG m_nBits;
-		ULONGLONG m_nTerms;
-		ULONGLONG m_nGates;
+  class QuAlgorithm 
+  {
+  public:
+    ULONGLONG m_nBits;
+    ULONGLONG m_nTerms;
+    ULONGLONG m_nGates;
     ULONGLONG m_QuantumCost;
-		PCHAR Name;
+    PCHAR Name;
     PULONGLONG m_pIn;
     PULONGLONG m_pOut;
+    PULONGLONG m_pTarget;
+    PULONGLONG m_pControl;
 
-	// I identified target and control here to get them from Synthesizer.cpp
-	PULONGLONG m_pTarget;
-	PULONGLONG m_pControl;
+  public:
+    QuAlgorithm(void){}
 
-	
-	public:
-		QuAlgorithm(void){
-		m_pTarget = new ULONGLONG[10*1024];
-		m_pControl = new ULONGLONG[10*1024];
-		}
-    
-		QuAlgorithm(int nBits)
-		{
-			m_nBits = nBits;
-			m_nTerms = (ULONGLONG)Math::Pow(2,(double)nBits);
+    QuAlgorithm(int nBits)
+    {
+      m_nBits = nBits;
+      m_nTerms = (ULONGLONG)Math::Pow(2,(double)nBits);
       m_pIn = m_pOut = NULL;
-	  m_pTarget = m_pControl = NULL;
+      m_pTarget = m_pControl = NULL;
+    }
 
-		}
+    // Copy constructor
+    QuAlgorithm(const QuAlgorithm& base)
+    {
+      m_nBits = base.m_nBits;
+      m_nTerms = base.m_nTerms;
+      m_nGates = base.m_nGates;
+      m_QuantumCost = base.m_QuantumCost;
+      Name = base.Name;
+      m_pOut = base.m_pOut;
 
-		void virtual Synthesize(PULONGLONG pOut) {throw "Must implement this";}
+      m_pIn = new ULONGLONG[m_nTerms];
+      CopyMemory(m_pIn, base.m_pIn, m_nTerms*sizeof(ULONGLONG));
+      m_pControl = m_pTarget = NULL;
+    }
+
+    void virtual Synthesize(PULONGLONG pOut) {throw "Must implement this";}
     void virtual Mutate(double Prob) {throw "Must implement this";}
     QuAlgorithm virtual *Copy() {throw "Must implement this";}
+    QuAlgorithm virtual *Clone() {
+      QuAlgorithm *p = this->Copy();
+      p->m_pControl = new ULONGLONG[m_nGates];
+      CopyMemory(p->m_pControl, this->m_pControl, m_nGates*sizeof(ULONGLONG));
+
+      p->m_pTarget = new ULONGLONG[m_nGates];
+      CopyMemory(p->m_pTarget, this->m_pTarget, m_nGates*sizeof(ULONGLONG));
+      return p;
+    }
     QuAlgorithm virtual *SinglePointCrossOver(QuAlgorithm *p, double Prob){throw "Must implement this";}
-	QuAlgorithm virtual *TwoPointCrossOver(QuAlgorithm *p, double Prob){throw "Must implement this";}
-    virtual ~QuAlgorithm(){delete m_pTarget; delete m_pControl;	}
-	};
-
-
-
+    QuAlgorithm virtual *TwoPointCrossOver(QuAlgorithm *p, double Prob){throw "Must implement this";}
+    void inline Delete(PULONGLONG p) {if(p) delete p;}
+    virtual ~QuAlgorithm(){
+      Delete(m_pIn); 
+      Delete(m_pControl); 
+      Delete(m_pTarget);
+    }
+  };
 }

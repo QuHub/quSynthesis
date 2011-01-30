@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="GAParams.csv" />
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>

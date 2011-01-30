@@ -14,7 +14,7 @@ namespace QuLogic {
     vector<CHasse*> m_pInput;
     ULONGLONG m_nQuantumCost;
     int NumBands() {return m_nSets * (m_nBits-M+1);}
-   __declspec(property(get = NumBands)) int nBands;
+    __declspec(property(get = NumBands)) int nBands;
 
     CoveredSetPartition(void)  {}
     CoveredSetPartition *Copy() {return new CoveredSetPartition(*this);}
@@ -24,9 +24,7 @@ namespace QuLogic {
     {
       // Notice that we're not copying the Hasse Structures, just the m_pIn array of inputs...
       m_pInput.clear();
-      m_pIn = new ULONGLONG[m_nTerms];
       m_nSets = base.m_nSets;
-      CopyMemory(m_pIn, base.m_pIn, m_nTerms*sizeof(ULONGLONG));
     }
 
     CoveredSetPartition(int nBits) : QuAlgorithm(nBits)
@@ -44,7 +42,7 @@ namespace QuLogic {
       // Allocate array of band boundaries for crossover operations.
       if(BandBoundary) return;
       BandBoundary = new int[nBands];
-      
+
       for (int i=0, n=0, k=0; i<m_nSets; i++) {
         for (int j=0; j<m_pInput[i]->m_nBands; j++) {
           n += CGlobals::nCr(m_nBits-M, j);
@@ -67,7 +65,7 @@ namespace QuLogic {
       return p;
     }
 
-	QuAlgorithm *TwoPointCrossOver(QuAlgorithm *other, double Prob)
+    QuAlgorithm *TwoPointCrossOver(QuAlgorithm *other, double Prob)
     {
       QuAlgorithm *p = m_QuantumCost < other->m_QuantumCost ? Copy() : other->Copy();     // Best Fit
 
@@ -76,18 +74,18 @@ namespace QuLogic {
         QuAlgorithm *q = m_QuantumCost < other->m_QuantumCost ? other : this;             // Less Fit
 
         int nFirst = QuLogic::BandBoundary[Rand::NextInteger(nBands)];
-		int nSecond = QuLogic::BandBoundary[Rand::NextInteger(nBands)];
+        int nSecond = QuLogic::BandBoundary[Rand::NextInteger(nBands)];
 
-		//cout << m_nTerms << " " << nFirst << " " << nSecond << endl;
-		if(nSecond < nFirst) {
-			int tmp = nSecond;
-			nSecond = nFirst;
-			nFirst = tmp;
-		}
-		CopyMemory(p->m_pIn + nFirst, q->m_pIn + nFirst, (nSecond - nFirst) * sizeof(ULONGLONG));
+        if(nSecond < nFirst) {
+          int tmp = nSecond;
+          nSecond = nFirst;
+          nFirst = tmp;
+        }
+        CopyMemory(p->m_pIn + nFirst, q->m_pIn + nFirst, (nSecond - nFirst) * sizeof(ULONGLONG));
       }
       return p;
     }
+
     void Synthesize(PULONGLONG pOut) 
     {
       m_pOut = pOut;
@@ -103,15 +101,16 @@ namespace QuLogic {
       int nEnd = QuLogic::BandBoundary[band+1];
       int nFirst = nStart + Rand::NextInteger(nEnd - nStart);
       int nSecond = nStart + Rand::NextInteger(nEnd - nStart);
+
+      // Mutate through swap..
       ULONGLONG tmp = m_pIn[nFirst];
       m_pIn[nFirst] = m_pIn[nSecond];
       m_pIn[nSecond] = tmp;
-      //Console::WriteLine("Mutate: {0}<=>{1}", nFirst, nSecond);
     }
 
     ~CoveredSetPartition(void) 
     {
-      delete m_pIn;
+      // Delete Hasse Classes;
       for (int i=0; i<m_pInput.size(); i++)
         delete m_pInput[i];
     }
