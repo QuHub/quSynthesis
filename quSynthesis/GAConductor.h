@@ -66,6 +66,7 @@ namespace QuLogic
       else
         return false;
 
+      Console::WriteLine("Configuration: {0}", s);
       array<String^>^ list = s->Split(',');
 
       if (list->Length == 5) {
@@ -94,7 +95,6 @@ namespace QuLogic
           }
           PrintResult();
         }
-        break;
       }
     }
 
