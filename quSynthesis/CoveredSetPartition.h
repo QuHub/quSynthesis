@@ -11,6 +11,7 @@ namespace QuLogic {
   {
   public:
     int m_nSets;
+	
     vector<CHasse*> m_pInput;
     ULONGLONG m_nQuantumCost;
     int NumBands() {return m_nSets * (m_nBits-M+1);}
@@ -18,7 +19,7 @@ namespace QuLogic {
 
     CoveredSetPartition(void)  {}
     CoveredSetPartition *Copy() {return new CoveredSetPartition(*this);}
-
+	
     // Copy Constructor;
     CoveredSetPartition(const CoveredSetPartition& base) : QuAlgorithm(base)
     {
@@ -49,6 +50,7 @@ namespace QuLogic {
         for (int j=0; j<m_pInput[i]->m_nBands; j++) {
           n += CGlobals::nCr(m_nBits-M, j);
           BandBoundary[k++] = n;
+	//	  Console::WriteLine("boundary[{0}]: {1}", k,n);
         }
       }
     }
@@ -87,6 +89,23 @@ namespace QuLogic {
       m_pIn[nSecond] = tmp;
       //Console::WriteLine("Mutate: {0}<=>{1}", nFirst, nSecond);
     }
+
+	void Move(int band) 
+	//Baker: Taboo MOVE is simply swap but it must be in the same band given integers need to be in the same band
+    {  
+			int nStart= QuLogic::BandBoundary[band];
+			int nEnd = QuLogic::BandBoundary[band+1];
+			int nFirst = nStart + Rand::NextInteger(nEnd - nStart);
+            int nSecond = nStart + Rand::NextInteger(nEnd - nStart);
+	//		Console::WriteLine(" nFirst: {0} nSecond {1}",nFirst,nSecond);
+	
+      ULONGLONG tmp = m_pIn[nFirst];
+      m_pIn[nFirst] = m_pIn[nSecond];
+      m_pIn[nSecond] = tmp;
+      //Console::WriteLine("Mutate: {0}<=>{1}", nFirst, nSecond);
+    }
+
+	
 
     ~CoveredSetPartition(void) 
     {
