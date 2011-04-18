@@ -1,0 +1,19 @@
+N_GEN, N_RUN, PM, PC, CrossOver
+500,1,0.1,0.7,Single
+500,1,0.2,0.7,Single
+500,1,0.3,0.7,Single
+500,1,0.1,0.8,Single
+500,1,0.2,0.8,Single
+500,1,0.3,0.8,Single
+500,1,0.1,0.9,Single
+500,1,0.2,0.9,Single
+500,1,0.3,0.9,Single
+500,1,0.1,0.7,Double
+500,1,0.2,0.7,Double
+500,1,0.3,0.7,Double
+500,1,0.1,0.8,Double
+500,1,0.2,0.8,Double
+500,1,0.3,0.8,Double
+500,1,0.1,0.9,Double
+500,1,0.2,0.9,Double
+500,1,0.3,0.9,Double

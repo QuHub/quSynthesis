@@ -1,5 +1,2 @@
 N_GEN, N_RUN, PM, PC, CrossOver
-300,2,0.3,0.7,Single
-200,5,0.3,0.7,Single
-300,20,0.15,0.1,Double
-500,15,0.1,0.6,Double
+500,1,0.3,0.9,Double

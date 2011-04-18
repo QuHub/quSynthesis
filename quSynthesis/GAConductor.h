@@ -18,7 +18,7 @@ namespace QuLogic
   private:
     int m_BestFit;
     int m_nTerms;
-
+	int m_nBits;
     int m_nGen;
     int m_nRun;
     double m_Pm;
@@ -28,6 +28,8 @@ namespace QuLogic
 
     double m_ParentTotalFitness;
     gcroot<Type^> m_AlgoType;
+
+	FILE * pFile;
 
   public:
     QuAlgorithm *m_pAlgo[N_POP*2];
@@ -42,11 +44,12 @@ namespace QuLogic
 
     GAConductor(int nBits, Type^ T) : QuConductor(nBits)
     {
-      m_sr = gcnew StreamReader("GAParams.csv");
+      m_sr = gcnew StreamReader("..\\quSynthesis\\GAParams.csv");
       m_sr->ReadLine();  // Skip Header;
 
       m_AlgoType = T;
       ZeroMemory(m_pAlgo, sizeof(PVOID) * 2 * N_POP);
+	  m_nBits = nBits;
     }
 
     void InitPopulation()
@@ -84,18 +87,32 @@ namespace QuLogic
     void Synthesize(PULONGLONG pOut)
     {
       InitPopulation();
+	  int iteration = 0;
+	  StreamWriter ^file;
       while(ReadGAParams()) {
         m_BestFit = MAXLONGLONG;
-
+		Directory::CreateDirectory( String::Format("..\\..\\SaveData\\{0}-bits", m_nBits));
+		file = gcnew StreamWriter(String::Format("..\\..\\SaveData\\{0}-bits\\costs{1}", m_nBits, iteration+1) + ".qsy");
+		file->Close();
+		long counter = 0;
         // Calculate Cost Function for all individuals
         for (int r=0; r<m_nRun; r++) {
           Console::WriteLine("Run: {0}", r);
           for (int g=0; g<m_nGen; g++) {
             DoGeneration(g, pOut);
+
+			counter++;
+			file = gcnew StreamWriter(String::Format("..\\..\\SaveData\\{0}-bits\\costs{1}", m_nBits, iteration+1) + ".qsy", true);
+			file->WriteLine(Convert::ToString(counter) +":" + Convert::ToString(m_BestFit));
+			
+			file->Close();
           }
-          PrintResult();
+          
         }
+		PrintResult(++iteration);
+		
       }
+	  
     }
 
     void DoGeneration(int gen, PULONGLONG pOut)
@@ -113,7 +130,7 @@ namespace QuLogic
         if (m_BestFit > qCost) {
           m_BestFit = qCost;
           Console::WriteLine("Gen: {0}, BestCost: {1}", gen, m_BestFit);
-          SaveResult(m_pAlgo[i]);
+		  SaveResult(m_pAlgo[i]);
         }
       }
 
