@@ -1,7 +1,7 @@
 #pragma once
 // BestCost         3261193(M=3)  3398744(M=2)      3407896       3398961
 #define N_POP 519 // 100             100           200
-#define N_GEN 100 // 200             300           500
+#define N_GEN 300 // 200             300           500
 #define N_RUN 4   // 10              10            20
 #define PM    0.3 // 0.3             0.15          0.1
 #define PC    0.7 // 0.7             0.6           0.6
@@ -28,6 +28,7 @@ namespace QuLogic
     int m_BestFit;
     double m_ParentTotalFitness;
     gcroot<Type^> m_AlgoType;
+	//tabu
 	map<int,int> taboo_table;
 	vector<ULONGLONG> taboo_list;
 	int nBands;
@@ -37,9 +38,16 @@ namespace QuLogic
 	int Portion;
 	int maxBand;
 	bool Aspire;
+	int Start;
+	//SA
+	ULONGLONG delta;
+	double Te;
+	double Cooling;
+	double Delta;
+	//
   public:
     QuAlgorithm *m_pAlgo[N_POP*2];
-	QuAlgorithm *current; //taboo choosen current point
+	QuAlgorithm *current; //taboo choosen current point and SA
 
     ~GAConductor()
     {
@@ -56,15 +64,17 @@ namespace QuLogic
 	  LongMem =500;
 	  Portion =4;
 	  srand ( time(NULL) );
+	  Start=200;
+	  //SA
+	  Te=100;
+	   Cooling=0.9;
     }
 
     void InitPopulation()
     {
-		Rand::NextInteger(10);
-		Rand::NextInteger(10);
+		
       // Setup population of individuals randomly
 	nBands=(int)Math::Pow(2,M) * (m_nBits-M+1) ; //needed to determine  moves in taboo
-	
 	Console::WriteLine("nBands {0}", nBands);
       for (int i=0; i<nNeighbors; i++) 
 	  {
@@ -86,8 +96,7 @@ namespace QuLogic
     }
 
     void Synthesize(PULONGLONG pOut)
-    {
-      
+    {    
       // Calculate Cost Function for all individuals
       for (int r=0; r<N_RUN; r++) {
 		  taboo_list.clear();
@@ -99,12 +108,12 @@ namespace QuLogic
 		  log << "taboo\nportion:"<<Portion<<"\tTenure:"<<Tenure<<"\tlong mem:"<<LongMem<<"\n";
 		  log.flush();
 		  log.close();
-
         InitPopulation();
         for (int g=0; g<N_GEN; g++) {
           DoGeneration(g, pOut);
         }
-		Tenure+=5;
+	 Tenure+=5;
+		//Start-=10;
       }
 	  Console::ReadLine();
     }
@@ -121,9 +130,11 @@ namespace QuLogic
       for (int i=0; i<nNeighbors; i++) {
         ULONGLONG qCost = m_pAlgo[i]->m_QuantumCost;
         m_ParentTotalFitness += qCost;
+		
         if (m_BestFit > qCost) {
           m_BestFit = qCost;
 		  Aspire =true;
+		  
 		
         }
       }
@@ -136,6 +147,7 @@ namespace QuLogic
 
 //      Breed();
 	 Taboo_Breed(gen);
+		//SA_Breed(gen);
       Cull();
     }
 
@@ -238,7 +250,11 @@ namespace QuLogic
 		//forget old solutions
 		if(taboo_list.size()>LongMem) taboo_list.erase(taboo_list.begin());
 		/// generate new neighbourhood (generation)
-int		k=0;
+		int		k=0;
+		int endBand;
+		if (gen<10) {endBand=200;}
+		else endBand=1;
+
 		for(int band=0;band<(nBands-1);band++)
 		{	
 			int nStart= QuLogic::BandBoundary[band];
@@ -251,6 +267,69 @@ int		k=0;
 			{
 			
 				QuAlgorithm *p = m_pAlgo[c]->Copy();
+				p->Move(band);
+				m_pAlgo[k+nNeighbors]=p;
+				m_pAlgo[k+nNeighbors]->m_i =band;
+				k++;
+			}
+		
+			/*
+			for(int nFirst=nStart;nFirst<(nEnd-1);nFirst++)
+				for(int nSecond=nFirst+1;nSecond<nEnd;nSecond++)
+				{
+					//i++; 
+					QuAlgorithm *p = current->Copy();
+					p->Move(nFirst,nSecond);
+					m_pAlgo[i+N_POP]=p;
+					m_pAlgo[i+N_POP]->m_i =i;
+				}
+				*/
+		}//all bands
+		
+		nNeighbors=k;
+      }
+
+	void SA_Breed(int gen)//Baker : simulated annealing
+    {
+		
+
+	//	sort(m_pAlgo,m_pAlgo+N_POP);
+		for(int i=0;i<(nNeighbors-1);i++)
+			for(int j=i+1;j<nNeighbors;j++)
+				if(m_pAlgo[i]->m_QuantumCost>m_pAlgo[j]->m_QuantumCost)
+				{
+					QuAlgorithm* temp =m_pAlgo[i];
+								m_pAlgo[i]=m_pAlgo[j];
+								m_pAlgo[j]=temp;
+				}
+		
+
+		
+		if (Aspire)
+		{
+			current= m_pAlgo[0];
+			Console::WriteLine("aspiration");
+		}
+		else //choose another point depending on probability 
+			{ 
+			if (exp(((double)current->m_QuantumCost - (double)m_pAlgo[0]->m_QuantumCost)/Te) > Rand::NextDouble())
+				current= m_pAlgo[0];
+			Console::WriteLine("energy {0} ",exp( ((double)current->m_QuantumCost - (double) m_pAlgo[0]->m_QuantumCost)/Te));
+			}
+		
+	int		k=0;
+		for(int band=0;band<(nBands-1);band++)
+		{	
+			int nStart= QuLogic::BandBoundary[band];
+			int nEnd = QuLogic::BandBoundary[band+1];
+			// to be proportional to the the band size
+			int x=(nEnd-nStart)/Portion;
+			//if( x==0) x=1;
+			//int x=1;
+			for(int i=0;i<x;i++)
+			{
+			
+				QuAlgorithm *p = current->Copy();
 				p->Move(band);
 				m_pAlgo[k+nNeighbors]=p;
 				m_pAlgo[k+nNeighbors]->m_i =band;
@@ -270,8 +349,9 @@ int		k=0;
 				*/
 		}//all bands
 		nNeighbors=k;
+		Te=Te*Cooling;
+		Console::WriteLine("tempreture  {0} ", Te);
       }
-
 
 
     QuAlgorithm *Roulette()

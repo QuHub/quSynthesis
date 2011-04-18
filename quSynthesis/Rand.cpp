@@ -9,8 +9,8 @@ using namespace System::Reflection;
 namespace Rand
 {
   gcroot<Random^> m_rnd = gcnew Random(777);
-  
-  double NextDouble() {return m_rnd->NextDouble();}
-  int NextInteger(int n) { return rand() % n ;}
+ 
+	int NextInteger(int n) { return rand() %n; }
+  double NextDouble() {return double ((double)rand()/(double)RAND_MAX); }
 };
 
