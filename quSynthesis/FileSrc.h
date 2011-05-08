@@ -11,7 +11,7 @@ using namespace System::Collections::Generic;
 using namespace std;
 using namespace System::IO;
 
-#define SRC "inputs\\"
+#define SRC "..\\inputs\\"
 
 namespace QuLogic {
   public ref class FileSrc {

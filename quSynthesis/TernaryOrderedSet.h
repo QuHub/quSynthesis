@@ -24,9 +24,6 @@ namespace QuLogic {
     // ************** Constructor *******************
     TernaryOrderedSet(int nBits) : QuAlgorithm(nBits)
     {
-      // Set the type of synthesis to use.
-      m_SynthesisAlgo = TernaryBasic::typeid;
-
       m_nBands = CHasse::nBands(nBits);
       m_pInput = new CHasse(nBits, 0);
       m_pIn = new ULONGLONG[m_nTerms];

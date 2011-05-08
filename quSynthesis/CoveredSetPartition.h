@@ -1,5 +1,6 @@
 #pragma once
 #include "QuAlgorithm.h"
+#pragma managed
 
 // any nBits are divided into S|R, where S is the number of covering bits, and R is the remaining Hasse Bits
 #define M QuLogic::PartitionSize
@@ -27,7 +28,7 @@ namespace QuLogic {
 
     CoveredSetPartition(int nBits) : QuAlgorithm(nBits)
     {
-      m_nSets = (int)Math::Pow(2,M);
+      m_nSets = (int)pow(2.0,M);
 
       for (int i=0; i<m_nSets; i++)
         m_pInput.push_back(new CHasse(nBits - M, i));

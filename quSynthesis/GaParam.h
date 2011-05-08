@@ -1,4 +1,5 @@
 #pragma once
+#pragma managed
 class GAParam
 {
 public:
@@ -11,7 +12,7 @@ public:
 
   GAParam(void)
   {
-    String^ s = gcnew String(QuLogic::HomeFolder.c_str()) + "GAParam.csv";
+    String^ s = gcnew String(QuLogic::HomeFolder.c_str()) + "GAParams.csv";
     m_sr = gcnew StreamReader(s);
     m_sr->ReadLine();  // Skip Header;
   }
@@ -36,8 +37,8 @@ public:
 
       if (list->Length == 5) {
         // m_nGen,m_nRun,m_Pm,m_Pc
-        m_nGen = Convert::ToUInt64(list[0]);
-        m_nRun = Convert::ToUInt64(list[1]);
+        m_nGen = Convert::ToUInt32(list[0]);
+        m_nRun = Convert::ToUInt32(list[1]);
         m_Pm = Convert::ToDouble(list[2]);
         m_Pc = Convert::ToDouble(list[3]);
         m_nCrossOver = list[4] == "Single" ? 0 : 1;

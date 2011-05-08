@@ -54,7 +54,6 @@ extern QuLogic::CQueue gQueue;
 
 
 // Algorithms go here
-
 #include "CoveredSetPartition.h"
 #include "TernaryOrderedSet.h"
 

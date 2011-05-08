@@ -16,7 +16,7 @@ namespace QuLogic
   int Radix=2;
   int RadixBits=1;
   int RadixMask=1;      // pow(2,RadixBits) - 1
-  string HomeFolder = "..\\";
+  string HomeFolder = "";
   string Synthesizer = "TernaryBasic";
 }
 

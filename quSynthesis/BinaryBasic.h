@@ -3,14 +3,14 @@ class BinaryBasic : public QuSynthesizer
 {
 public:
 
-  BinaryBasic(void)
+  BinaryBasic(void) : QuSynthesizer()
   {
 
   }
 
 
 
-  void Process(ULONGLONG inTerm, ULONGLONG outTerm)
+  void Process(int inTerm, int outTerm)
   {
     outTerm = Propogate(outTerm);
 
