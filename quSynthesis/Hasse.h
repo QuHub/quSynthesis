@@ -40,7 +40,7 @@ namespace QuLogic {
 
       // Allocate space for bands
       m_nBits = nBits;
-      m_nTerms = (int)Math::Pow(QuLogic::Radix, nBits);
+      m_nTerms = (int)pow((double)QuLogic::Radix, nBits);
 
       m_nBands = nBands(nBits);
       m_pBands = new vector<ULONGLONG>[m_nBands];   // Delete only once at the end of the or on TotalReset();

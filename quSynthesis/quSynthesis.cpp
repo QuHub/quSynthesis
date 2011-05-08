@@ -72,9 +72,6 @@ int main(array<System::String ^> ^args)
   delete p;
   delete algo;
   return 0;
-
-
-
 }
 
 

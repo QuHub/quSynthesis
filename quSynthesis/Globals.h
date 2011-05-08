@@ -34,6 +34,16 @@ namespace QuLogic {
       return nCount;
     }
 
+  static string ToString(int term)
+  {
+    string to_s[] = {"0", "1", "2"};
+    string sTmp;
+    for (int i=0; i<QuLogic::nBits; i++) {
+      sTmp = to_s[(term & 3)] + sTmp;
+      term >>= 2;
+    }
+    return sTmp;
+  }
     static int RadixDigits(int term)
     {
       int t=0;

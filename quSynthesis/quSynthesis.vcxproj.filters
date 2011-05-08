@@ -6,11 +6,11 @@
     <ClCompile Include="Queue.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Rand.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Synthesizer.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Rand.cpp">
+      <Filter>Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -46,12 +46,6 @@
     <ClInclude Include="Queue.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Rand.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Result.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Synthesizer.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -67,6 +61,12 @@
     </ClInclude>
     <ClInclude Include="BinaryBasic.h">
       <Filter>Synthesizers</Filter>
+    </ClInclude>
+    <ClInclude Include="Result.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Rand.h">
+      <Filter>Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -19,6 +19,7 @@ namespace QuLogic {
     TernaryOrderedSet(const TernaryOrderedSet& base) : QuAlgorithm(base)
     {
       m_nBands = base.m_nBands;
+      m_pInput = NULL;
     }
 
     // ************** Constructor *******************
@@ -33,8 +34,9 @@ namespace QuLogic {
       if(BandBoundary) return;
       BandBoundary = new int[m_nBands];
 
-      for (int j=0; j < m_pInput->m_nBands; j++) {
-        BandBoundary[j] = m_pInput->m_pBands[j].size();
+      for (int j=0, n=0; j < m_pInput->m_nBands; j++) {
+        n += m_pInput->m_pBands[j].size();
+        BandBoundary[j] = n; 
       }
     }
 
@@ -47,6 +49,10 @@ namespace QuLogic {
     void Synthesize(PULONGLONG pOut) 
     {
       m_pOut = pOut;
+
+      for(int i=0; i<m_nTerms; i++)
+        m_pOut[i] = CGlobals::RadixDigits(m_pOut[i]);
+
       gQueue.Push(this);
     }
 

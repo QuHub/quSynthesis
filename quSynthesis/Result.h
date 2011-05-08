@@ -27,21 +27,21 @@ namespace QuLogic {
       file->WriteLine("QuantomCost:");
       file->WriteLine(System::Convert::ToString(my_pAlgo->m_QuantumCost));
       file->WriteLine("Input Data:");
-      for(int i=0;i<Math::Pow(2,(double)my_pAlgo->m_nBits); i++)
+      for(int i=0;i<Math::Pow(QuLogic::Radix,(double)my_pAlgo->m_nBits); i++)
         file->Write(my_pAlgo->m_pIn[i]+",");
       file->WriteLine();
       file->WriteLine("Output Data:");
-      for(int i=0;i<Math::Pow(2,(double)my_pAlgo->m_nBits); i++)
+      for(int i=0;i<Math::Pow(QuLogic::Radix,(double)my_pAlgo->m_nBits); i++)
         file->Write(my_pAlgo->m_pOut[i]+",");
       file->WriteLine();
 
-      file->WriteLine("Control:");
-      for(int i=0;i<my_pAlgo->m_nGates;i++)
-        file->Write(my_pAlgo->m_pControl[i]+",");
-      file->WriteLine();
-      file->WriteLine("Target:");
-      for(int i=0;i<my_pAlgo->m_nGates;i++)
-        file->Write(my_pAlgo->m_pTarget[i]+",");
+      file->WriteLine("Control | Target | Operation");
+      for(int i=0;i<my_pAlgo->m_nGates;i++) {
+        file->Write(my_pAlgo->m_pControl[i] +" | ");
+        file->Write(my_pAlgo->m_pTarget[i] + " | ");
+        file->Write(my_pAlgo->m_pOperation[i] +" | ");
+      }
+
       file->Close();
 
       /*

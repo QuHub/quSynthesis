@@ -26,19 +26,22 @@ namespace QuLogic {
 				continue;
 			}
 
-			PULONGLONG pIn = qa->m_pIn;
+			PULONGLONG pIn =  qa->m_pIn;
 			PULONGLONG pOut = qa->m_pOut;
 
       qSyn->Before(qa->m_nBits);
+      //qa->Dump();
 
 			for (int i=0; i < qa->m_nTerms; i++)
 				qSyn->Process(*pIn++, *pOut++);
 
 			qa->m_pTarget  = qSyn->m_pTarget;
 			qa->m_pControl = qSyn->m_pControl;
-	 
+			qa->m_pOperation = qSyn->m_pOperation;
+
 			qa->m_QuantumCost = qSyn->QuantumCost();
 			qa->m_nGates = qSyn->m_nGates;
+      //qa->Dump();
 		
 			Release();
 		}

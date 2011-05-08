@@ -26,6 +26,8 @@ static int gBitMask[] = {3, 3<<2, 3<<4, 3<<6, 3<<8, 3<<10, 3<<12, 3<<14, 3<<16};
 // Bring down the ith trit to the lower two LSB bits.
 #define BIT(x,i) ((x & gBitMask[i]) >> 2*i)
 
+namespace QuLogic {
+
 class TernaryBasic : public QuSynthesizer
 {
 public:
@@ -78,8 +80,11 @@ public:
 
   int Propogate(int outTerm)
   {
+    // cout << "In Propegate: " << CGlobals::ToString(outTerm) << endl;
+
     // Apply current list of gates..
     for (ULONGLONG i=0; i<m_nGates; i++) {
+      //cout << "Gate: [C:T:Op] [" << m_pControl[i] << " " << m_pTarget[i] << " " << m_pOperation[i] << endl;
 	    int mask = gBitMask[m_pTarget[i]];
 	    if ( m_pControl[i] == (~mask & outTerm) ) {                 // Control Bits for gate matches All bits in output excluding target bits.
 	        int val = (mask & outTerm) >> 2*m_pTarget[i];           // Bring target bits to lower two bits.
@@ -88,21 +93,14 @@ public:
 	    }
     }
 
+    // cout << "Out Propegate: " << CGlobals::ToString(outTerm) << endl;
     return outTerm;
   }  
 
   int QuantumCost()
   {
-    PULONGLONG pnCount = new ULONGLONG[m_nBits];
-    ZeroMemory(pnCount, m_nBits * sizeof(ULONGLONG));
-    for (int i=0; i<m_nGates; i++) 
-      pnCount[ControlLines(m_pControl[i])]++;
-
-    ULONGLONG nCost=0;
-    for (int i=0; i<m_nBits; i++)
-      nCost += GateCost(i) * pnCount[i];
-
-    return nCost;
+    // We only know about gate count for ternary model..
+    return m_nGates;
   }
 
 
@@ -151,4 +149,4 @@ public:
     m_nBufSize += 2048;
   }
 };
-
+}

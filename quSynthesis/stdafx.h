@@ -12,6 +12,7 @@
 #include <tchar.h>
 #include <Windows.h>
 #include "Thread.h"
+#include <string>
 
 #define Print(x) 
 extern HANDLE ghPrintMutex;
