@@ -1,4 +1,4 @@
-hwt7
+hwt7 (7 Trits)
 Partitioned - Decimal
      0: 0000000 0
      1: 0000010 3

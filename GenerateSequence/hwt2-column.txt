@@ -1,4 +1,4 @@
-hwt2
+hwt2 (2 Trits)
 Partitioned - Decimal
      0: 00 0
      1: 10 3

@@ -1,10 +1,6 @@
 #pragma once
-// BestCost         3261193(M=3)  3398744(M=2)      3407896       3398961
-#define N_POP 100 // 100             100           200
+#define N_POP 100
 
-#include <iostream>
-using namespace System;
-using namespace System::IO;
 #define CROSS_OVER SinglePointCrossOver
 #define CROSS_OVER2 TwoPointCrossOver
 
@@ -13,23 +9,16 @@ using namespace System::IO;
 
 namespace QuLogic 
 {
-  class GAConductor: public QuConductor {
+  class GAConductor: public QuConductor, public GAParam {
 
   private:
     int m_BestFit;
     int m_nTerms;
-	int m_nBits;
-    int m_nGen;
-    int m_nRun;
-    double m_Pm;
-    double m_Pc;
-    int m_nCrossOver;
-    gcroot<StreamReader^> m_sr;
 
     double m_ParentTotalFitness;
     gcroot<Type^> m_AlgoType;
 
-	FILE * pFile;
+    FILE * pFile;
 
   public:
     QuAlgorithm *m_pAlgo[N_POP*2];
@@ -38,18 +27,13 @@ namespace QuLogic
     {
       for (int i=0; i<N_POP; i++)
         delete m_pAlgo[i];
-
-      delete m_sr;
     }
 
     GAConductor(int nBits, Type^ T) : QuConductor(nBits)
     {
-      m_sr = gcnew StreamReader("..\\quSynthesis\\GAParams.csv");
-      m_sr->ReadLine();  // Skip Header;
-
       m_AlgoType = T;
       ZeroMemory(m_pAlgo, sizeof(PVOID) * 2 * N_POP);
-	  m_nBits = nBits;
+      m_nBits = nBits;
     }
 
     void InitPopulation()
@@ -58,61 +42,42 @@ namespace QuLogic
       for (int i=0; i<N_POP; i++) {
         // STEP(2): Add your new algorithm here...
         if(m_AlgoType->Name == "CoveredSetPartition") m_pAlgo[i] = new CoveredSetPartition(m_nBits);
+        if(m_AlgoType->Name == "TernaryOrderedSet") m_pAlgo[i] = new TernaryOrderedSet(m_nBits);
       }
     }
 
-    bool ReadGAParams()
-    {
-      String ^s;
-      if(m_sr->Peek() >= 0)
-        s = m_sr->ReadLine();
-      else
-        return false;
-
-      Console::WriteLine("Configuration: {0}", s);
-      array<String^>^ list = s->Split(',');
-
-      if (list->Length == 5) {
-        // m_nGen,m_nRun,m_Pm,m_Pc
-        m_nGen = Convert::ToUInt64(list[0]);
-        m_nRun = Convert::ToUInt64(list[1]);
-        m_Pm = Convert::ToDouble(list[2]);
-        m_Pc = Convert::ToDouble(list[3]);
-        m_nCrossOver = list[4] == "Single" ? 0 : 1;
-        return true;
-      }
-      return false;
-    }
+   
 
     void Synthesize(PULONGLONG pOut)
     {
       InitPopulation();
-	  int iteration = 0;
-	  StreamWriter ^file;
-      while(ReadGAParams()) {
+
+      int iteration = 0;
+      StreamWriter ^file;
+      while(NextGAParam()) {
         m_BestFit = MAXLONGLONG;
-		Directory::CreateDirectory( String::Format("..\\..\\SaveData\\{0}-bits", m_nBits));
-		file = gcnew StreamWriter(String::Format("..\\..\\SaveData\\{0}-bits\\costs{1}", m_nBits, iteration+1) + ".qsy");
-		file->Close();
-		long counter = 0;
+        //Directory::CreateDirectory( String::Format("..\\..\\SaveData\\{0}-bits", m_nBits));
+        //file = gcnew StreamWriter(String::Format("..\\..\\SaveData\\{0}-bits\\costs{1}", m_nBits, iteration+1) + ".qsy");
+        //file->Close();
+        //delete file;
+
+        long counter = 0;
         // Calculate Cost Function for all individuals
         for (int r=0; r<m_nRun; r++) {
           Console::WriteLine("Run: {0}", r);
           for (int g=0; g<m_nGen; g++) {
             DoGeneration(g, pOut);
 
-			counter++;
-			file = gcnew StreamWriter(String::Format("..\\..\\SaveData\\{0}-bits\\costs{1}", m_nBits, iteration+1) + ".qsy", true);
-			file->WriteLine(Convert::ToString(counter) +":" + Convert::ToString(m_BestFit));
-			
-			file->Close();
+            //counter++;
+            //file = gcnew StreamWriter(String::Format("..\\..\\SaveData\\{0}-bits\\costs{1}", m_nBits, iteration+1) + ".qsy", true);
+            //file->WriteLine(Convert::ToString(counter) +":" + Convert::ToString(m_BestFit));
+            //file->Close();
+            //delete file;
           }
-          
+
         }
-		PrintResult(++iteration);
-		
+        PrintResult(++iteration);
       }
-	  
     }
 
     void DoGeneration(int gen, PULONGLONG pOut)
@@ -130,7 +95,7 @@ namespace QuLogic
         if (m_BestFit > qCost) {
           m_BestFit = qCost;
           Console::WriteLine("Gen: {0}, BestCost: {1}", gen, m_BestFit);
-		  SaveResult(m_pAlgo[i]);
+          SaveResult(m_pAlgo[i]);
         }
       }
 

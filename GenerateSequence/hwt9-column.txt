@@ -1,4 +1,4 @@
-hwt9
+hwt9 (9 Trits)
 Partitioned - Decimal
      0: 000000000 0
      1: 000000010 3

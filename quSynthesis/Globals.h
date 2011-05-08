@@ -4,40 +4,54 @@ namespace QuLogic {
   class CGlobals 
   {
   public:
-    static int m_Ones[256];
+    static int m_BandSum[256];
     static bool m_fInitialized;
+
     HANDLE m_hPrintMutex;
+
     CGlobals(void)
     {
       if (!ghPrintMutex)
         ghPrintMutex = CreateMutex(NULL, false, NULL);
     }
 
-    static int Ones(ULONGLONG n)
+    static int BandSum(ULONGLONG n)
     {
       int nCount=0;
 
       if (!m_fInitialized) {
         for (int i=0; i<256; i++)
-          m_Ones[i] = NumOfOnes(i);
+          m_BandSum[i] = NonZeroCount(i);
 
         m_fInitialized = TRUE;
       }
 
       // Count ones for 64 bits..
       for (int i=0; i<8; i++) {
-        nCount += m_Ones[n & 0xFF];
+        nCount += m_BandSum[n & 0xFF];
         n >>= 8;
       }
       return nCount;
     }
 
-    static int CGlobals::NumOfOnes(int num)
+    static int RadixDigits(int term)
+    {
+      int t=0;
+
+      for (int i=0; i<QuLogic::nBits; i++) {
+        t += (term % QuLogic::Radix) << (QuLogic::RadixBits*i);
+        term /= 3;
+      }
+
+      return t;
+    }
+
+    static int CGlobals::NonZeroCount(int num)
     {
       int nCount = 0;
       for (int i=0; i<8; i++) {
-        nCount += num & 1;
-        num >>= 1;
+        nCount += num & (QuLogic::RadixMask);         
+        num >>= QuLogic::RadixBits;
       }
       return nCount;
     }
@@ -65,7 +79,7 @@ namespace QuLogic {
 
       ULONGLONG nMrF = 1;
       do 
-       nMrF *= nMr;
+      nMrF *= nMr;
       while(--nMr);
 
       // Calc n!/r!

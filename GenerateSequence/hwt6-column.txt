@@ -1,4 +1,4 @@
-hwt6
+hwt6 (6 Trits)
 Partitioned - Decimal
      0: 000000 0
      1: 000010 3

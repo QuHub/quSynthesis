@@ -1,4 +1,4 @@
-hwt5
+hwt5 (5 Trits)
 Partitioned - Decimal
      0: 00000 0
      1: 00010 3

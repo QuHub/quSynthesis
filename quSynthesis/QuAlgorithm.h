@@ -13,14 +13,15 @@ namespace QuLogic {
     PULONGLONG m_pOut;
     PULONGLONG m_pTarget;
     PULONGLONG m_pControl;
-
+    gcroot<Type^> m_SynthesisAlgo;
+    
   public:
     QuAlgorithm(void){}
 
     QuAlgorithm(int nBits)
     {
       m_nBits = nBits;
-      m_nTerms = (ULONGLONG)Math::Pow(2,(double)nBits);
+      m_nTerms = (ULONGLONG)pow(QuLogic::Radix,(double)nBits);
       m_pIn = m_pOut = NULL;
       m_pTarget = m_pControl = NULL;
     }

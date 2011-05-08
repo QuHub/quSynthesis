@@ -19,12 +19,6 @@ public:
 
 public:
   HANDLE m_hMutex;
-  PULONGLONG m_pTarget;   // Array holding target bit value
-	PULONGLONG m_pControl;  // Array holding control line values
-	ULONGLONG m_nGates;     // Number of gates found
-	ULONGLONG m_nBits;      // Number of bits under synthesis (MIGHT DEPRECATE)
-  ULONGLONG m_nBufSize;   // Size of allocation buffer
-  int m_nOnes[256];       // Number of ones for each value of a byte....
 };
 
 }

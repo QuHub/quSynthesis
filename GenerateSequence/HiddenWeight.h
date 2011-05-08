@@ -64,8 +64,8 @@ public:
 
     fstream f(szFile, fstream::out);
     fstream f2(szFile2, fstream::out);
-    f << szName << " ";
-    f2 << szName << "\nPartitioned - Decimal\n";
+    f << szName << ":" << nBits << " ";
+    f2 << szName << " (" << nBits << " Trits)\nPartitioned - Decimal\n";
 
     for (int i=0; i<(int)p->size(); i++) {
       int count = 2 * Utility::NonZeros(p->at(i));    // 2 bits per trit

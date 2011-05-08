@@ -11,7 +11,7 @@ using namespace System::Collections::Generic;
 using namespace std;
 using namespace System::IO;
 
-#define SRC "..\\inputs\\"
+#define SRC "inputs\\"
 
 namespace QuLogic {
   public ref class FileSrc {
@@ -30,13 +30,12 @@ namespace QuLogic {
     FileSrc(ULONG nBits, String^ FilePrefix) {
       SeqName = FilePrefix->Replace('*', ' ')->TrimEnd();
       m_nBits = nBits;
-      m_nTerms = (ULONGLONG)Math::Pow(2,(double)nBits);
+      m_nTerms = (ULONGLONG)Math::Pow(QuLogic::Radix,(double)nBits);
 
-      String^ sDir = SRC + m_nBits.ToString() + "-bits-src";
-      if ( !Directory::Exists(sDir) )
-        throw gcnew Exception(sDir + " Does not exist");
+      if ( !Directory::Exists(SRC) )
+        throw gcnew Exception(SRC + " Does not exist");
 
-      array<String^, 1>^ files = Directory::GetFiles(sDir, FilePrefix + ".txt");
+      array<String^, 1>^ files = Directory::GetFiles(SRC, FilePrefix + ".txt");
 
       m_sr = gcnew StreamReader(files[0]);
       m_pInput = new ULONGLONG[m_nTerms];
@@ -47,6 +46,7 @@ namespace QuLogic {
       delete m_pInput;
     }
 
+    //***********************************
     PULONGLONG Next()
     {
       String ^s;

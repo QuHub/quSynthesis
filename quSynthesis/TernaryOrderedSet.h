@@ -5,50 +5,56 @@
 #define M QuLogic::PartitionSize
 
 namespace QuLogic {
-  class CoveredSetPartition :   public QuAlgorithm
+
+  class TernaryOrderedSet :   public QuAlgorithm
   {
   public:
-    int m_nSets;
-    vector<CHasse*> m_pInput;
-    ULONGLONG m_nQuantumCost;
-    int NumBands() {return (int) (m_nSets * (m_nBits-M+1));}
-    __declspec(property(get = NumBands)) int nBands;
+    int m_nBands;
+    CHasse *m_pInput;
 
-    CoveredSetPartition(void)  {}
-    CoveredSetPartition *Copy() {return new CoveredSetPartition(*this);}
+    TernaryOrderedSet(void)  {}
+    TernaryOrderedSet *Copy() {return new TernaryOrderedSet(*this);}
 
     // Copy Constructor;
-    CoveredSetPartition(const CoveredSetPartition& base) : QuAlgorithm(base)
+    TernaryOrderedSet(const TernaryOrderedSet& base) : QuAlgorithm(base)
     {
-      // Notice that we're not copying the Hasse Structures, just the m_pIn array of inputs...
-      m_pInput.clear();
-      m_nSets = base.m_nSets;
+      m_nBands = base.m_nBands;
     }
 
-    CoveredSetPartition(int nBits) : QuAlgorithm(nBits)
+    // ************** Constructor *******************
+    TernaryOrderedSet(int nBits) : QuAlgorithm(nBits)
     {
-      m_nSets = (int)Math::Pow(2,M);
+      // Set the type of synthesis to use.
+      m_SynthesisAlgo = TernaryBasic::typeid;
 
-      for (int i=0; i<m_nSets; i++)
-        m_pInput.push_back(new CHasse(nBits - M, i));
-
-      PULONGLONG p = m_pIn = new ULONGLONG[m_nTerms];
-      for (int i=0; i<m_nSets; i++) {
-        p += m_pInput[i]->GetSequence(p, i<<(m_nBits-M));
-      }
+      m_nBands = CHasse::nBands(nBits);
+      m_pInput = new CHasse(nBits, 0);
+      m_pIn = new ULONGLONG[m_nTerms];
+      m_pInput->GetSequence(m_pIn, 0);
 
       // Allocate array of band boundaries for crossover operations.
       if(BandBoundary) return;
-      BandBoundary = new int[nBands];
+      BandBoundary = new int[m_nBands];
 
-      for (int i=0, n=0, k=0; i<m_nSets; i++) {
-        for (int j=0; j<m_pInput[i]->m_nBands; j++) {
-          n += CGlobals::nCr(m_nBits-M, j);
-          BandBoundary[k++] = n;
-        }
+      for (int j=0; j < m_pInput->m_nBands; j++) {
+        BandBoundary[j] = m_pInput->m_pBands[j].size();
       }
     }
 
+    ~TernaryOrderedSet(void) 
+    {
+      // Delete Hasse Classes;
+      delete m_pInput;
+    }
+
+    void Synthesize(PULONGLONG pOut) 
+    {
+      m_pOut = pOut;
+      gQueue.Push(this);
+    }
+
+
+    //******************* GA Operators (CrossOver and Mutation) *************************
     QuAlgorithm *SinglePointCrossOver(QuAlgorithm *other, double Prob)
     {
       QuAlgorithm *p = m_QuantumCost < other->m_QuantumCost ? Copy() : other->Copy();     // Best Fit
@@ -56,7 +62,7 @@ namespace QuLogic {
       if (Rand::NextDouble() < Prob) {
         QuAlgorithm *q = m_QuantumCost < other->m_QuantumCost ? other : this;             // Less Fit
 
-        int nFirst = QuLogic::BandBoundary[Rand::NextInteger(nBands)];
+        int nFirst = QuLogic::BandBoundary[Rand::NextInteger(m_nBands)];
 
         CopyMemory(p->m_pIn + nFirst, q->m_pIn + nFirst, (m_nTerms - nFirst) * sizeof(ULONGLONG));
       }
@@ -71,8 +77,8 @@ namespace QuLogic {
       if (Rand::NextDouble() < Prob) {
         QuAlgorithm *q = m_QuantumCost < other->m_QuantumCost ? other : this;             // Less Fit
 
-        int nFirst = QuLogic::BandBoundary[Rand::NextInteger(nBands)];
-        int nSecond = QuLogic::BandBoundary[Rand::NextInteger(nBands)];
+        int nFirst = QuLogic::BandBoundary[Rand::NextInteger(m_nBands)];
+        int nSecond = QuLogic::BandBoundary[Rand::NextInteger(m_nBands)];
 
         if(nSecond < nFirst) {
           int tmp = nSecond;
@@ -84,17 +90,11 @@ namespace QuLogic {
       return p;
     }
 
-    void Synthesize(PULONGLONG pOut) 
-    {
-      m_pOut = pOut;
-      gQueue.Push(this);
-    }
-
     void Mutate(double Prob)
     {
       if (Rand::NextDouble() > Prob) return;
 
-      int band = Rand::NextInteger(nBands-1);
+      int band = Rand::NextInteger(m_nBands-1);
       int nStart= QuLogic::BandBoundary[band];
       int nEnd = QuLogic::BandBoundary[band+1];
       int nFirst = nStart + Rand::NextInteger(nEnd - nStart);
@@ -106,11 +106,5 @@ namespace QuLogic {
       m_pIn[nSecond] = tmp;
     }
 
-    ~CoveredSetPartition(void) 
-    {
-      // Delete Hasse Classes;
-      for (int i=0; i<m_pInput.size(); i++)
-        delete m_pInput[i];
-    }
   };
 }

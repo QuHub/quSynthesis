@@ -1,4 +1,4 @@
-hwt8
+hwt8 (8 Trits)
 Partitioned - Decimal
      0: 00000000 0
      1: 00000010 3

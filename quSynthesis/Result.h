@@ -17,60 +17,57 @@ namespace QuLogic {
       if(my_pAlgo) delete my_pAlgo;
 
       my_pAlgo = algo->Clone();
-
-
-	  
     }
 
     void PrintResult(int iteration)
     {
-		Directory::CreateDirectory( String::Format("..\\..\\SaveData\\{0}-bits", my_pAlgo->m_nBits));
-		StreamWriter ^file = gcnew StreamWriter(String::Format("..\\..\\SaveData\\{0}-bits\\{1}-iteration", my_pAlgo->m_nBits, iteration) + ".qsy");
-	  file->WriteLine("QuantomCost:");
-	  file->WriteLine(System::Convert::ToString(my_pAlgo->m_QuantumCost));
-	  file->WriteLine("Input Data:");
-	  for(int i=0;i<Math::Pow(2,(double)my_pAlgo->m_nBits); i++)
-		  file->Write(my_pAlgo->m_pIn[i]+",");
-	  file->WriteLine();
-	  file->WriteLine("Output Data:");
-	  for(int i=0;i<Math::Pow(2,(double)my_pAlgo->m_nBits); i++)
-		  file->Write(my_pAlgo->m_pOut[i]+",");
-	  file->WriteLine();
-	  
-	  file->WriteLine("Control:");
-	  for(int i=0;i<my_pAlgo->m_nGates;i++)
-		  file->Write(my_pAlgo->m_pControl[i]+",");
-	  file->WriteLine();
-	  file->WriteLine("Target:");
-	  for(int i=0;i<my_pAlgo->m_nGates;i++)
-		  file->Write(my_pAlgo->m_pTarget[i]+",");
-	  file->Close();
+      Directory::CreateDirectory( String::Format("..\\..\\SaveData\\{0}-bits", my_pAlgo->m_nBits));
+      StreamWriter ^file = gcnew StreamWriter(String::Format("..\\..\\SaveData\\{0}-bits\\{1}-iteration", my_pAlgo->m_nBits, iteration) + ".qsy");
+      file->WriteLine("QuantomCost:");
+      file->WriteLine(System::Convert::ToString(my_pAlgo->m_QuantumCost));
+      file->WriteLine("Input Data:");
+      for(int i=0;i<Math::Pow(2,(double)my_pAlgo->m_nBits); i++)
+        file->Write(my_pAlgo->m_pIn[i]+",");
+      file->WriteLine();
+      file->WriteLine("Output Data:");
+      for(int i=0;i<Math::Pow(2,(double)my_pAlgo->m_nBits); i++)
+        file->Write(my_pAlgo->m_pOut[i]+",");
+      file->WriteLine();
 
-		/*
-		cout << "gates" << my_pAlgo->m_nGates << endl;
-		cout << "bits" << my_pAlgo->m_nBits << endl;
-		cout << "cost" << my_pAlgo->m_QuantumCost << endl;
+      file->WriteLine("Control:");
+      for(int i=0;i<my_pAlgo->m_nGates;i++)
+        file->Write(my_pAlgo->m_pControl[i]+",");
+      file->WriteLine();
+      file->WriteLine("Target:");
+      for(int i=0;i<my_pAlgo->m_nGates;i++)
+        file->Write(my_pAlgo->m_pTarget[i]+",");
+      file->Close();
 
-		
-		Console::WriteLine("----------------------------------------------------");
-	  for(int i=0;i<my_pAlgo->m_nTerms;i++)
-		  Console::Write(my_pAlgo->m_pIn[i]+",");
-	  Console::WriteLine("\n----------------------------------------------------");
-	  for(int i=0;i<my_pAlgo->m_nTerms;i++)
-		  Console::Write(my_pAlgo->m_pOut[i]+",");
-	  Console::WriteLine("\n----------------------------------------------------");
+      /*
+      cout << "gates" << my_pAlgo->m_nGates << endl;
+      cout << "bits" << my_pAlgo->m_nBits << endl;
+      cout << "cost" << my_pAlgo->m_QuantumCost << endl;
 
-	  for(int i=0;i<my_pAlgo->m_nGates;i++)
-		  Console::Write(my_pAlgo->m_pControl[i]+",");
-	  Console::WriteLine("\n----------------------------------------------------");
 
-	  for(int i=0;i<my_pAlgo->m_nGates;i++)
-		  Console::Write(my_pAlgo->m_pTarget[i]+",");
-	  Console::WriteLine("\n----------------------------------------------------");
-	  
+      Console::WriteLine("----------------------------------------------------");
+      for(int i=0;i<my_pAlgo->m_nTerms;i++)
+      Console::Write(my_pAlgo->m_pIn[i]+",");
+      Console::WriteLine("\n----------------------------------------------------");
+      for(int i=0;i<my_pAlgo->m_nTerms;i++)
+      Console::Write(my_pAlgo->m_pOut[i]+",");
+      Console::WriteLine("\n----------------------------------------------------");
+
+      for(int i=0;i<my_pAlgo->m_nGates;i++)
+      Console::Write(my_pAlgo->m_pControl[i]+",");
+      Console::WriteLine("\n----------------------------------------------------");
+
+      for(int i=0;i<my_pAlgo->m_nGates;i++)
+      Console::Write(my_pAlgo->m_pTarget[i]+",");
+      Console::WriteLine("\n----------------------------------------------------");
+
 
       Console::WriteLine("BestCost in result.h: {0}", my_pAlgo->m_QuantumCost); 
-	  */
+      */
     }
 
   };

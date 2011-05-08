@@ -1,4 +1,4 @@
-hwt4
+hwt4 (4 Trits)
 Partitioned - Decimal
      0: 0000 0
      1: 0010 3
