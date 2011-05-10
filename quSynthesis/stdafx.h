@@ -24,20 +24,8 @@ extern HANDLE ghPrintMutex;
 using namespace std;
 using namespace System;
 using namespace System::IO;
-
-
-namespace QuLogic
-{
-  extern int *BandBoundary;
-  extern int PartitionSize;
-  extern int nBits;
-  extern int Radix;
-  extern int RadixBits;
-  extern int RadixMask; 
-  extern string HomeFolder;
-  extern string Synthesizer;
-}
-
+ 
+#include "Config.h"
 
 #include "Rand.h"
 #include "Globals.h"

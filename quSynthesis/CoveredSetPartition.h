@@ -1,9 +1,9 @@
 #pragma once
 #include "QuAlgorithm.h"
-#pragma managed
 
 // any nBits are divided into S|R, where S is the number of covering bits, and R is the remaining Hasse Bits
-#define M QuLogic::PartitionSize
+#undef M
+#define M Config::PartitionSize
 
 namespace QuLogic {
   class CoveredSetPartition :   public QuAlgorithm
@@ -11,7 +11,7 @@ namespace QuLogic {
   public:
     int m_nSets;
     vector<CHasse*> m_pInput;
-    ULONGLONG m_nQuantumCost;
+    int m_nQuantumCost;
     int NumBands() {return (int) (m_nSets * (m_nBits-M+1));}
     __declspec(property(get = NumBands)) int nBands;
 
@@ -33,7 +33,7 @@ namespace QuLogic {
       for (int i=0; i<m_nSets; i++)
         m_pInput.push_back(new CHasse(nBits - M, i));
 
-      PULONGLONG p = m_pIn = new ULONGLONG[m_nTerms];
+      PINT p = m_pIn = new int[m_nTerms];
       for (int i=0; i<m_nSets; i++) {
         p += m_pInput[i]->GetSequence(p, i<<(m_nBits-M));
       }
@@ -59,7 +59,7 @@ namespace QuLogic {
 
         int nFirst = QuLogic::BandBoundary[Rand::NextInteger(nBands)];
 
-        CopyMemory(p->m_pIn + nFirst, q->m_pIn + nFirst, (m_nTerms - nFirst) * sizeof(ULONGLONG));
+        CopyMemory(p->m_pIn + nFirst, q->m_pIn + nFirst, (m_nTerms - nFirst) * sizeof(int));
       }
       return p;
     }
@@ -80,12 +80,12 @@ namespace QuLogic {
           nSecond = nFirst;
           nFirst = tmp;
         }
-        CopyMemory(p->m_pIn + nFirst, q->m_pIn + nFirst, (nSecond - nFirst) * sizeof(ULONGLONG));
+        CopyMemory(p->m_pIn + nFirst, q->m_pIn + nFirst, (nSecond - nFirst) * sizeof(int));
       }
       return p;
     }
 
-    void Synthesize(PULONGLONG pOut) 
+    void Synthesize(PINT pOut) 
     {
       m_pOut = pOut;
       gQueue.Push(this);
@@ -102,7 +102,7 @@ namespace QuLogic {
       int nSecond = nStart + Rand::NextInteger(nEnd - nStart);
 
       // Mutate through swap..
-      ULONGLONG tmp = m_pIn[nFirst];
+      int tmp = m_pIn[nFirst];
       m_pIn[nFirst] = m_pIn[nSecond];
       m_pIn[nSecond] = tmp;
     }

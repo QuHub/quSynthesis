@@ -2,7 +2,8 @@
 #include "QuAlgorithm.h"
 
 // any nBits are divided into S|R, where S is the number of covering bits, and R is the remaining Hasse Bits
-#define M QuLogic::PartitionSize
+#undef M
+#define M Config::PartitionSize
 
 namespace QuLogic {
 
@@ -27,15 +28,15 @@ namespace QuLogic {
     {
       m_nBands = CHasse::nBands(nBits);
       m_pInput = new CHasse(nBits, 0);
-      m_pIn = new ULONGLONG[m_nTerms];
+      m_pIn = new int[m_nTerms];
       m_pInput->GetSequence(m_pIn, 0);
 
       // Allocate array of band boundaries for crossover operations.
-      if(BandBoundary) return;
-      BandBoundary = new int[m_nBands];
+      if(QuLogic::BandBoundary) return;
+      QuLogic::BandBoundary = new int[m_nBands];
 
       for (int j=0, n=0; j < m_pInput->m_nBands; j++) {
-        n += m_pInput->m_pBands[j].size();
+        n += (int)m_pInput->m_pBands[j].size();
         BandBoundary[j] = n; 
       }
     }
@@ -46,7 +47,7 @@ namespace QuLogic {
       delete m_pInput;
     }
 
-    void Synthesize(PULONGLONG pOut) 
+    void Synthesize(PINT pOut) 
     {
       m_pOut = pOut;
 
@@ -67,7 +68,7 @@ namespace QuLogic {
 
         int nFirst = QuLogic::BandBoundary[Rand::NextInteger(m_nBands)];
 
-        CopyMemory(p->m_pIn + nFirst, q->m_pIn + nFirst, (m_nTerms - nFirst) * sizeof(ULONGLONG));
+        CopyMemory(p->m_pIn + nFirst, q->m_pIn + nFirst, (m_nTerms - nFirst) * sizeof(int));
       }
       return p;
     }
@@ -88,7 +89,7 @@ namespace QuLogic {
           nSecond = nFirst;
           nFirst = tmp;
         }
-        CopyMemory(p->m_pIn + nFirst, q->m_pIn + nFirst, (nSecond - nFirst) * sizeof(ULONGLONG));
+        CopyMemory(p->m_pIn + nFirst, q->m_pIn + nFirst, (nSecond - nFirst) * sizeof(int));
       }
       return p;
     }
@@ -104,7 +105,7 @@ namespace QuLogic {
       int nSecond = nStart + Rand::NextInteger(nEnd - nStart);
 
       // Mutate through swap..
-      ULONGLONG tmp = m_pIn[nFirst];
+      int tmp = m_pIn[nFirst];
       m_pIn[nFirst] = m_pIn[nSecond];
       m_pIn[nSecond] = tmp;
     }

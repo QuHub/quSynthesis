@@ -5,7 +5,7 @@
 #define CROSS_OVER2 TwoPointCrossOver
 
 #define RECYCLE(x) if (x) {delete x; x=NULL;}
-#define COPY(dst, src, n) {if(dst) delete dst; dst = new ULONGLONG[n]; CopyMemory(dst, src, n);}
+#define COPY(dst, src, n) {if(dst) delete dst; dst = new int[n]; CopyMemory(dst, src, n);}
 
 namespace QuLogic 
 {
@@ -48,14 +48,13 @@ namespace QuLogic
 
    
 
-    void Synthesize(PULONGLONG pOut)
+    void Synthesize(PINT pOut)
     {
       InitPopulation();
 
       int iteration = 0;
-      StreamWriter ^file;
       while(NextGAParam()) {
-        m_BestFit = MAXLONGLONG;
+        m_BestFit = MAXLONG;
         //Directory::CreateDirectory( String::Format("..\\..\\SaveData\\{0}-bits", m_nBits));
         //file = gcnew StreamWriter(String::Format("..\\..\\SaveData\\{0}-bits\\costs{1}", m_nBits, iteration+1) + ".qsy");
         //file->Close();
@@ -80,7 +79,7 @@ namespace QuLogic
       }
     }
 
-    void DoGeneration(int gen, PULONGLONG pOut)
+    void DoGeneration(int gen, PINT pOut)
     {
       m_ParentTotalFitness = 0;
       for (int i=0; i<N_POP; i++) {
@@ -90,7 +89,7 @@ namespace QuLogic
       WaitForQueue();
 
       for (int i=0; i<N_POP; i++) {
-        ULONGLONG qCost = m_pAlgo[i]->m_QuantumCost;
+        int qCost = m_pAlgo[i]->m_QuantumCost;
         m_ParentTotalFitness += qCost;
         if (m_BestFit > qCost) {
           m_BestFit = qCost;

@@ -12,7 +12,7 @@ public:
 
   GAParam(void)
   {
-    String^ s = gcnew String(QuLogic::HomeFolder.c_str()) + "GAParams.csv";
+    String^ s = gcnew String(Config::HomeFolder.c_str()) + "GAParams.csv";
     m_sr = gcnew StreamReader(s);
     m_sr->ReadLine();  // Skip Header;
   }

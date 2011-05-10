@@ -12,7 +12,7 @@ namespace QuLogic {
     static int m_nBits;
     static int m_nTerms;
     static int m_nBands;
-    static vector<ULONGLONG> *m_pBands;
+    static vector<int> *m_pBands;
 
     static int nBands(int nBits)
     {
@@ -30,7 +30,7 @@ namespace QuLogic {
       //                                               {22}                  4     
       //        Total: 1*3 + 1 = 4 bands.              Total: 2*2 + 1 = 5 bands
       //
-      return (QuLogic::Radix - 1) * nBits + 1;  // For  nBits + 1
+      return (Config::Radix - 1) * nBits + 1;  // For  nBits + 1
     }
 
     static void Initialize(int nBits)
@@ -40,10 +40,10 @@ namespace QuLogic {
 
       // Allocate space for bands
       m_nBits = nBits;
-      m_nTerms = (int)pow((double)QuLogic::Radix, nBits);
+      m_nTerms = (int)pow((double)Config::Radix, nBits);
 
       m_nBands = nBands(nBits);
-      m_pBands = new vector<ULONGLONG>[m_nBands];   // Delete only once at the end of the or on TotalReset();
+      m_pBands = new vector<int>[m_nBands];   // Delete only once at the end of the or on TotalReset();
 
       // Insert each number into its band based on the sum of its digits
       for (int i=0; i<m_nTerms; i++) {
@@ -67,7 +67,7 @@ namespace QuLogic {
     // Serialize Hasse sequence and copy it into the buffer p
     // For Set Partitions, add the offset to create the top bits of the set
     //
-    int GetSequence(PULONGLONG p, int offset)
+    int GetSequence(PINT p, int offset)
     {
       int n=0;
       for (int i=0; i<m_nBands; i++) {

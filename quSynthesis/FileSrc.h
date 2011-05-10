@@ -16,10 +16,10 @@ using namespace System::IO;
 namespace QuLogic {
   public ref class FileSrc {
     UINT m_nCount;
-    ULONGLONG m_nFiles, m_nSequence, m_nBits, m_nTerms;
+    int m_nFiles, m_nSequence, m_nBits, m_nTerms;
     array<String^, 1>^ m_Files;
     StreamReader ^m_sr;
-    ULONGLONG *m_pInput;
+    int *m_pInput;
 
   public:
     property String^ Name;
@@ -30,7 +30,7 @@ namespace QuLogic {
     FileSrc(ULONG nBits, String^ FilePrefix) {
       SeqName = FilePrefix->Replace('*', ' ')->TrimEnd();
       m_nBits = nBits;
-      m_nTerms = (ULONGLONG)Math::Pow(QuLogic::Radix,(double)nBits);
+      m_nTerms = (int)Math::Pow(Config::Radix,(double)nBits);
 
       if ( !Directory::Exists(SRC) )
         throw gcnew Exception(SRC + " Does not exist");
@@ -38,7 +38,7 @@ namespace QuLogic {
       array<String^, 1>^ files = Directory::GetFiles(SRC, FilePrefix + ".txt");
 
       m_sr = gcnew StreamReader(files[0]);
-      m_pInput = new ULONGLONG[m_nTerms];
+      m_pInput = new int[m_nTerms];
     }
 
     ~FileSrc()
@@ -47,7 +47,7 @@ namespace QuLogic {
     }
 
     //***********************************
-    PULONGLONG Next()
+    PINT Next()
     {
       String ^s;
       if(m_sr->Peek() >= 0)
@@ -56,10 +56,10 @@ namespace QuLogic {
         return NULL;
 
       array<String^>^ list = s->Split(' ');
-      PULONGLONG p = m_pInput;
+      PINT p = m_pInput;
       Name = list[0];
       for (int i=0; i<m_nTerms; i++)
-        *p++ = Convert::ToUInt64(list[i+1]);
+        *p++ = Convert::ToUInt32(list[i+1]);
 
       return m_pInput;
     }

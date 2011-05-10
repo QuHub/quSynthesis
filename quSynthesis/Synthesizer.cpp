@@ -13,7 +13,7 @@ namespace QuLogic {
 		m_hMutex = (HANDLE)arg;
     
     QuSynthesizer *qSyn;
-    if (QuLogic::Synthesizer.compare("TernaryBasic") == 0) qSyn = new TernaryBasic();
+    if (Config::Synthesizer.compare("TernaryBasic") == 0) qSyn = new TernaryBasic();
 
 		while(1) {
 			// Look for something in the queue and synthesize it
@@ -26,8 +26,8 @@ namespace QuLogic {
 				continue;
 			}
 
-			PULONGLONG pIn =  qa->m_pIn;
-			PULONGLONG pOut = qa->m_pOut;
+			PINT pIn =  qa->m_pIn;
+			PINT pOut = qa->m_pOut;
 
       qSyn->Before(qa->m_nBits);
       //qa->Dump();
@@ -50,7 +50,7 @@ namespace QuLogic {
 	}
 
   
-	/// void CSynthesizer::Process(ULONGLONG inTerm, ULONGLONG outTerm)
+	/// void CSynthesizer::Process(int inTerm, int outTerm)
 	///
 	/// Inputs:
 	///

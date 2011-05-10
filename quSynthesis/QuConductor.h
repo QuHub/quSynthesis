@@ -40,7 +40,7 @@ namespace QuLogic {
 			}
 		}
 
-		void virtual Synthesize(PULONGLONG pOut){throw "Must implement this";}
+		void virtual Synthesize(PINT pOut){throw "Must implement this";}
 
 		void WaitForQueue()
 		{

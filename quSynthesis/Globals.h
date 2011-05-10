@@ -15,7 +15,7 @@ namespace QuLogic {
         ghPrintMutex = CreateMutex(NULL, false, NULL);
     }
 
-    static int BandSum(ULONGLONG n)
+    static int BandSum(int n)
     {
       int nCount=0;
 
@@ -38,7 +38,7 @@ namespace QuLogic {
   {
     string to_s[] = {"0", "1", "2"};
     string sTmp;
-    for (int i=0; i<QuLogic::nBits; i++) {
+    for (int i=0; i<Config::nBits; i++) {
       sTmp = to_s[(term & 3)] + sTmp;
       term >>= 2;
     }
@@ -48,8 +48,8 @@ namespace QuLogic {
     {
       int t=0;
 
-      for (int i=0; i<QuLogic::nBits; i++) {
-        t += (term % QuLogic::Radix) << (QuLogic::RadixBits*i);
+      for (int i=0; i<Config::nBits; i++) {
+        t += (term % Config::Radix) << (Config::RadixBits*i);
         term /= 3;
       }
 
@@ -60,8 +60,8 @@ namespace QuLogic {
     {
       int nCount = 0;
       for (int i=0; i<8; i++) {
-        nCount += num & (QuLogic::RadixMask);         
-        num >>= QuLogic::RadixBits;
+        nCount += num & (Config::RadixMask);         
+        num >>= Config::RadixBits;
       }
       return nCount;
     }
@@ -77,7 +77,7 @@ namespace QuLogic {
     void Release(HANDLE hMutex){::ReleaseMutex(hMutex); }
 
     // nCr = n!/r!(n-r!)
-    static ULONGLONG nCr(int n, int r)
+    static int nCr(int n, int r)
     {
       if (n==r || r==0) return 1;
 
@@ -87,13 +87,13 @@ namespace QuLogic {
       nMr = n - r;
 
 
-      ULONGLONG nMrF = 1;
+      int nMrF = 1;
       do 
       nMrF *= nMr;
       while(--nMr);
 
       // Calc n!/r!
-      ULONGLONG c = 1;
+      int c = 1;
       while (r<n)
         c *= ++r;
 

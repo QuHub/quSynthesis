@@ -31,7 +31,7 @@ namespace QuLogic {
 class TernaryBasic : public QuSynthesizer
 {
 public:
-  PULONGLONG m_pMask;     // Array holding target bit value
+  PINT m_pMask;     // Array holding target bit value
 	
   TernaryBasic(void) : QuSynthesizer()
   {
@@ -83,7 +83,7 @@ public:
     // cout << "In Propegate: " << CGlobals::ToString(outTerm) << endl;
 
     // Apply current list of gates..
-    for (ULONGLONG i=0; i<m_nGates; i++) {
+    for (int i=0; i<m_nGates; i++) {
       //cout << "Gate: [C:T:Op] [" << m_pControl[i] << " " << m_pTarget[i] << " " << m_pOperation[i] << endl;
 	    int mask = gBitMask[m_pTarget[i]];
 	    if ( m_pControl[i] == (~mask & outTerm) ) {                 // Control Bits for gate matches All bits in output excluding target bits.
@@ -104,7 +104,7 @@ public:
   }
 
 
-  ///   ULONGLONG GateCost(int i)
+  ///   int GateCost(int i)
   ///
   ///
   /// Inputs:
@@ -116,16 +116,16 @@ public:
     return 0;//Math::Max(1, (int)Math::Pow(2, 1 + i) - 3);
   }
 
-  ///   ULONGLONG ControlLines(ULONGLONG n)
+  ///   int ControlLines(int n)
   ///
   ///
   /// Inputs:
   ///
   /// Outputs:
   ///
-  int ControlLines(ULONGLONG n)
+  int ControlLines(int n)
   {
-    ULONGLONG nCount=0;
+    int nCount=0;
 
     //for (int i=0; i<8; i++) {
     //  nCount += NonZeroCount(n & 0xFF);
@@ -136,13 +136,13 @@ public:
 
   void Resize()
   {
-    PULONGLONG p=new ULONGLONG[m_nBufSize+2048]; 
-    CopyMemory(p, m_pControl, m_nBufSize*sizeof(ULONGLONG));
+    PINT p=new int[m_nBufSize+2048]; 
+    CopyMemory(p, m_pControl, m_nBufSize*sizeof(int));
     delete m_pControl;
     m_pControl= p;
 
-    p=new ULONGLONG[m_nBufSize+2048]; 
-    CopyMemory(p, m_pTarget, m_nBufSize*sizeof(ULONGLONG));
+    p=new int[m_nBufSize+2048]; 
+    CopyMemory(p, m_pTarget, m_nBufSize*sizeof(int));
     delete m_pTarget;
     m_pTarget= p;
 

@@ -4,7 +4,7 @@
 using namespace System;
 using namespace System::IO;
 #define RECYCLE(x) if (x) {delete x; x=NULL;}
-#define COPY(dst, src, n) {if(dst) delete dst; dst = new ULONGLONG[n]; CopyMemory(dst, src, n);}
+#define COPY(dst, src, n) {if(dst) delete dst; dst = new int[n]; CopyMemory(dst, src, n);}
 namespace QuLogic {
   class CResult
   {
@@ -22,16 +22,16 @@ namespace QuLogic {
 
     void PrintResult(int iteration)
     {
-      Directory::CreateDirectory( String::Format("..\\..\\SaveData\\{0}-bits", my_pAlgo->m_nBits));
-      StreamWriter ^file = gcnew StreamWriter(String::Format("..\\..\\SaveData\\{0}-bits\\{1}-iteration", my_pAlgo->m_nBits, iteration) + ".qsy");
+      Directory::CreateDirectory( String::Format("..\\SaveData\\{0}-bits", my_pAlgo->m_nBits));
+      StreamWriter ^file = gcnew StreamWriter(String::Format("..\\SaveData\\{0}-bits\\{1}-iteration", my_pAlgo->m_nBits, iteration) + ".qsy");
       file->WriteLine("QuantomCost:");
       file->WriteLine(System::Convert::ToString(my_pAlgo->m_QuantumCost));
       file->WriteLine("Input Data:");
-      for(int i=0;i<Math::Pow(QuLogic::Radix,(double)my_pAlgo->m_nBits); i++)
+      for(int i=0;i<Math::Pow(Config::Radix,(double)my_pAlgo->m_nBits); i++)
         file->Write(my_pAlgo->m_pIn[i]+",");
       file->WriteLine();
       file->WriteLine("Output Data:");
-      for(int i=0;i<Math::Pow(QuLogic::Radix,(double)my_pAlgo->m_nBits); i++)
+      for(int i=0;i<Math::Pow(Config::Radix,(double)my_pAlgo->m_nBits); i++)
         file->Write(my_pAlgo->m_pOut[i]+",");
       file->WriteLine();
 

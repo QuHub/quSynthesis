@@ -5,7 +5,7 @@ namespace QuLogic {
 class CMiller : QuAlgorithm
 {
 public:
-  PULONGLONG m_pIn;
+  PINT m_pIn;
 public:
 
   CMiller(int nBits) : QuAlgorithm(nBits)
@@ -13,13 +13,13 @@ public:
     Name = "Miller";
 
     // Allocate input vector and fill it with natural binary order (Miller style).
-    m_pIn = new ULONGLONG[m_nTerms];
-    PULONGLONG p = m_pIn;
+    m_pIn = new int[m_nTerms];
+    PINT p = m_pIn;
     for (int i=0; i < m_nTerms; i++)
       *p++ = i;
   }
 
-  void virtual Synthesize(PULONGLONG pOut) override
+  void virtual Synthesize(PINT pOut) override
   {
     //gResult.Reset();
     //Print("Ready to synthesize function");

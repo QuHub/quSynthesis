@@ -16,11 +16,11 @@ public:
 
     // Do we still have a difference?
     // TODO: redo this thing with hash tables
-    ULONGLONG diff = inTerm ^ outTerm;
+    int diff = inTerm ^ outTerm;
 
     if (diff > 0) {
       // Flip the 0 bits first
-      ULONGLONG mask = 1;
+      int mask = 1;
       for (int j = 0; j< m_nBits; j++) {
         if ( (diff & mask) && !(outTerm & mask)) {
           if (m_nGates > m_nBufSize - 8)  // make sure there is enough memory
@@ -55,25 +55,25 @@ public:
 
 
 
-  ULONGLONG Propogate(ULONGLONG outTerm)
+  int Propogate(int outTerm)
   {
     // Apply current list of gates..
-    for (ULONGLONG i=0; i<m_nGates; i++) {
-      ULONGLONG x = outTerm & m_pControl[i];
+    for (int i=0; i<m_nGates; i++) {
+      int x = outTerm & m_pControl[i];
       if (x == m_pControl[i])
         outTerm ^= m_pTarget[i];
     }
     return outTerm;
   }  
 
-  ULONGLONG QuantumCost()
+  int QuantumCost()
   {
-    PULONGLONG pnCount = new ULONGLONG[m_nBits];
-    ZeroMemory(pnCount, m_nBits * sizeof(ULONGLONG));
+    PINT pnCount = new int[m_nBits];
+    ZeroMemory(pnCount, m_nBits * sizeof(int));
     for (int i=0; i<m_nGates; i++) 
       pnCount[ControlLines(m_pControl[i])]++;
 
-    ULONGLONG nCost=0;
+    int nCost=0;
     for (int i=0; i<m_nBits; i++)
       nCost += GateCost(i) * pnCount[i];
 
@@ -81,28 +81,28 @@ public:
   }
 
 
-  ///   ULONGLONG GateCost(int i)
+  ///   int GateCost(int i)
   ///
   ///
   /// Inputs:
   ///
   /// Outputs:
   ///
-  ULONGLONG GateCost(int i)
+  int GateCost(int i)
   {
     return Math::Max(1, (int)Math::Pow(2, 1 + i) - 3);
   }
 
-  ///   ULONGLONG ControlLines(ULONGLONG n)
+  ///   int ControlLines(int n)
   ///
   ///
   /// Inputs:
   ///
   /// Outputs:
   ///
-  ULONGLONG ControlLines(ULONGLONG n)
+  int ControlLines(int n)
   {
-    ULONGLONG nCount=0;
+    int nCount=0;
 
     for (int i=0; i<8; i++) {
       nCount += NonZeroCount(n & 0xFF);
@@ -113,13 +113,13 @@ public:
 
   void Resize()
   {
-    PULONGLONG p=new ULONGLONG[m_nBufSize+2048]; 
-    CopyMemory(p, m_pControl, m_nBufSize*sizeof(ULONGLONG));
+    PINT p=new int[m_nBufSize+2048]; 
+    CopyMemory(p, m_pControl, m_nBufSize*sizeof(int));
     delete m_pControl;
     m_pControl= p;
 
-    p=new ULONGLONG[m_nBufSize+2048]; 
-    CopyMemory(p, m_pTarget, m_nBufSize*sizeof(ULONGLONG));
+    p=new int[m_nBufSize+2048]; 
+    CopyMemory(p, m_pTarget, m_nBufSize*sizeof(int));
     delete m_pTarget;
     m_pTarget= p;
 

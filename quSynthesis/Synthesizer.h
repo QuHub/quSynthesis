@@ -10,11 +10,11 @@ public:
   void Lock() { WaitForSingleObject(m_hMutex, INFINITE); Print("Acquired Lock");}
   void Release(){::ReleaseMutex(m_hMutex); Print("Released Lock");}
   void Resize();
-  void Process(ULONGLONG inTerm, ULONGLONG outTerm);
-  ULONGLONG Propogate(ULONGLONG outTerm);
-  ULONGLONG QuantumCost();
-  inline ULONGLONG GateCost(int i);
-  ULONGLONG ControlLines(ULONGLONG n);
+  void Process(int inTerm, int outTerm);
+  int Propogate(int outTerm);
+  int QuantumCost();
+  inline int GateCost(int i);
+  int ControlLines(int n);
 
 
 public:

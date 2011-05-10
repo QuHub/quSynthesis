@@ -95,7 +95,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions), _SCL_SECURE_NO_WARNINGS</PreprocessorDefinitions>
@@ -147,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryBasic.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="CoveredSetPartition.h" />
     <ClInclude Include="FileSrc.h" />
     <ClInclude Include="GAConductor.h" />

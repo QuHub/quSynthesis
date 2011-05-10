@@ -68,6 +68,7 @@
     <ClInclude Include="Rand.h">
       <Filter>Utility</Filter>
     </ClInclude>
+    <ClInclude Include="Config.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
