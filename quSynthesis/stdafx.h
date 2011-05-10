@@ -35,6 +35,7 @@ using namespace System::IO;
 #include "Synthesizer.h"
 #include "Hasse.h"
 #include "GaParam.h"
+#include "StopWatch.h"
 
 extern QuLogic::CQueue gQueue;
 

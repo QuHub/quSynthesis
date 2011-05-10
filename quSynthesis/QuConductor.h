@@ -27,7 +27,7 @@ namespace QuLogic {
 			GetSystemInfo( &sysinfo );
 
 			// Lanuch threads as many as there are cores
-			m_nThreads = 1; //sysinfo.dwNumberOfProcessors;
+			m_nThreads = sysinfo.dwNumberOfProcessors;
 
 			// A set of Mutex objects necessary to figure out when all threads
 			// Have finished processing their inputs, after queue has been emptied.

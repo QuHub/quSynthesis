@@ -6,7 +6,7 @@ namespace QuLogic {
   public:
     static int m_BandSum[256];
     static bool m_fInitialized;
-
+    
     HANDLE m_hPrintMutex;
 
     CGlobals(void)

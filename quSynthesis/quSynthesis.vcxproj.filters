@@ -69,6 +69,7 @@
       <Filter>Utility</Filter>
     </ClInclude>
     <ClInclude Include="Config.h" />
+    <ClInclude Include="StopWatch.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

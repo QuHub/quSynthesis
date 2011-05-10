@@ -11,7 +11,7 @@ HANDLE *gphMutex;    // Set of mutex objects to indicate when a Synthesizer fini
 using namespace System;
 using namespace QuLogic;
 
-#define FILE_PATTERN "Ternary\\hwt2"
+#define FILE_PATTERN "Ternary\\hwt"
 #define NBITS        2
 #define RADIX        3    // 2: Binary, 3: Ternary
 #define RADIXBITS    2    // 1: Binary, 2: Ternary
@@ -38,7 +38,7 @@ namespace QuLogic {
 int main(array<System::String ^> ^args)
 {
 
-  for (int i=2; i<10; i++) {
+  for (int i=6; i<=10; i++) {
     Config::SetTernary();
     Config::nBits = i;
     QuLogic::TotalReset();
@@ -46,7 +46,7 @@ int main(array<System::String ^> ^args)
     GAConductor *algo = new GAConductor(Config::nBits, ALGO);
 
     PINT p;
-    FileSrc fs(Config::nBits, FILE_PATTERN);
+    FileSrc fs(Config::nBits, FILE_PATTERN + Convert::ToString(i));
 
     while (p = fs.Next() ) {
       Console::WriteLine("Function: " + fs.Name);

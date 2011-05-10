@@ -28,18 +28,20 @@ namespace Config
   static void SetTernary()
   {
     PartitionSize=0;
-    Config::Radix = 3;
-    Config::RadixBits = 2;
-    Config::RadixMask = (int)(pow(2.0,RadixBits) - 1);
+    Radix = 3;
+    RadixBits = 2;
+    RadixMask = (int)(pow(2.0,RadixBits) - 1);
+    Synthesizer = "TernaryBasic";
   }
 
 
   static void SetBinary()
   {
     PartitionSize=0;
-    Config::Radix = 2;
-    Config::RadixBits = 1;
-    Config::RadixMask = (int)(pow(2.0,RadixBits) - 1);
+    Radix = 2;
+    RadixBits = 1;
+    RadixMask = (int)(pow(2.0,RadixBits) - 1);
+    Synthesizer = "BinaryBasic";
   }
 }
 

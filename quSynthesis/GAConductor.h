@@ -54,6 +54,9 @@ namespace QuLogic
 
       int iteration = 0;
       while(NextGAParam()) {
+        CStopWatch s;
+        s.startTimer();
+        
         m_BestFit = MAXLONG;
         //Directory::CreateDirectory( String::Format("..\\..\\SaveData\\{0}-bits", m_nBits));
         //file = gcnew StreamWriter(String::Format("..\\..\\SaveData\\{0}-bits\\costs{1}", m_nBits, iteration+1) + ".qsy");
@@ -75,7 +78,8 @@ namespace QuLogic
           }
 
         }
-        PrintResult(++iteration);
+        s.stopTimer();
+        PrintResult(++iteration, s.getElapsedTime());
       }
     }
 
@@ -91,6 +95,9 @@ namespace QuLogic
       for (int i=0; i<N_POP; i++) {
         int qCost = m_pAlgo[i]->m_QuantumCost;
         m_ParentTotalFitness += qCost;
+        if ( (gen % 10) == 0)
+          Console::Write("Gen: {0}, BestCost: {1}\r", gen, m_BestFit);
+
         if (m_BestFit > qCost) {
           m_BestFit = qCost;
           Console::WriteLine("Gen: {0}, BestCost: {1}", gen, m_BestFit);
