@@ -134,17 +134,19 @@ public:
     return nCount;
   }
 
-  void Resize()
+  void inline realloc(PINT &ptr)
   {
     PINT p=new int[m_nBufSize+2048]; 
-    CopyMemory(p, m_pControl, m_nBufSize*sizeof(int));
-    delete m_pControl;
-    m_pControl= p;
+    CopyMemory(p, ptr, m_nBufSize*sizeof(int));
+    delete[] ptr;
+    ptr = p;
+  }
 
-    p=new int[m_nBufSize+2048]; 
-    CopyMemory(p, m_pTarget, m_nBufSize*sizeof(int));
-    delete m_pTarget;
-    m_pTarget= p;
+  void Resize()
+  {
+    realloc(m_pControl);
+    realloc(m_pTarget);
+    realloc(m_pOperation);
 
     m_nBufSize += 2048;
   }

@@ -52,6 +52,9 @@ namespace QuLogic
     {
       InitPopulation();
 
+      // Convert decimal representation to ternary (2-bit) format
+      if(m_AlgoType->Name == "TernaryOrderedSet") TernaryOrderedSet::Prepare(pOut);
+
       int iteration = 0;
       while(NextGAParam()) {
         CStopWatch s;

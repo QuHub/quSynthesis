@@ -5,6 +5,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "quSynthesis", "quSynthesis\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GenerateSequence", "GenerateSequence\GenerateSequence.vcxproj", "{C0175FA3-F1E8-4E88-8130-A468943FE02E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Verify", "Verify\Verify.vcxproj", "{C8A78650-2E4F-4CE8-8C96-B0A64F00BAC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -27,6 +29,14 @@ Global
 		{C0175FA3-F1E8-4E88-8130-A468943FE02E}.Release|Win32.ActiveCfg = Release|Win32
 		{C0175FA3-F1E8-4E88-8130-A468943FE02E}.Release|Win32.Build.0 = Release|Win32
 		{C0175FA3-F1E8-4E88-8130-A468943FE02E}.Release|x64.ActiveCfg = Release|Win32
+		{C0175FA3-F1E8-4E88-8130-A468943FE02E}.Release|x64.Build.0 = Release|Win32
+		{C8A78650-2E4F-4CE8-8C96-B0A64F00BAC9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C8A78650-2E4F-4CE8-8C96-B0A64F00BAC9}.Debug|Win32.Build.0 = Debug|Win32
+		{C8A78650-2E4F-4CE8-8C96-B0A64F00BAC9}.Debug|x64.ActiveCfg = Debug|Win32
+		{C8A78650-2E4F-4CE8-8C96-B0A64F00BAC9}.Release|Win32.ActiveCfg = Release|Win32
+		{C8A78650-2E4F-4CE8-8C96-B0A64F00BAC9}.Release|Win32.Build.0 = Release|Win32
+		{C8A78650-2E4F-4CE8-8C96-B0A64F00BAC9}.Release|x64.ActiveCfg = Release|Win32
+		{C8A78650-2E4F-4CE8-8C96-B0A64F00BAC9}.Release|x64.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

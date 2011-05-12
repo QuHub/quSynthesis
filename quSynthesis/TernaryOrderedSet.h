@@ -47,12 +47,17 @@ namespace QuLogic {
       delete m_pInput;
     }
 
+    static void Prepare(PINT pOut)
+    {
+      int nTerms = (int)pow(Config::Radix, (double)Config::nBits);
+
+      for(int i=0; i<nTerms; i++)
+        pOut[i] = CGlobals::RadixDigits(pOut[i]);
+    }
+
     void Synthesize(PINT pOut) 
     {
       m_pOut = pOut;
-
-      for(int i=0; i<m_nTerms; i++)
-        m_pOut[i] = CGlobals::RadixDigits(m_pOut[i]);
 
       gQueue.Push(this);
     }

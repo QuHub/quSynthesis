@@ -15,14 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="TernaryOrderedSet.h">
-      <Filter>Algorithms</Filter>
-    </ClInclude>
     <ClInclude Include="QuAlgorithm.h">
-      <Filter>Algorithms</Filter>
-    </ClInclude>
-    <ClInclude Include="CoveredSetPartition.h">
       <Filter>Algorithms</Filter>
     </ClInclude>
     <ClInclude Include="GAConductor.h">
@@ -34,13 +27,7 @@
     <ClInclude Include="Hasse.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Miller.h">
-      <Filter>Algorithms</Filter>
-    </ClInclude>
     <ClInclude Include="QuConductor.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Globals.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Queue.h">
@@ -52,15 +39,8 @@
     <ClInclude Include="Thread.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="GaParam.h" />
-    <ClInclude Include="TernaryBasic.h">
-      <Filter>Synthesizers</Filter>
-    </ClInclude>
-    <ClInclude Include="QuSynthesizer.h">
-      <Filter>Synthesizers</Filter>
-    </ClInclude>
     <ClInclude Include="BinaryBasic.h">
-      <Filter>Synthesizers</Filter>
+      <Filter>Binary</Filter>
     </ClInclude>
     <ClInclude Include="Result.h">
       <Filter>Utility</Filter>
@@ -68,8 +48,33 @@
     <ClInclude Include="Rand.h">
       <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Config.h" />
-    <ClInclude Include="StopWatch.h" />
+    <ClInclude Include="TernaryOrderedSet.h">
+      <Filter>Ternary</Filter>
+    </ClInclude>
+    <ClInclude Include="TernaryBasic.h">
+      <Filter>Ternary</Filter>
+    </ClInclude>
+    <ClInclude Include="QuSynthesizer.h">
+      <Filter>Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="CoveredSetPartition.h">
+      <Filter>Binary</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="GaParam.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="StopWatch.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Miller.h">
+      <Filter>Binary</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -90,7 +95,10 @@
     <Filter Include="Core">
       <UniqueIdentifier>{4c1d423a-771e-4650-b6b9-d4465f8f08a2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Synthesizers">
+    <Filter Include="Ternary">
+      <UniqueIdentifier>{5928408b-1040-4853-8e52-e23d5ce29d3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Binary">
       <UniqueIdentifier>{821a2448-03d5-43d5-a3d1-1dfe50d98b61}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

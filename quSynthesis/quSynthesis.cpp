@@ -38,7 +38,7 @@ namespace QuLogic {
 int main(array<System::String ^> ^args)
 {
 
-  for (int i=6; i<=10; i++) {
+  for (int i=6; i<=8; i++) {
     Config::SetTernary();
     Config::nBits = i;
     QuLogic::TotalReset();
