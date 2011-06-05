@@ -9,8 +9,8 @@ namespace QuLogic {
   {
   public:
     QuAlgorithm *my_pAlgo;
-
     CResult(void) { my_pAlgo = NULL; }
+    string m_GAParams;
 
     void SaveResult(QuAlgorithm *algo)
     {
@@ -26,6 +26,9 @@ namespace QuLogic {
     {
 		Directory::CreateDirectory( String::Format("..\\..\\SaveData\\{0}-bits", my_pAlgo->m_nBits));
 		StreamWriter ^file = gcnew StreamWriter(String::Format("..\\..\\SaveData\\{0}-bits\\{1}-iteration", my_pAlgo->m_nBits, iteration) + ".qsy");
+
+    String^ s = gcnew String(m_GAParams.c_str());
+    file->WriteLine("Configuration:  {0}", s);
 	  file->WriteLine("QuantomCost:");
 	  file->WriteLine(System::Convert::ToString(my_pAlgo->m_QuantumCost));
 	  file->WriteLine("Input Data:");

@@ -8,6 +8,8 @@ using namespace System::IO;
 #define CROSS_OVER SinglePointCrossOver
 #define CROSS_OVER2 TwoPointCrossOver
 
+using namespace System::Runtime::InteropServices;
+
 #define RECYCLE(x) if (x) {delete x; x=NULL;}
 #define COPY(dst, src, n) {if(dst) delete dst; dst = new ULONGLONG[n]; CopyMemory(dst, src, n);}
 
@@ -69,6 +71,11 @@ namespace QuLogic
       else
         return false;
 
+       IntPtr p = Marshal::StringToHGlobalAnsi(s);
+       m_GAParams = static_cast<char*>(p.ToPointer());
+        
+       Marshal::FreeHGlobal(p);
+      
       Console::WriteLine("Configuration: {0}", s);
       array<String^>^ list = s->Split(',');
 

@@ -37,7 +37,7 @@ namespace QuLogic {
 int main(array<System::String ^> ^args)
 {
   QuLogic::TotalReset();
-  QuLogic::PartitionSize = 5;
+  QuLogic::PartitionSize = 7;
   if (args->Length > 0) {
     QuLogic::PartitionSize = Convert::ToInt64(args[0]);
   }

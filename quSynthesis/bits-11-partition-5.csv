@@ -1,0 +1,65 @@
+.Partition 5
+.Bits 11
+.Runs 3
+.Gen  300
+PM, PC, CrossOver
+0.3,0.9,Double
+0.4,0.9,Double
+0.5,0.9,Double
+0.6,0.9,Double
+0.7,0.9,Double
+0.3,0.8,Double
+0.4,0.8,Double
+0.5,0.8,Double
+0.6,0.8,Double
+0.7,0.8,Double
+0.3,0.7,Double
+0.4,0.7,Double
+0.5,0.7,Double
+0.6,0.7,Double
+0.7,0.7,Double
+0.3,0.6,Double
+0.4,0.6,Double
+0.5,0.6,Double
+0.6,0.6,Double
+0.7,0.6,Double
+0.3,0.5,Double
+0.4,0.5,Double
+0.5,0.5,Double
+0.6,0.5,Double
+0.7,0.5,Double
+0.3,0.4,Double
+0.4,0.4,Double
+0.5,0.4,Double
+0.6,0.4,Double
+0.7,0.4,Double
+0.3,0.9,Single
+0.4,0.9,Single
+0.5,0.9,Single
+0.6,0.9,Single
+0.7,0.9,Single
+0.3,0.8,Single
+0.4,0.8,Single
+0.5,0.8,Single
+0.6,0.8,Single
+0.7,0.8,Single
+0.3,0.7,Single
+0.4,0.7,Single
+0.5,0.7,Single
+0.6,0.7,Single
+0.7,0.7,Single
+0.3,0.6,Single
+0.4,0.6,Single
+0.5,0.6,Single
+0.6,0.6,Single
+0.7,0.6,Single
+0.3,0.5,Single
+0.4,0.5,Single
+0.5,0.5,Single
+0.6,0.5,Single
+0.7,0.5,Single
+0.3,0.4,Single
+0.4,0.4,Single
+0.5,0.4,Single
+0.6,0.4,Single
+0.7,0.4,Single
