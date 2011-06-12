@@ -21,8 +21,10 @@ using namespace QuLogic;
 //#define ALGO Nouraddin::typeid
 //#define ALGO Miller::typeid
 
-#define ALGO TernaryOrderedSet::typeid
+#define ALGO Ternary::Algorithm::OrderedSet::typeid
 
+// <summary>
+// 
 namespace QuLogic {
   void TotalReset()
   {
@@ -35,10 +37,14 @@ namespace QuLogic {
 }
 
 
-int main(array<System::String ^> ^args)
+// <summary>
+// 
+// <inputs>
+//
+// <outputs>
+int ternary(array<System::String ^> ^args)
 {
-
-  for (int i=6; i<=8; i++) {
+  for (int i=6; i<=10; i++) {
     Config::SetTernary();
     Config::nBits = i;
     QuLogic::TotalReset();
@@ -59,7 +65,11 @@ int main(array<System::String ^> ^args)
   return 0;
 }
 
-
+// <summary>
+// 
+// <inputs>
+//
+// <outputs>
 int binary(array<System::String ^> ^args)
 {
   QuLogic::TotalReset();
@@ -72,7 +82,6 @@ int binary(array<System::String ^> ^args)
 
   GAConductor *algo = new GAConductor(NBITS, ALGO);
 
-
   PINT p;
   FileSrc fs(NBITS, FILE_PATTERN);
 
@@ -84,4 +93,10 @@ int binary(array<System::String ^> ^args)
   delete p;
   delete algo;
   return 0;
+}
+
+
+int main(array<System::String ^> ^args)
+{
+  ternary(args);
 }

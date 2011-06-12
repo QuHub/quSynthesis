@@ -40,12 +40,13 @@ using namespace System::IO;
 extern QuLogic::CQueue gQueue;
 
 // Synthesizers
-#include "TernaryBasic.h"
+#include "Ternary/Synthesizer/Basic.h"
 
 
 // Algorithms go here
+#include "Ternary/algorithm.h"
 #include "CoveredSetPartition.h"
-#include "TernaryOrderedSet.h"
+#include "Ternary/Algorithm/OrderedSet.h"
 
 #include "QuConductor.h"
 #include "GAConductor.h"

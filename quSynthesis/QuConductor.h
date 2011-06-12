@@ -13,12 +13,23 @@ namespace QuLogic {
 
 	public:
 		QuConductor(void){};
+		void virtual Synthesize(PINT pOut){throw "Must implement this";}
 		~QuConductor(){
 				// Now that we're done, kill them all...
-			for (int i=0; i<m_nThreads; i++)
+			for (int i=0; i<m_nThreads; i++) {
 				m_pSynth[i].Stop();
+        ReleaseMutex(m_phMutex[i]);
+      }
 
+      delete [] m_pSynth;
+      delete [] m_phMutex;
 		}
+
+    // <summary>
+    // 
+    // <inputs>
+    //
+    // <outputs>
 		QuConductor(int nBits)
 		{
       m_nBits = nBits;
@@ -40,8 +51,12 @@ namespace QuLogic {
 			}
 		}
 
-		void virtual Synthesize(PINT pOut){throw "Must implement this";}
 
+    // <summary>
+    // 
+    // <inputs>
+    //
+    // <outputs>
 		void WaitForQueue()
 		{
 			Print("Waiting for Queue To Empty");

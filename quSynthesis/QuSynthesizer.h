@@ -1,4 +1,8 @@
 #pragma once
+#define CAPACITY  1024*100
+#define THRESHOLD 1024
+#define DELTA 1024*50
+
 class QuSynthesizer
 {
 public:
@@ -14,9 +18,9 @@ public:
   {
   }
   
-  void Before(int nBits)
+  void Allocate(int nBits)
   {
- 		m_nBufSize = 10*1024;
+ 		m_nBufSize = CAPACITY;
 		m_pTarget = new int[m_nBufSize];
 		m_pControl = new int[m_nBufSize];
 		m_pOperation = new int[m_nBufSize];

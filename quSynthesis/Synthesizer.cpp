@@ -13,9 +13,12 @@ namespace QuLogic {
 		m_hMutex = (HANDLE)arg;
     
     QuSynthesizer *qSyn;
-    if (Config::Synthesizer.compare("TernaryBasic") == 0) qSyn = new TernaryBasic();
+    if (Config::Synthesizer.compare("TernaryBasic") == 0) qSyn = new Ternary::Synthesizer::Basic();
 
 		while(1) {
+      if(m_ThreadCtx.m_hThread == NULL)
+        ExitThread(0);
+
 			// Look for something in the queue and synthesize it
 			Lock();
 			QuAlgorithm *qa = gQueue.Pop();
@@ -29,8 +32,7 @@ namespace QuLogic {
 			PINT pIn =  qa->m_pIn;
 			PINT pOut = qa->m_pOut;
 
-      qSyn->Before(qa->m_nBits);
-      //qa->Dump();
+      qSyn->Allocate(qa->m_nBits);
 
 			for (int i=0; i < qa->m_nTerms; i++)
 				qSyn->Process(*pIn++, *pOut++);
@@ -41,7 +43,6 @@ namespace QuLogic {
 
 			qa->m_QuantumCost = qSyn->QuantumCost();
 			qa->m_nGates = qSyn->m_nGates;
-      //qa->Dump();
 		
 			Release();
 		}

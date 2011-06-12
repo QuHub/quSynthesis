@@ -48,12 +48,6 @@
     <ClInclude Include="Rand.h">
       <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="TernaryOrderedSet.h">
-      <Filter>Ternary</Filter>
-    </ClInclude>
-    <ClInclude Include="TernaryBasic.h">
-      <Filter>Ternary</Filter>
-    </ClInclude>
     <ClInclude Include="QuSynthesizer.h">
       <Filter>Algorithms</Filter>
     </ClInclude>
@@ -75,11 +69,50 @@
     <ClInclude Include="Miller.h">
       <Filter>Binary</Filter>
     </ClInclude>
+    <ClInclude Include="Ternary\Synthesizer\Basic.h">
+      <Filter>Ternary\Synthesizer</Filter>
+    </ClInclude>
+    <ClInclude Include="Ternary\Algorithm\NaturalOrder.h">
+      <Filter>Ternary\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Ternary\Algorithm\OrderedSet.h">
+      <Filter>Ternary\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Ternary\algorithm.h">
+      <Filter>Ternary\Algorithm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
     <None Include="GAParams.csv">
       <Filter>Genetic</Filter>
+    </None>
+    <None Include="..\inputs\Ternary\HWT2.txt">
+      <Filter>Inputs</Filter>
+    </None>
+    <None Include="..\inputs\Ternary\HWT3.txt">
+      <Filter>Inputs</Filter>
+    </None>
+    <None Include="..\inputs\Ternary\HWT4.txt">
+      <Filter>Inputs</Filter>
+    </None>
+    <None Include="..\inputs\Ternary\HWT5.txt">
+      <Filter>Inputs</Filter>
+    </None>
+    <None Include="..\inputs\Ternary\HWT6.txt">
+      <Filter>Inputs</Filter>
+    </None>
+    <None Include="..\inputs\Ternary\HWT7.txt">
+      <Filter>Inputs</Filter>
+    </None>
+    <None Include="..\inputs\Ternary\HWT8.txt">
+      <Filter>Inputs</Filter>
+    </None>
+    <None Include="..\inputs\Ternary\HWT9.txt">
+      <Filter>Inputs</Filter>
+    </None>
+    <None Include="..\inputs\Ternary\HWT10.txt">
+      <Filter>Inputs</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +133,15 @@
     </Filter>
     <Filter Include="Binary">
       <UniqueIdentifier>{821a2448-03d5-43d5-a3d1-1dfe50d98b61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Inputs">
+      <UniqueIdentifier>{0f68a634-75aa-43b9-aeee-fe1fcb1e6918}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ternary\Synthesizer">
+      <UniqueIdentifier>{eb216ab6-735b-466a-868e-481d91e1399c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ternary\Algorithm">
+      <UniqueIdentifier>{e468e961-0fac-4de6-b1f5-aa1408a33dc3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

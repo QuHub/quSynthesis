@@ -6,7 +6,7 @@ namespace QuLogic {
   public:
     static int m_BandSum[256];
     static bool m_fInitialized;
-    
+
     HANDLE m_hPrintMutex;
 
     CGlobals(void)
@@ -34,16 +34,30 @@ namespace QuLogic {
       return nCount;
     }
 
-  static string ToString(int term)
-  {
-    string to_s[] = {"0", "1", "2"};
-    string sTmp;
-    for (int i=0; i<Config::nBits; i++) {
-      sTmp = to_s[(term & 3)] + sTmp;
-      term >>= 2;
+
+    static string ToString(int term)
+    {
+      string to_s[] = {"0", "1", "2"};
+      string sTmp;
+      for (int i=0; i<Config::nBits; i++) {
+        sTmp = to_s[(term & 3)] + sTmp;
+        term >>= 2;
+      }
+      return sTmp;
     }
-    return sTmp;
-  }
+
+    // <summary>
+    //  Converts decimal value into digits in the Radix specified by Config::RadixBits.
+    //  Example:
+    //    2 => 02 (00 10)
+    //    3 => 10 (01 00)
+    //    4 => 11 (01 01)
+    //    5 => 12 (01 10)
+    // <inputs>
+    //   term: in decimal format
+    // <outputs>
+    //   term in Radix format (binary representation).
+    //
     static int RadixDigits(int term)
     {
       int t=0;
@@ -56,6 +70,11 @@ namespace QuLogic {
       return t;
     }
 
+    // <summary>
+    // 
+    // <inputs>
+    //
+    // <outputs>
     static int CGlobals::NonZeroCount(int num)
     {
       int nCount = 0;

@@ -142,6 +142,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="..\inputs\Ternary\HWT10.txt" />
+    <None Include="..\inputs\Ternary\HWT2.txt" />
+    <None Include="..\inputs\Ternary\HWT3.txt" />
+    <None Include="..\inputs\Ternary\HWT4.txt" />
+    <None Include="..\inputs\Ternary\HWT5.txt" />
+    <None Include="..\inputs\Ternary\HWT6.txt" />
+    <None Include="..\inputs\Ternary\HWT7.txt" />
+    <None Include="..\inputs\Ternary\HWT8.txt" />
+    <None Include="..\inputs\Ternary\HWT9.txt" />
     <None Include="GAParams.csv" />
     <None Include="ReadMe.txt" />
   </ItemGroup>
@@ -164,8 +173,10 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StopWatch.h" />
     <ClInclude Include="Synthesizer.h" />
-    <ClInclude Include="TernaryBasic.h" />
-    <ClInclude Include="TernaryOrderedSet.h" />
+    <ClInclude Include="Ternary\algorithm.h" />
+    <ClInclude Include="Ternary\Algorithm\NaturalOrder.h" />
+    <ClInclude Include="Ternary\Algorithm\OrderedSet.h" />
+    <ClInclude Include="Ternary\Synthesizer\Basic.h" />
     <ClInclude Include="Thread.h" />
   </ItemGroup>
   <ItemGroup>
