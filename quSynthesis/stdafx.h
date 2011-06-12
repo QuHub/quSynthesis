@@ -47,6 +47,7 @@ extern QuLogic::CQueue gQueue;
 #include "Ternary/algorithm.h"
 #include "CoveredSetPartition.h"
 #include "Ternary/Algorithm/OrderedSet.h"
+#include "Ternary/Algorithm/NaturalOrder.h"
 
 #include "QuConductor.h"
 #include "GAConductor.h"

@@ -16,12 +16,13 @@ namespace QuLogic
     int m_nTerms;
 
     double m_ParentTotalFitness;
-    gcroot<Type^> m_AlgoType;
 
     FILE * pFile;
 
-  public:
+  private:
     QuAlgorithm *m_pAlgo[N_POP*2];
+
+  public:
 
     // <summary>
     // 

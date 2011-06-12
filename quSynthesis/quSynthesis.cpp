@@ -21,7 +21,16 @@ using namespace QuLogic;
 //#define ALGO Nouraddin::typeid
 //#define ALGO Miller::typeid
 
-#define ALGO Ternary::Algorithm::OrderedSet::typeid
+#define TERNARY
+#define NATURAL
+
+#if defined(TERNARY) && defined(GA)
+#  define ALGO Ternary::Algorithm::OrderedSet::typeid
+#  define CONDUCTOR QuConductor
+#elif defined(TERNARY) && defined(NATURAL)
+#  define ALGO Ternary::Algorithm::NaturalOrder::typeid
+#  define CONDUCTOR QuConductor
+#endif
 
 // <summary>
 // 
@@ -49,7 +58,7 @@ int ternary(array<System::String ^> ^args)
     Config::nBits = i;
     QuLogic::TotalReset();
     
-    GAConductor *algo = new GAConductor(Config::nBits, ALGO);
+    CONDUCTOR *algo = new CONDUCTOR(Config::nBits, ALGO);
 
     PINT p;
     FileSrc fs(Config::nBits, FILE_PATTERN + Convert::ToString(i));
