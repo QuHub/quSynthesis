@@ -87,32 +87,33 @@
     <None Include="GAParams.csv">
       <Filter>Genetic</Filter>
     </None>
-    <None Include="..\inputs\Ternary\HWT2.txt">
-      <Filter>Inputs</Filter>
-    </None>
-    <None Include="..\inputs\Ternary\HWT3.txt">
-      <Filter>Inputs</Filter>
-    </None>
-    <None Include="..\inputs\Ternary\HWT4.txt">
-      <Filter>Inputs</Filter>
-    </None>
-    <None Include="..\inputs\Ternary\HWT5.txt">
-      <Filter>Inputs</Filter>
-    </None>
-    <None Include="..\inputs\Ternary\HWT6.txt">
-      <Filter>Inputs</Filter>
-    </None>
-    <None Include="..\inputs\Ternary\HWT7.txt">
-      <Filter>Inputs</Filter>
-    </None>
-    <None Include="..\inputs\Ternary\HWT8.txt">
-      <Filter>Inputs</Filter>
+    <None Include="config.csv" />
+    <None Include="..\inputs\Ternary\HWT10.txt">
+      <Filter>Inputs\Ternary</Filter>
     </None>
     <None Include="..\inputs\Ternary\HWT9.txt">
-      <Filter>Inputs</Filter>
+      <Filter>Inputs\Ternary</Filter>
     </None>
-    <None Include="..\inputs\Ternary\HWT10.txt">
-      <Filter>Inputs</Filter>
+    <None Include="..\inputs\Ternary\HWT2.txt">
+      <Filter>Inputs\Ternary</Filter>
+    </None>
+    <None Include="..\inputs\Ternary\HWT3.txt">
+      <Filter>Inputs\Ternary</Filter>
+    </None>
+    <None Include="..\inputs\Ternary\HWT4.txt">
+      <Filter>Inputs\Ternary</Filter>
+    </None>
+    <None Include="..\inputs\Ternary\HWT5.txt">
+      <Filter>Inputs\Ternary</Filter>
+    </None>
+    <None Include="..\inputs\Ternary\HWT6.txt">
+      <Filter>Inputs\Ternary</Filter>
+    </None>
+    <None Include="..\inputs\Ternary\HWT7.txt">
+      <Filter>Inputs\Ternary</Filter>
+    </None>
+    <None Include="..\inputs\Ternary\HWT8.txt">
+      <Filter>Inputs\Ternary</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +143,9 @@
     </Filter>
     <Filter Include="Ternary\Algorithm">
       <UniqueIdentifier>{e468e961-0fac-4de6-b1f5-aa1408a33dc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Inputs\Ternary">
+      <UniqueIdentifier>{c806f808-c9fb-4941-91e4-c01398229e2a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -15,4 +15,5 @@ bool QuLogic::CHasse::m_fInitialized;
 bool QuLogic::CGlobals::m_fInitialized;
 int QuLogic::CGlobals::m_BandSum[];
 vector<int> *QuLogic::CHasse::m_pBands;
+gcroot<String^> QuLogic::CGlobals::date;
 

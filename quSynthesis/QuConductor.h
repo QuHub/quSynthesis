@@ -39,7 +39,7 @@ namespace QuLogic {
       Sleep(1000);
       delete [] m_pSynth;
       delete [] m_phMutex;
-      delete m_pAlgo[0];
+      if(m_pAlgo[0]) delete m_pAlgo[0];
      }
 
     // <summary>
@@ -49,7 +49,7 @@ namespace QuLogic {
     // <outputs>
 		QuConductor(int nBits)
 		{
-
+      m_pAlgo[0] = NULL;
       Setup(nBits);
     }
 
@@ -77,11 +77,16 @@ namespace QuLogic {
 
     void virtual Synthesize(PINT pOut)
     {
+		  CStopWatch s;
+		  s.startTimer();
+
       m_pAlgo[0]->Synthesize(pOut);
+      s.stopTimer();
 
       WaitForQueue();
       Console::Write("BestCost: {0}\n", m_pAlgo[0]->m_QuantumCost);
       SaveResult(m_pAlgo[0]);
+	    PrintResult(0, s.getElapsedTime());
     }
 
 

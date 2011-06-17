@@ -1,11 +1,13 @@
 #pragma once
 
 namespace QuLogic {
+
   class CGlobals 
   {
   public:
     static int m_BandSum[256];
     static bool m_fInitialized;
+    static gcroot<String^> date;
 
     HANDLE m_hPrintMutex;
 

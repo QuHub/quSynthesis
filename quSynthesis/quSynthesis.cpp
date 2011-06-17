@@ -22,11 +22,12 @@ using namespace QuLogic;
 //#define ALGO Miller::typeid
 
 #define TERNARY
-#define NATURAL
+//#define NATURAL
+#define GA
 
 #if defined(TERNARY) && defined(GA)
 #  define ALGO Ternary::Algorithm::OrderedSet::typeid
-#  define CONDUCTOR QuConductor
+#  define CONDUCTOR GAConductor
 #elif defined(TERNARY) && defined(NATURAL)
 #  define ALGO Ternary::Algorithm::NaturalOrder::typeid
 #  define CONDUCTOR QuConductor
@@ -41,6 +42,7 @@ namespace QuLogic {
     BandBoundary=NULL;
     CHasse::m_fInitialized = false;
     CGlobals::m_fInitialized = false;
+    CGlobals::date = DateTime::Now.ToString("yyyyMMdd hhmm");
     if(CHasse::m_pBands) CHasse::m_pBands->clear();
   }
 }

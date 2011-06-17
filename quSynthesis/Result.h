@@ -1,11 +1,15 @@
 #pragma once
 #pragma managed
+#include <msclr\marshal.h>
 
 using namespace System;
 using namespace System::IO;
+using namespace msclr::interop;
+
 #define RECYCLE(x) if (x) {delete x; x=NULL;}
 #define COPY(dst, src, n) {if(dst) delete dst; dst = new int[n]; CopyMemory(dst, src, n);}
 namespace QuLogic {
+  
   class CResult
   {
   public:
@@ -22,11 +26,11 @@ namespace QuLogic {
 
     void PrintResult(int iteration, double Time)
     {
-      Directory::CreateDirectory( String::Format("..\\SaveData\\{0}-bits", my_pAlgo->m_nBits));
-      StreamWriter ^file = gcnew StreamWriter(String::Format("..\\SaveData\\{0}-bits\\{1}-iteration", my_pAlgo->m_nBits, iteration) + ".qsy");
+      Directory::CreateDirectory( String::Format("..\\SaveData\\{0}-bits\\{1}", my_pAlgo->m_nBits, CGlobals::date));
+	    StreamWriter ^file = gcnew StreamWriter(String::Format("..\\SaveData\\{0}-bits\\{1}\\{2}-iteration.qsy", my_pAlgo->m_nBits, CGlobals::date, iteration) );
 
       file->WriteLine("Bit Count: {0}", my_pAlgo->m_nBits);
-      file->WriteLine("QuantomCost: {0}  Seconds: {1}", my_pAlgo->m_QuantumCost, Time);
+      file->WriteLine("QuantumCost: {0}  Seconds: {1}", my_pAlgo->m_QuantumCost, Time);
       
       file->WriteLine("Input Data:");
       for(int i=0;i<Math::Pow(Config::Radix,(double)my_pAlgo->m_nBits); i++)

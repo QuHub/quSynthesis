@@ -151,6 +151,7 @@
     <None Include="..\inputs\Ternary\HWT7.txt" />
     <None Include="..\inputs\Ternary\HWT8.txt" />
     <None Include="..\inputs\Ternary\HWT9.txt" />
+    <None Include="config.csv" />
     <None Include="GAParams.csv" />
     <None Include="ReadMe.txt" />
   </ItemGroup>
