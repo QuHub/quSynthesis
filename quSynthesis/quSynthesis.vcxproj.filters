@@ -148,4 +148,9 @@
       <UniqueIdentifier>{c806f808-c9fb-4941-91e4-c01398229e2a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="basic.cu">
+      <Filter>Ternary\Synthesizer</Filter>
+    </CudaCompile>
+  </ItemGroup>
 </Project>

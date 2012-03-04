@@ -5,6 +5,7 @@
 #include "FileSrc.h"
 #include "QuAlgorithm.h"
 #include "Miller.h"
+#include "CudaTernary.h"
 
 HANDLE *gphMutex;    // Set of mutex objects to indicate when a Synthesizer finishes synthesis.
 
@@ -107,7 +108,13 @@ int binary(array<System::String ^> ^args)
 }
 
 
+int call_me();
 int main(array<System::String ^> ^args)
 {
-  ternary(args);
+  INT _in[100];
+  INT _out[100];
+  Ternary::Cuda::Synthesizer *algo = new Ternary::Cuda::Synthesizer(NBITS);
+  algo->AddSequence((PINT)&_in, (PINT)&_out);
+  algo->Synthesize();
+	call_me();
 }

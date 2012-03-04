@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Verify", "Verify\Verify.vcx
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Summerize", "Summerize\Summerize.csproj", "{C129495C-1E96-4D45-9B7B-D483035CE2A0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CudaTernaryBasic", "quSynthesis\Synthesizers\Ternary\Cuda\TernaryBasic.vcxproj", "{04FD3F6F-E65A-4608-B043-378C235B19EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -73,6 +75,20 @@ Global
 		{C129495C-1E96-4D45-9B7B-D483035CE2A0}.Release|x64.ActiveCfg = Release|x86
 		{C129495C-1E96-4D45-9B7B-D483035CE2A0}.Release|x86.ActiveCfg = Release|x86
 		{C129495C-1E96-4D45-9B7B-D483035CE2A0}.Release|x86.Build.0 = Release|x86
+		{04FD3F6F-E65A-4608-B043-378C235B19EE}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
+		{04FD3F6F-E65A-4608-B043-378C235B19EE}.Debug|Mixed Platforms.Build.0 = Debug|x64
+		{04FD3F6F-E65A-4608-B043-378C235B19EE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{04FD3F6F-E65A-4608-B043-378C235B19EE}.Debug|Win32.Build.0 = Debug|Win32
+		{04FD3F6F-E65A-4608-B043-378C235B19EE}.Debug|x64.ActiveCfg = Debug|x64
+		{04FD3F6F-E65A-4608-B043-378C235B19EE}.Debug|x64.Build.0 = Debug|x64
+		{04FD3F6F-E65A-4608-B043-378C235B19EE}.Debug|x86.ActiveCfg = Debug|x64
+		{04FD3F6F-E65A-4608-B043-378C235B19EE}.Release|Mixed Platforms.ActiveCfg = Release|x64
+		{04FD3F6F-E65A-4608-B043-378C235B19EE}.Release|Mixed Platforms.Build.0 = Release|x64
+		{04FD3F6F-E65A-4608-B043-378C235B19EE}.Release|Win32.ActiveCfg = Release|Win32
+		{04FD3F6F-E65A-4608-B043-378C235B19EE}.Release|Win32.Build.0 = Release|Win32
+		{04FD3F6F-E65A-4608-B043-378C235B19EE}.Release|x64.ActiveCfg = Release|x64
+		{04FD3F6F-E65A-4608-B043-378C235B19EE}.Release|x64.Build.0 = Release|x64
+		{04FD3F6F-E65A-4608-B043-378C235B19EE}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

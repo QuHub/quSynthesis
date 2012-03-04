@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "Synthesizer.h"
+#include ".\Synthesizer.h"
 #include <math.h>
 using namespace System;
 

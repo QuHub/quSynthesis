@@ -71,6 +71,11 @@ namespace Ternary {
         gQueue.Push(this);
       }
 
+	  void Run()
+	  {
+
+
+	  }
 
       //******************* GA Operators (CrossOver and Mutation) *************************
       // <summary>

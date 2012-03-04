@@ -9,7 +9,7 @@
 
 namespace QuLogic 
 {
-  class GAConductor: public QuConductor, public GAParam {
+class GAConductor: public QuConductor, public GAParam {
 
   private:
     int m_BestFit;
@@ -57,8 +57,6 @@ namespace QuLogic
       // Setup population of individuals randomly
       for (int i=0; i<N_POP; i++) {
         // STEP(2): Add your new algorithm here...
-        if(m_AlgoType->Name == "CoveredSetPartition") m_pAlgo[i] = new CoveredSetPartition(m_nBits);
-        if(m_AlgoType->Name == "OrderedSet") m_pAlgo[i] = new Ternary::Algorithm::OrderedSet(m_nBits);
       }
     }
 
