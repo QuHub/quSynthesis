@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClInclude Include="..\CoreSequence.h" />
     <ClInclude Include="..\CoreSynthesizer.h" />
+    <ClInclude Include="CudaSequence.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="CudaTernary.h" />

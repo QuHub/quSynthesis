@@ -5,7 +5,10 @@
 #include "device_launch_parameters.h"
 
 #include "CudaTernary.h"
+#include "CudaSequence.h"
+
 void SynthesizeKernel(const int *inp, const int *outp, int *target, int *control, int *operation, int size);
+void SynthesizeKernel(CudaSequence &seq);
 
 using namespace std;
 
@@ -21,41 +24,23 @@ namespace Ternary {
 
     void Synthesizer::Synthesize()
     {
-      // Allocate CUDA memory for input vectors
-      int *pcuIn, *pcuOut, *pcuControl, *pcuTarget, *pcuOperation;
 
-      m_nTerms = 10;
-      int vectorSize = m_nTerms * sizeof(PINT);
+      CudaSequence seq;
+      seq.m_pIn = m_pIn;
+      seq.m_pOut = m_pOut;
+      seq.m_nVectorSizeBytes =  m_nTerms * sizeof(INT);
+      seq.m_nSequences = m_sequences.size();
 
-      cudaMalloc( (void**)&pcuIn, vectorSize);
-      cudaMalloc( (void**)&pcuOut, vectorSize);
-      cudaMalloc( (void**)&pcuTarget, m_outputBlockSize);
-      cudaMalloc( (void**)&pcuOperation, m_outputBlockSize);
-      cudaMalloc( (void**)&pcuControl, m_outputBlockSize);
-
+      // Allocate memory for input and output for all sequences, each with m_nTerms
       m_pIn = new INT[m_nTerms * m_sequences.size()];
       m_pOut = new INT[m_nTerms * m_sequences.size()];
 
       // Copy input and output buffers to device
       for(int i=0; i<m_sequences.size(); i++) {
-        CopyMemory(&m_pIn[i*m_nTerms],  m_sequences[i]->m_pIn, vectorSize);
-        CopyMemory(&m_pOut[i*m_nTerms], m_sequences[i]->m_pOut, vectorSize);
+        CopyMemory(&m_pIn[i*m_nTerms],  m_sequences[i]->m_pIn, seq.m_nVectorSizeBytes);
+        CopyMemory(&m_pOut[i*m_nTerms], m_sequences[i]->m_pOut, seq.m_nVectorSizeBytes);
       }
-
-      cudaMemcpy(pcuIn, m_pIn, vectorSize, cudaMemcpyHostToDevice);
-      cudaMemcpy(pcuOut, m_pOut, vectorSize, cudaMemcpyHostToDevice);
-
-      SynthesizeKernel(pcuIn, pcuOut, pcuTarget, pcuControl, pcuOperation, 500);
-
-      int *target = new int[500];
-      cudaMemcpy(target, pcuTarget, 500*4, cudaMemcpyDeviceToHost);
-
-      // Copy results to local buffer 
-      cudaFree(pcuIn);
-      cudaFree(pcuOut);
-      cudaFree(pcuTarget);
-      cudaFree(pcuOperation);
-      cudaFree(pcuControl);
+      SynthesizeKernel(seq);
     }
   }
 }
