@@ -25,10 +25,6 @@ namespace Ternary {
 
     void Synthesizer::Synthesize()
     {
-
-      PrintIt();
-      return ;
-
       m_seq.m_nVectorSizeBytes =  m_nTerms * sizeof(INT);
       m_seq.m_nSequences = m_sequences.size();
 
@@ -47,11 +43,11 @@ namespace Ternary {
       }
       SynthesizeKernel(m_seq);
 
-      for(int i=0; i<m_sequences.size(); i++) {
-        CopyMemory(m_sequences[i]->m_pControl, &m_seq.m_pControl[i*m_seq.m_outputBlockSize],  m_seq.m_outputBlockSize);
-        CopyMemory(m_sequences[i]->m_pTarget, &m_seq.m_pTarget[i*m_seq.m_outputBlockSize],  m_seq.m_outputBlockSize);
-        CopyMemory(m_sequences[i]->m_pOperation, &m_seq.m_pOperation[i*m_seq.m_outputBlockSize],  m_seq.m_outputBlockSize);
-      }
+      //for(int i=0; i<m_sequences.size(); i++) {
+      //  CopyMemory(m_sequences[i]->m_pControl, &m_seq.m_pControl[i*m_seq.m_outputBlockSize],  m_seq.m_outputBlockSize);
+      //  CopyMemory(m_sequences[i]->m_pTarget, &m_seq.m_pTarget[i*m_seq.m_outputBlockSize],  m_seq.m_outputBlockSize);
+      //  CopyMemory(m_sequences[i]->m_pOperation, &m_seq.m_pOperation[i*m_seq.m_outputBlockSize],  m_seq.m_outputBlockSize);
+      //}
     }
   }
 }

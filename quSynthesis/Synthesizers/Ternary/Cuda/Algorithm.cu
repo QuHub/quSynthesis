@@ -28,25 +28,36 @@ int gOpMap[3][3] =
 // Bitmask two bits at a time for ternary operations.
 int gBitMask[] = {3, 3<<2, 3<<4, 3<<6, 3<<8, 3<<10, 3<<12, 3<<14, 3<<16}; 
 
-__device__ int gcuBitMask[sizeof(gBitMask)];
-__device__ int gcuOpMap[3][3];
-__device__ int gcuTernaryOps[5][3];
+__device__ int *gcuBitMask;
+__device__ int *gcuOpMap;
+__device__ int *gcuTernaryOps;
 
 __device__ void Process(int inTerm, int outTerm, int nBits, PINT gBitMask, PINT pTarget, PINT pControl, PINT pOperation);
 
-__global__ void cuSynthesizeKernel(CudaSequence *seq)
+void cudasafe( cudaError_t error, char* file, int line)
 {
-  int index = blockIdx.x * seq->m_outputBlockSize;
-  printf("nTems: %d", seq->m_nTerms);
+  error = cudaGetLastError();
+   if(error!=cudaSuccess) { 
+     fprintf(stderr,"ERROR: File: %s(%d) : %s(%i)\n",file, line, cudaGetErrorString(error), error);  
+   }
+}
 
-  for(int i=0; i<seq->m_nTerms; i++) {
-    Process(seq->m_cuIn[index+i], 
-            seq->m_cuOut[index+i], 
-            seq->m_nBits,
-            &seq->m_cuGates[index],
-            &seq->m_cuTarget[index], 
-            &seq->m_cuControl[index],
-            &seq->m_cuOperation[index]
+#define CS(x) cudasafe(x, __FILE__, __LINE__)
+
+__global__ void cuSynthesizeKernel(CudaSequence *data)
+{
+  CudaSequence seq = data[0];
+  int index = blockIdx.x * seq.m_outputBlockSize;
+  printf("nTerms: %d", seq.m_nTerms);
+
+  for(int i=0; i<seq.m_nTerms; i++) {
+    Process(seq.m_cuIn[index+i], 
+            seq.m_cuOut[index+i], 
+            seq.m_nBits,
+            &seq.m_cuGates[index],
+            &seq.m_cuTarget[index], 
+            &seq.m_cuControl[index],
+            &seq.m_cuOperation[index]
     );
   }
 
@@ -68,20 +79,20 @@ __device__ void Process(int inTerm, int outTerm, int nBits, PINT pnGates, PINT p
   outTerm = Propagate(outTerm);
 
   // Process low to high transitions 
-  for(int dir=1; dir>-2; dir-=2) {
-    for (int i=0; i < nBits; i++) {
-      // Isloate bit (i) for processing
-      int inBit  = (gcuBitMask[i] & inTerm);        // must be defined as signed int
-      int outBit = (gcuBitMask[i] & outTerm);
+  //for(int dir=1; dir>-2; dir-=2) {
+  //  for (int i=0; i < nBits; i++) {
+  //    // Isloate bit (i) for processing
+  //    int inBit  = (gcuBitMask[i] & inTerm);        // must be defined as signed int
+  //    int outBit = (gcuBitMask[i] & outTerm);
 
-      if ( dir * (inBit - outBit) > 0) {         // Difference? Yes!
-        pTarget   [*pnGates] = i;                           // Save index of target bits
-        pControl  [*pnGates] = ~gcuBitMask[i] & outTerm;      // For now, it is everything except target bits is a control bit
-        pOperation[*pnGates++] = gcuOpMap[BIT(inTerm,i)][BIT(outTerm,i)];  // Find the appropriate operation. 
-        outTerm = (~gcuBitMask[i] & outTerm) | (gcuBitMask[i] & inTerm);
-      }
-    }
-  }
+  //    if ( dir * (inBit - outBit) > 0) {         // Difference? Yes!
+  //      pTarget   [*pnGates] = i;                           // Save index of target bits
+  //      pControl  [*pnGates] = ~gcuBitMask[i] & outTerm;      // For now, it is everything except target bits is a control bit
+  //      pOperation[*pnGates++] = gcuOpMap[BIT(inTerm,i)][BIT(outTerm,i)];  // Find the appropriate operation. 
+  //      outTerm = (~gcuBitMask[i] & outTerm) | (gcuBitMask[i] & inTerm);
+  //    }
+  //  }
+  //}
 }
 
 
@@ -93,9 +104,12 @@ __device__ int Propagate(int outTerm)
 
 void InitializeConstants()
 {
-  cudaMemcpy(gcuBitMask, gBitMask, sizeof(gBitMask), cudaMemcpyHostToDevice);
-  cudaMemcpy(gcuTernaryOps, gTernaryOps, sizeof(gTernaryOps), cudaMemcpyHostToDevice);
-  cudaMemcpy(gcuOpMap, gOpMap, sizeof(gOpMap), cudaMemcpyHostToDevice);
+  CS( cudaMalloc((void**)&gcuBitMask, sizeof(gBitMask)) );
+  CS( cudaMalloc((void**)&gcuTernaryOps, sizeof(gTernaryOps)) );
+  CS( cudaMalloc((void**)&gcuOpMap, sizeof(gOpMap)) );
+  CS( cudaMemcpy(gcuBitMask, gBitMask, sizeof(gBitMask), cudaMemcpyHostToDevice) );
+  CS( cudaMemcpy(gcuTernaryOps, gTernaryOps, sizeof(gTernaryOps), cudaMemcpyHostToDevice) );
+  CS( cudaMemcpy(gcuOpMap, gOpMap, sizeof(gOpMap), cudaMemcpyHostToDevice) );
 }
 
 
@@ -108,31 +122,39 @@ __global__ void cuPrintIt()
 
 void PrintIt()
 {
-  // This is essential for Parallel Nsight debugging, since GPU1 is used to debug the
-  // code, while GPU0 is used for the display.
-  cudaSetDevice(1);  
 
   cuPrintIt<<<1024,1>>>();
   cudaDeviceReset();
 }
 
+
 void SynthesizeKernel(CudaSequence &seq)
 {
   int bufferSizeBytes = seq.m_nVectorSizeBytes * seq.m_nSequences;
+  CudaSequence *pcuSeq;
 
   InitializeConstants();
-  cudaMalloc( (void**)&seq.m_cuIn, bufferSizeBytes);
-  cudaMalloc( (void**)&seq.m_cuOut, bufferSizeBytes);
-  cudaMalloc( (void**)&seq.m_cuTarget, seq.m_outputBlockSize);
-  cudaMalloc( (void**)&seq.m_cuOperation, seq.m_outputBlockSize);
-  cudaMalloc( (void**)&seq.m_cuControl, seq.m_outputBlockSize);
-  cudaMalloc( (void**)&seq.m_pnGates, seq.m_nSequences * sizeof(INT));
+
+  // This is essential for Parallel Nsight debugging, since GPU1 is used to debug the
+  // code, while GPU0 is used for the display.
+  cudaSetDevice(1);  
+
+  int *ptr;
+  CS( cudaMalloc( (void**)&ptr, bufferSizeBytes) );
+  CS( cudaMalloc( (void**)&seq.m_cuIn, bufferSizeBytes) );
+  CS( cudaMalloc( (void**)&seq.m_cuOut, bufferSizeBytes) );
+  CS( cudaMalloc( (void**)&seq.m_cuTarget, seq.m_outputBlockSize) );
+  CS( cudaMalloc( (void**)&seq.m_cuOperation, seq.m_outputBlockSize) );
+  CS( cudaMalloc( (void**)&seq.m_cuControl, seq.m_outputBlockSize) );
+  CS( cudaMalloc( (void**)&seq.m_pnGates, seq.m_nSequences * sizeof(INT)) );
+  CS( cudaMalloc( (void**)&pcuSeq, sizeof(CudaSequence)) );
 
   // Copy memory block to CUDA device
-  cudaMemcpy(seq.m_cuIn, seq.m_pIn, bufferSizeBytes, cudaMemcpyHostToDevice);
-  cudaMemcpy(seq.m_cuOut, seq.m_pOut, bufferSizeBytes, cudaMemcpyHostToDevice);
+  CS( cudaMemcpy(seq.m_cuIn, seq.m_pIn, bufferSizeBytes, cudaMemcpyHostToDevice) );
+  CS( cudaMemcpy(seq.m_cuOut, seq.m_pOut, bufferSizeBytes, cudaMemcpyHostToDevice) );
+  CS( cudaMemcpy(pcuSeq, &seq, sizeof(seq), cudaMemcpyHostToDevice) );
 
-  cuSynthesizeKernel<<<1024, 1>>>(&seq);
+  cuSynthesizeKernel<<<1, 1>>>(pcuSeq);
   
   //// make the host block until the device is finished with foo
   //cudaThreadSynchronize();
@@ -142,7 +164,7 @@ void SynthesizeKernel(CudaSequence &seq)
   if(error != cudaSuccess)
   {
     // print the CUDA error message and exit
-    printf("CUDA error: %s\n", cudaGetErrorString(error));
+    printf("My CUDA error: %s\n", cudaGetErrorString(error));
   }
 
   cudaMemcpy(seq.m_pTarget, seq.m_cuTarget, seq.m_outputBlockSize, cudaMemcpyDeviceToHost);
