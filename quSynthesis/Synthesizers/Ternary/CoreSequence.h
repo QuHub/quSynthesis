@@ -7,14 +7,15 @@ namespace Ternary {
     INT  m_nBits;
     PINT m_pControl;
     PINT m_pTarget;
-    PINT m_pGates;
+    PINT m_pOperation;
     INT  m_nGates;
 
   public:
-    CoreSequence(PINT pInt, PINT pOut, INT nBits)
+    CoreSequence(PINT pIn, PINT pOut, INT nBits)
     {
-      m_pIn = new INT[100];
-      m_pOut = new INT[100];
+      m_pIn = pIn;
+      m_pOut = pOut;
+      m_nBits = nBits;
     }
   };
 }

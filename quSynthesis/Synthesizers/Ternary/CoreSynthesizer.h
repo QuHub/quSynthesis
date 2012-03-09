@@ -1,5 +1,6 @@
 #include <vector>
 #include "CoreSequence.h"
+#include "CudaSequence.h"
 
 #pragma once
 using namespace std;
@@ -48,6 +49,7 @@ const int gBitMask[] = {3, 3<<2, 3<<4, 3<<6, 3<<8, 3<<10, 3<<12, 3<<14, 3<<16};
     PINT m_pControl;
     PINT m_pOperation;
     int  m_outputBlockSize;
+    CudaSequence m_seq;
 
 //    gcroot<Type^> m_SynthesisAlgo;
     
@@ -60,6 +62,8 @@ const int gBitMask[] = {3, 3<<2, 3<<4, 3<<6, 3<<8, 3<<10, 3<<12, 3<<14, 3<<16};
       m_nTerms = (int)pow(Radix,(double)nBits);
       m_nGates = 0;
       m_pTarget = m_pControl = m_pOperation = NULL;
+      m_seq.m_outputBlockSize = 200 * 1024 * sizeof(int);
+      m_seq.m_nTerms = m_nTerms;
     }
 
 

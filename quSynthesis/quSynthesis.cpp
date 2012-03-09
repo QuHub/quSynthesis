@@ -116,5 +116,4 @@ int main(array<System::String ^> ^args)
   Ternary::Cuda::Synthesizer *algo = new Ternary::Cuda::Synthesizer(NBITS);
   algo->AddSequence((PINT)&_in, (PINT)&_out);
   algo->Synthesize();
-	call_me();
 }
