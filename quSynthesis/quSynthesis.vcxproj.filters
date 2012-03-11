@@ -81,6 +81,12 @@
     <ClInclude Include="Ternary\algorithm.h">
       <Filter>Ternary\Algorithm</Filter>
     </ClInclude>
+    <ClInclude Include="Conductors\Core.h">
+      <Filter>Conductors</Filter>
+    </ClInclude>
+    <ClInclude Include="Conductors\Ternary\GeneticAlgorithm.h">
+      <Filter>Conductors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -146,6 +152,9 @@
     </Filter>
     <Filter Include="Inputs\Ternary">
       <UniqueIdentifier>{c806f808-c9fb-4941-91e4-c01398229e2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Conductors">
+      <UniqueIdentifier>{f2a6ae41-f8f5-4821-b461-85fe0193a197}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

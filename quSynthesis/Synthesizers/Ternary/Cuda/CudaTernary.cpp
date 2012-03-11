@@ -30,6 +30,8 @@ namespace Ternary {
 
       // Allocate memory for input and output for all m_sequences, each with m_nTerms
       int size = m_sequences.size();
+      m_seq.m_nBits = m_nBits;
+
       m_seq.m_pIn = new INT[m_nTerms * m_sequences.size()];
       m_seq.m_pOut = new INT[m_nTerms * m_sequences.size()];
       m_seq.m_pTarget = new INT[m_seq.m_outputBlockSize];

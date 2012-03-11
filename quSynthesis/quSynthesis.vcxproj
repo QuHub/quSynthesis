@@ -103,7 +103,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions), _SCL_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
-      <AdditionalIncludeDirectories>C:\src\quSynthesis\quSynthesis\Synthesizers\Ternary\Cuda;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\src\quSynthesis\quSynthesis\Synthesizers\Ternary;C:\src\quSynthesis\quSynthesis\Synthesizers\Ternary\Cuda;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -171,6 +171,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryBasic.h" />
+    <ClInclude Include="Conductors\Core.h" />
+    <ClInclude Include="Conductors\Ternary\GeneticAlgorithm.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="CoveredSetPartition.h" />
     <ClInclude Include="FileSrc.h" />

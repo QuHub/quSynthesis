@@ -50,6 +50,9 @@
     <None Include="app.ico">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="cuda_debug.h">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc">
@@ -58,6 +61,12 @@
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="Algorithm.cu">
+      <Filter>Source Files</Filter>
+    </CudaCompile>
+    <CudaCompile Include="SetupKernel.cu">
+      <Filter>Source Files</Filter>
+    </CudaCompile>
+    <CudaCompile Include="cuda_debug.cpp">
       <Filter>Source Files</Filter>
     </CudaCompile>
   </ItemGroup>

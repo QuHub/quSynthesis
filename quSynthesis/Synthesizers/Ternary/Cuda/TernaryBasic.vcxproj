@@ -158,10 +158,13 @@
     <ClCompile Include="CudaTernary.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <CudaCompile Include="cuda_debug.cpp" />
+    <CudaCompile Include="SetupKernel.cu" />
     <None Include="app.ico" />
     <CudaCompile Include="Algorithm.cu">
       <FileType>Document</FileType>
     </CudaCompile>
+    <None Include="cuda_debug.h" />
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>

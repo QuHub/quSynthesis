@@ -22,6 +22,18 @@ using namespace QuLogic;
 //#define ALGO Nouraddin::typeid
 //#define ALGO Miller::typeid
 
+enum Conductors
+{
+  GeneticAlgoirthm,
+  Random
+};
+
+enum Architecutre
+{
+  CudaTernary,
+  IntelTernary
+};
+
 #define TERNARY
 //#define NATURAL
 #define GA
@@ -77,6 +89,14 @@ int ternary(array<System::String ^> ^args)
   return 0;
 }
 
+int doit()
+{
+
+  Ternary::Cuda::Synthesizer *algo = new Ternary::Cuda::Synthesizer(NBITS);
+  Conductor::Core qConductor = new Conductor::GeneticAlgoirthm(algo);
+
+
+}
 // <summary>
 // 
 // <inputs>
@@ -108,11 +128,15 @@ int binary(array<System::String ^> ^args)
 }
 
 
-int call_me();
 int main(array<System::String ^> ^args)
 {
   INT _in[100];
   INT _out[100];
+
+  for (int i=0; i<100; i++) {
+    _in[i] = i;
+    _out[i] = 100-i;
+  }
   Ternary::Cuda::Synthesizer *algo = new Ternary::Cuda::Synthesizer(NBITS);
   algo->AddSequence((PINT)&_in, (PINT)&_out);
   algo->Synthesize();

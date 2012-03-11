@@ -5,7 +5,7 @@
 #undef M
 #define M Config::PartitionSize
 
-namespace Ternary {
+namespace  Ternary{
   namespace Algorithm {
 
     class OrderedSet :   public QuLogic::QuAlgorithm
