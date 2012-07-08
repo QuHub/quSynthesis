@@ -1,5 +1,5 @@
 #pragma once
-#define N_POP 100
+#define N_POP 512 
 
 #define CROSS_OVER SinglePointCrossOver
 #define CROSS_OVER2 TwoPointCrossOver
@@ -14,6 +14,7 @@ namespace QuLogic
   private:
     int m_BestFit;
     int m_nTerms;
+    int m_RoletteWheel[1000];
 
     double m_ParentTotalFitness;
 
@@ -33,7 +34,6 @@ namespace QuLogic
     {
       Release();
     }
-
 
     // <summary>
     // 
@@ -71,7 +71,6 @@ namespace QuLogic
         }
     }
 
-
     // <summary>
     // 
     // <inputs>
@@ -100,7 +99,7 @@ namespace QuLogic
           }
         }
         s.stopTimer();
-        PrintResult(++iteration, s.getElapsedTime());
+        PrintResult(++iteration, s.getElapsedTime(), ParametersForDisplay());
       }
 
       Release();
@@ -157,11 +156,28 @@ namespace QuLogic
     // <outputs>
     void Breed()
     {
+      InitializeRoletteWheel();
       for (int i=0; i<N_POP; i++) {
         QuAlgorithm *p1 = Roulette();  
         QuAlgorithm *p2 = Roulette();
         m_pAlgo[i+N_POP] = m_nCrossOver == 0 ? p1->SinglePointCrossOver(p2, m_Pc) : p1->TwoPointCrossOver(p2, m_Pc);
         m_pAlgo[i+N_POP]->Mutate(m_Pm);
+      }
+    }
+
+#define ROLETTE_SIZE (sizeof(m_RoletteWheel)/sizeof(m_RoletteWheel[0]))
+    void InitializeRoletteWheel()
+    {
+      double scale = (double)ROLETTE_SIZE/(double)m_ParentTotalFitness;
+      int total = 0;
+      int index = 0;
+      for(int i=0; i<N_POP; i++) {
+        total += m_pAlgo[i]->m_QuantumCost;
+        int last = Math::Round(total * scale);
+        while(index < last && index < ROLETTE_SIZE)
+          m_RoletteWheel[index++] = i;
+
+        index = last;
       }
     }
 
@@ -172,16 +188,8 @@ namespace QuLogic
     // <outputs>
     QuAlgorithm *Roulette()
     {
-      double rnd = Rand::NextDouble();
-      double val=0;
-
-      for (int i=0; i < N_POP; i++) {
-        val += m_pAlgo[i]->m_QuantumCost/m_ParentTotalFitness;
-        if (rnd < val)
-          return m_pAlgo[i];
-      }
-
-      return m_pAlgo[N_POP-1];
+      int rnd = Rand::NextInteger(ROLETTE_SIZE - 1);
+      return m_pAlgo[m_RoletteWheel[rnd]];
     }
   };
 }

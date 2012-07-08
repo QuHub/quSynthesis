@@ -9,6 +9,7 @@ public:
   double m_Pc;
   int m_nCrossOver;  
   gcroot<StreamReader^> m_sr;
+  gcroot<String^> m_gaParam;
 
   GAParam(void)
   {
@@ -23,6 +24,11 @@ public:
     delete m_sr;
   }
 
+  String^ ParametersForDisplay()
+  {
+    return m_gaParam;
+  }
+
   bool NextGAParam()
   {
       String ^s;
@@ -32,6 +38,7 @@ public:
       else
         return false;
 
+      m_gaParam = s;
       Console::WriteLine("Configuration: {0}", s);
       array<String^>^ list = s->Split(',');
 

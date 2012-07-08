@@ -51,4 +51,5 @@ extern QuLogic::CQueue gQueue;
 
 #include "QuConductor.h"
 #include "GAConductor.h"
+#include "PassThrough.h"
 

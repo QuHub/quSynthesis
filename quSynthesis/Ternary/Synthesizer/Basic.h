@@ -69,7 +69,7 @@ namespace Ternary {
       ///
       void ProcessBit(int inTerm, int &outTerm, int i, int type)
       {
-        // Isloate bit (i) for processing
+        // Isolate bit (i) for processing
         int inBit  = (gBitMask[i] & inTerm);        // must be defined as signed int
         int outBit = (gBitMask[i] & outTerm);
 

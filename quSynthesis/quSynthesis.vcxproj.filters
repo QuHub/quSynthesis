@@ -19,15 +19,12 @@
       <Filter>Algorithms</Filter>
     </ClInclude>
     <ClInclude Include="GAConductor.h">
-      <Filter>Genetic</Filter>
+      <Filter>Conductors</Filter>
     </ClInclude>
     <ClInclude Include="FileSrc.h">
       <Filter>Utility</Filter>
     </ClInclude>
     <ClInclude Include="Hasse.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="QuConductor.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Queue.h">
@@ -81,11 +78,18 @@
     <ClInclude Include="Ternary\algorithm.h">
       <Filter>Ternary\Algorithm</Filter>
     </ClInclude>
+    <ClInclude Include="StringConvertor.h" />
+    <ClInclude Include="QuConductor.h">
+      <Filter>Conductors</Filter>
+    </ClInclude>
+    <ClInclude Include="PassThrough.h">
+      <Filter>Conductors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
     <None Include="GAParams.csv">
-      <Filter>Genetic</Filter>
+      <Filter>Conductors</Filter>
     </None>
     <None Include="config.csv" />
     <None Include="..\inputs\Ternary\HWT10.txt">
@@ -120,9 +124,6 @@
     <Filter Include="Algorithms">
       <UniqueIdentifier>{019faf62-b2c1-4f93-b261-4915f99c2da0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Genetic">
-      <UniqueIdentifier>{0ed6c853-d9c9-43bb-bb50-9fb5fd1bc336}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility">
       <UniqueIdentifier>{f578bec2-e106-4d44-ab19-4611d80f1b34}</UniqueIdentifier>
     </Filter>
@@ -146,6 +147,9 @@
     </Filter>
     <Filter Include="Inputs\Ternary">
       <UniqueIdentifier>{c806f808-c9fb-4941-91e4-c01398229e2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Conductors">
+      <UniqueIdentifier>{0ed6c853-d9c9-43bb-bb50-9fb5fd1bc336}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

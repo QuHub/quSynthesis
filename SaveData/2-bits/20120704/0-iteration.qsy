@@ -1,0 +1,18 @@
+Genetic Algorithm parameters: Standalone Synthesis
+Time to Synthesize: 0.0139976034386888
+Radix: 3
+Bit Count: 2
+Quantum Cost: 6
+Input Sequence (decimal and in 2 bits per digit):
+0,1,2,4,5,6,8,9,10,
+0, 1, 2, 4, 5, 6, 8, 9, 10, 
+Output Sequence (decimal and in 2 bits per digit):
+0,4,8,1,5,6,2,9,10,
+0, 4, 8, 1, 5, 6, 2, 9, 10, 
+Control | Target | Operation
+10 | 0 | 01 | 
+01 | 1 | 01 | 
+20 | 0 | 02 | 
+02 | 1 | 02 | 
+10 | 0 | 01 | 
+20 | 0 | 02 | 

@@ -65,6 +65,7 @@ namespace Ternary {
       {
         m_pOut = pOut;
 
+        Prepare(m_pOut);
         gQueue.Push(this);
       }
     };

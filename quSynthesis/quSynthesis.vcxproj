@@ -165,6 +165,7 @@
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Hasse.h" />
     <ClInclude Include="Miller.h" />
+    <ClInclude Include="PassThrough.h" />
     <ClInclude Include="QuAlgorithm.h" />
     <ClInclude Include="QuConductor.h" />
     <ClInclude Include="Queue.h" />
@@ -173,6 +174,7 @@
     <ClInclude Include="Result.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StopWatch.h" />
+    <ClInclude Include="StringConvertor.h" />
     <ClInclude Include="Synthesizer.h" />
     <ClInclude Include="Ternary\algorithm.h" />
     <ClInclude Include="Ternary\Algorithm\NaturalOrder.h" />

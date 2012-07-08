@@ -23,11 +23,17 @@ using namespace QuLogic;
 
 #define TERNARY
 //#define NATURAL
+
+//******* Conductors
+//#define PASSTHROUGH_CONDUCTOR
 #define GA
 
 #if defined(TERNARY) && defined(GA)
 #  define ALGO Ternary::Algorithm::OrderedSet::typeid
 #  define CONDUCTOR GAConductor
+#elif defined(TERNARY) && defined(PASSTHROUGH_CONDUCTOR)
+#  define ALGO Ternary::Algorithm::NaturalOrder::typeid
+#  define CONDUCTOR PassThrough
 #elif defined(TERNARY) && defined(NATURAL)
 #  define ALGO Ternary::Algorithm::NaturalOrder::typeid
 #  define CONDUCTOR QuConductor
@@ -42,7 +48,7 @@ namespace QuLogic {
     BandBoundary=NULL;
     CHasse::m_fInitialized = false;
     CGlobals::m_fInitialized = false;
-    CGlobals::date = DateTime::Now.ToString("yyyyMMdd hhmm");
+    CGlobals::date = DateTime::Now.ToString("yyyyMMdd");
     if(CHasse::m_pBands) CHasse::m_pBands->clear();
   }
 }
@@ -55,7 +61,7 @@ namespace QuLogic {
 // <outputs>
 int ternary(array<System::String ^> ^args)
 {
-  for (int i=6; i<=10; i++) {
+  for (int i=3; i<=6; i++) {
     Config::SetTernary();
     Config::nBits = i;
     QuLogic::TotalReset();
