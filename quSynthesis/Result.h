@@ -27,11 +27,12 @@ namespace QuLogic {
       my_pAlgo = algo->Clone();
     }
 
-    void PrintResult(int iteration, double Time, String^ gaParams)
+    void PrintResult(int iteration, double Time, String^ gaParams, String^ FunctionName)
     {
       Directory::CreateDirectory( String::Format("..\\SaveData\\{0}-bits\\{1}", my_pAlgo->m_nBits, CGlobals::date));
 	    StreamWriter ^file = gcnew StreamWriter(String::Format("..\\SaveData\\{0}-bits\\{1}\\{2}-iteration.qsy", my_pAlgo->m_nBits, CGlobals::date, iteration) );
 
+      file->WriteLine("Function: {0}", FunctionName);
       file->WriteLine("Genetic Algorithm parameters: {0}", gaParams);
       file->WriteLine("Time to Synthesize: {0}", Time);
       file->WriteLine("Radix: {0}", Config::Radix);

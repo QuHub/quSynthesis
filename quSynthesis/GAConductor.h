@@ -99,7 +99,7 @@ namespace QuLogic
           }
         }
         s.stopTimer();
-        PrintResult(++iteration, s.getElapsedTime(), ParametersForDisplay());
+        PrintResult(++iteration, s.getElapsedTime(), ParametersForDisplay(), FunctionName);
       }
 
       Release();

@@ -11,7 +11,7 @@ HANDLE *gphMutex;    // Set of mutex objects to indicate when a Synthesizer fini
 using namespace System;
 using namespace QuLogic;
 
-#define FILE_PATTERN "Ternary\\hwt"
+#define FILE_PATTERN "Ternary\\counter12_"
 #define NBITS        2
 #define RADIX        3    // 2: Binary, 3: Ternary
 #define RADIXBITS    2    // 1: Binary, 2: Ternary
@@ -61,7 +61,7 @@ namespace QuLogic {
 // <outputs>
 int ternary(array<System::String ^> ^args)
 {
-  for (int i=3; i<=6; i++) {
+  for (int i=3; i<=8; i++) {
     Config::SetTernary();
     Config::nBits = i;
     QuLogic::TotalReset();
@@ -73,6 +73,7 @@ int ternary(array<System::String ^> ^args)
 
     while (p = fs.Next() ) {
       Console::WriteLine("Function: " + fs.Name);
+      algo->FunctionName = fs.Name;
       algo->Synthesize(p);
     }
 

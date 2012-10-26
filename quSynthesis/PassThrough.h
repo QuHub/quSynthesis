@@ -57,7 +57,7 @@ namespace QuLogic
       WaitForQueue();
       Console::Write("BestCost: {0}\n", m_pAlgo[0]->m_QuantumCost);
       SaveResult(m_pAlgo[0]);
-	    PrintResult(0, s.getElapsedTime(), "Standalone Synthesis");
+	    PrintResult(0, s.getElapsedTime(), "Standalone Synthesis", FunctionName);
     }
   };
 }

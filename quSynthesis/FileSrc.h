@@ -56,6 +56,7 @@ namespace QuLogic {
         return NULL;
 
       array<String^>^ list = s->Split(' ');
+      m_nTerms = list->Length - 1;
       PINT p = m_pInput;
       Name = list[0];
       for (int i=0; i<m_nTerms; i++)
