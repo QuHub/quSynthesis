@@ -44,14 +44,15 @@ namespace QuLogic
       delete m_sr;
     }
 
-    GAConductor(int nBits, Type^ T) : QuConductor(nBits)
+    GAConductor(int nBits, int nTerms, Type^ T) : QuConductor(nBits, nTerms)
     {
       m_sr = gcnew StreamReader("..\\quSynthesis\\GAParams.csv");
       m_sr->ReadLine();  // Skip Header;
 
       m_AlgoType = T;
       ZeroMemory(m_pAlgo, sizeof(PVOID) * 2 * N_POP);
-	  m_nBits = nBits;
+      m_nBits = nBits;
+      m_nTerms = nTerms;
     }
 
     void InitPopulation()
@@ -59,7 +60,7 @@ namespace QuLogic
       // Setup population of individuals randomly
       for (int i=0; i<N_POP; i++) {
         // STEP(2): Add your new algorithm here...
-        if(m_AlgoType->Name == "CoveredSetPartition") m_pAlgo[i] = new CoveredSetPartition(m_nBits);
+        if(m_AlgoType->Name == "CoveredSetPartition") m_pAlgo[i] = new CoveredSetPartition(m_nBits, m_nTerms);
       }
     }
 

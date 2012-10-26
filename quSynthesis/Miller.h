@@ -8,7 +8,7 @@ public:
   PULONGLONG m_pIn;
 public:
 
-  CMiller(int nBits) : QuAlgorithm(nBits)
+  CMiller(int nBits, int nTerms) : QuAlgorithm(nBits, nTerms)
   {
     Name = "Miller";
 

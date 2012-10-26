@@ -17,10 +17,10 @@ namespace QuLogic {
   public:
     QuAlgorithm(void){}
 
-    QuAlgorithm(int nBits)
+    QuAlgorithm(int nBits, int nTerms)
     {
       m_nBits = nBits;
-      m_nTerms = (ULONGLONG)Math::Pow(2,(double)nBits);
+      m_nTerms = nTerms;
       m_pIn = m_pOut = NULL;
       m_pTarget = m_pControl = NULL;
     }

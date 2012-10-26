@@ -13,8 +13,8 @@ HANDLE *gphMutex;    // Set of mutex objects to indicate when a Synthesizer fini
 using namespace System;
 using namespace QuLogic;
 
-#define FILE_PATTERN "function*"
-#define NBITS 11
+#define FILE_PATTERN "ankit*"
+#define NBITS 8
 
 // STEP(1): Add your algoirthm here
 // STEP(2): See the Conductor Class for details..
@@ -43,17 +43,17 @@ int main(array<System::String ^> ^args)
   }
   Console::WriteLine("PartitionSize: {0}", QuLogic::PartitionSize );
 
-  GAConductor *algo = new GAConductor(NBITS, ALGO);
 
   PULONGLONG p;
   FileSrc fs(NBITS, FILE_PATTERN);
 
   while (p = fs.Next() ) {
+    GAConductor *algo = new GAConductor(NBITS, fs.nTerms(), ALGO);
     Console::WriteLine("Function: " + fs.Name);
     algo->Synthesize(p);
+    delete algo;
   }
 
   delete p;
-  delete algo;
   return 0;
 }

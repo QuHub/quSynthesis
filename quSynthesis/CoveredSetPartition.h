@@ -27,7 +27,7 @@ namespace QuLogic {
       m_nSets = base.m_nSets;
     }
 
-    CoveredSetPartition(int nBits) : QuAlgorithm(nBits)
+    CoveredSetPartition(int nBits, int nTerms) : QuAlgorithm(nBits, nTerms)
     {
       m_nSets = (int)Math::Pow(2,M);
 

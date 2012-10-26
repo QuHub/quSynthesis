@@ -26,6 +26,7 @@ namespace QuLogic {
     property String^ SeqName;
 
 
+    int nTerms() {return m_nTerms;}
     //**************
     FileSrc(ULONG nBits, String^ FilePrefix) {
       SeqName = FilePrefix->Replace('*', ' ')->TrimEnd();
@@ -58,8 +59,9 @@ namespace QuLogic {
       array<String^>^ list = s->Split(' ');
       PULONGLONG p = m_pInput;
       Name = list[0];
-      for (int i=0; i<m_nTerms; i++)
-        *p++ = Convert::ToUInt64(list[i+1]);
+      m_nTerms = list->Length - 1;
+      for (int i=1; i<=m_nTerms; i++)
+        *p++ = Convert::ToUInt64(list[i]);
 
       return m_pInput;
     }

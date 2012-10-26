@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="CoveredSetPartition.h" />
     <ClInclude Include="FileSrc.h" />
+    <ClInclude Include="Function.h" />
     <ClInclude Include="GAConductor.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Hasse.h" />
