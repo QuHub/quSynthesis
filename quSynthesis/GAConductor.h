@@ -1,4 +1,6 @@
 #pragma once
+#include "Function.h"
+
 // BestCost         3261193(M=3)  3398744(M=2)      3407896       3398961
 #define N_POP 100 // 100             100           200
 
@@ -44,15 +46,15 @@ namespace QuLogic
       delete m_sr;
     }
 
-    GAConductor(int nBits, int nTerms, Type^ T) : QuConductor(nBits, nTerms)
+    GAConductor(Function^ function, Type^ T) : QuConductor(function)
     {
       m_sr = gcnew StreamReader("..\\quSynthesis\\GAParams.csv");
       m_sr->ReadLine();  // Skip Header;
 
       m_AlgoType = T;
       ZeroMemory(m_pAlgo, sizeof(PVOID) * 2 * N_POP);
-      m_nBits = nBits;
-      m_nTerms = nTerms;
+      m_nBits = function->nBits();
+      m_nTerms = function->nTerms();
     }
 
     void InitPopulation()
@@ -60,7 +62,7 @@ namespace QuLogic
       // Setup population of individuals randomly
       for (int i=0; i<N_POP; i++) {
         // STEP(2): Add your new algorithm here...
-        if(m_AlgoType->Name == "CoveredSetPartition") m_pAlgo[i] = new CoveredSetPartition(m_nBits, m_nTerms);
+        if(m_AlgoType->Name == "CoveredSetPartition") m_pAlgo[i] = new CoveredSetPartition(m_function);
       }
     }
 
@@ -92,7 +94,7 @@ namespace QuLogic
       return false;
     }
 
-    void Synthesize(PULONGLONG pOut)
+    void Synthesize()
     {
       InitPopulation();
 	  int iteration = 0;
@@ -107,7 +109,7 @@ namespace QuLogic
         for (int r=0; r<m_nRun; r++) {
           Console::WriteLine("Run: {0}", r);
           for (int g=0; g<m_nGen; g++) {
-            DoGeneration(g, pOut);
+            DoGeneration(g);
 
 			counter++;
 			file = gcnew StreamWriter(String::Format("..\\..\\SaveData\\{0}-bits\\costs{1}", m_nBits, iteration+1) + ".qsy", true);
@@ -123,11 +125,11 @@ namespace QuLogic
 	  
     }
 
-    void DoGeneration(int gen, PULONGLONG pOut)
+    void DoGeneration(int gen)
     {
       m_ParentTotalFitness = 0;
       for (int i=0; i<N_POP; i++) {
-        m_pAlgo[i]->Synthesize(pOut);
+        m_pAlgo[i]->Synthesize();
       }
 
       WaitForQueue();

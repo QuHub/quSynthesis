@@ -5,7 +5,7 @@
 #include <Windows.h>
 #include "FileSrc.h"
 #include "QuAlgorithm.h"
-#include "Miller.h"
+#include "FunctionReader.h"
 
 
 HANDLE *gphMutex;    // Set of mutex objects to indicate when a Synthesizer finishes synthesis.
@@ -43,17 +43,20 @@ int main(array<System::String ^> ^args)
   }
   Console::WriteLine("PartitionSize: {0}", QuLogic::PartitionSize );
 
-
   PULONGLONG p;
-  FileSrc fs(NBITS, FILE_PATTERN);
+  FunctionReader reader(FILE_PATTERN);
 
-  while (p = fs.Next() ) {
-    GAConductor *algo = new GAConductor(NBITS, fs.nTerms(), ALGO);
-    Console::WriteLine("Function: " + fs.Name);
-    algo->Synthesize(p);
-    delete algo;
+  for(int i=0; i < reader.Count(); i++) {
+    Function^ function = reader.Next();
+   
+    CoveredSetPartition *pAlgo = new CoveredSetPartition(function);
+//    GAConductor *algo = new GAConductor(function, ALGO);
+    Console::WriteLine("Function: " + function->Name());
+    pAlgo->Synthesize();
+   // delete algo;
+    delete pAlgo;
+    delete function;
   }
 
-  delete p;
   return 0;
 }

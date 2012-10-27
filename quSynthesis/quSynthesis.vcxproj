@@ -144,15 +144,18 @@
   <ItemGroup>
     <None Include="GAParams.csv" />
     <None Include="ReadMe.txt" />
+    <None Include="Support\YamlSerializer\ChangeLog.txt" />
+    <None Include="Support\YamlSerializer\Readme.txt" />
+    <None Include="Support\YamlSerializer\YAML Serializer.chm" />
+    <None Include="Support\YamlSerializer\YamlSerializer.dll" />
+    <None Include="Support\YamlSerializer\YamlSerializer.XML" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoveredSetPartition.h" />
-    <ClInclude Include="FileSrc.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="GAConductor.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Hasse.h" />
-    <ClInclude Include="Miller.h" />
     <ClInclude Include="QuAlgorithm.h" />
     <ClInclude Include="QuConductor.h" />
     <ClInclude Include="Queue.h" />
@@ -177,6 +180,9 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="YamlSerializer, Version=0.9.0.2, Culture=neutral, PublicKeyToken=null">
+      <HintPath>Support\YamlSerializer\YamlSerializer.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

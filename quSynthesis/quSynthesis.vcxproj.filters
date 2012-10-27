@@ -28,9 +28,6 @@
     <ClInclude Include="Hasse.h">
       <Filter>Algorithms</Filter>
     </ClInclude>
-    <ClInclude Include="Miller.h">
-      <Filter>Algorithms</Filter>
-    </ClInclude>
     <ClInclude Include="QuAlgorithm.h">
       <Filter>Algorithms</Filter>
     </ClInclude>
@@ -49,9 +46,6 @@
     <ClInclude Include="Thread.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="FileSrc.h">
-      <Filter>IO</Filter>
-    </ClInclude>
     <ClInclude Include="Function.h">
       <Filter>IO</Filter>
     </ClInclude>
@@ -64,6 +58,11 @@
     <None Include="GAParams.csv">
       <Filter>Conductors</Filter>
     </None>
+    <None Include="Support\YamlSerializer\ChangeLog.txt" />
+    <None Include="Support\YamlSerializer\YamlSerializer.XML" />
+    <None Include="Support\YamlSerializer\Readme.txt" />
+    <None Include="Support\YamlSerializer\YAML Serializer.chm" />
+    <None Include="Support\YamlSerializer\YamlSerializer.dll" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Conductors">

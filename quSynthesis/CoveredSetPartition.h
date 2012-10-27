@@ -11,6 +11,7 @@ namespace QuLogic {
   {
   public:
     int m_nSets;
+    int m_nMaxTerms;
     vector<CHasse*> m_pInput;
     ULONGLONG m_nQuantumCost;
     int NumBands() {return m_nSets * (m_nBits-M+1);}
@@ -27,28 +28,43 @@ namespace QuLogic {
       m_nSets = base.m_nSets;
     }
 
-    CoveredSetPartition(int nBits, int nTerms) : QuAlgorithm(nBits, nTerms)
+    CoveredSetPartition(Function^ function) : QuAlgorithm(function)
     {
       m_nSets = (int)Math::Pow(2,M);
 
+      // Construct full set of Hasse structure including partitions
       for (int i=0; i<m_nSets; i++)
-        m_pInput.push_back(new CHasse(nBits - M, i));
+        m_pInput.push_back(new CHasse(function->nBits() - M));
 
-      PULONGLONG p = m_pIn = new ULONGLONG[m_nTerms];
+      m_nMaxTerms = (int) pow(2, (float)m_nBits);
+      ULONGLONG *buf = new ULONGLONG[m_nMaxTerms];
+      PULONGLONG p = buf;
       for (int i=0; i<m_nSets; i++) {
         p += m_pInput[i]->GetSequence(p, i<<(m_nBits-M));
       }
 
-      // Allocate array of band boundaries for crossover operations.
-      if(BandBoundary) return;
-      BandBoundary = new int[nBands];
+      CopyTermsInInput(buf);
+      delete buf;
+    }
 
-      for (int i=0, n=0, k=0; i<m_nSets; i++) {
-        for (int j=0; j<m_pInput[i]->m_nBands; j++) {
-          n += CGlobals::nCr(m_nBits-M, j);
-          BandBoundary[k++] = n;
+    void CopyTermsInInput(PULONGLONG p)
+    {
+      PULONGLONG pIn = m_pIn = new ULONGLONG[m_nTerms];
+      PULONGLONG pOut = m_pOut = new ULONGLONG[m_nTerms];
+
+      for(int i=0; i<m_nMaxTerms; i++) {
+        for(int j=0; j<m_nTerms; j++) {
+          if(p[i] == m_function->m_pIn[j]) {
+            *pIn++ = p[i];
+            *pOut++ = m_function->m_pOut[j];
+          }
         }
       }
+    }
+
+    void Synthesize() 
+    {
+      gQueue.Push(this);
     }
 
     QuAlgorithm *SinglePointCrossOver(QuAlgorithm *other, double Prob)
@@ -86,11 +102,6 @@ namespace QuLogic {
       return p;
     }
 
-    void Synthesize(PULONGLONG pOut) 
-    {
-      m_pOut = pOut;
-      gQueue.Push(this);
-    }
 
     void Mutate(double Prob)
     {

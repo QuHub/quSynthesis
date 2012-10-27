@@ -27,7 +27,7 @@ namespace QuLogic {
     }
 
   public:
-    CHasse(int nBits, int offset)
+    CHasse(int nBits)
     {
       Initialize(nBits);
 

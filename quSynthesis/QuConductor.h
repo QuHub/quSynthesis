@@ -1,5 +1,7 @@
 #pragma once
 #include "Result.h"
+#include "Function.h"
+
 namespace QuLogic {
 
 	class QuConductor : public CGlobals, public CResult
@@ -11,6 +13,7 @@ namespace QuLogic {
 		HANDLE *m_phMutex;
 		int m_nThreads;
 		CSynthesizer *m_pSynth;
+    gcroot<Function^> m_function;
 
 	public:
 		QuConductor(void){};
@@ -20,10 +23,11 @@ namespace QuLogic {
 				m_pSynth[i].Stop();
 
 		}
-		QuConductor(int nBits, int nTerms)
+		QuConductor(Function^ function)
 		{
-      m_nBits = nBits;
-      m_nTerms = nTerms;
+      m_function = function;
+      m_nBits = function->nBits();
+      m_nTerms = function->nTerms();
 			// Allocate a set of Worker Threads based on the number of CPU cores for synthesizing outputs.
 			SYSTEM_INFO sysinfo;
 			GetSystemInfo( &sysinfo );

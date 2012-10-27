@@ -1,4 +1,6 @@
 #pragma once
+#include "Function.h"
+
 namespace QuLogic {
 
   class QuAlgorithm 
@@ -13,14 +15,16 @@ namespace QuLogic {
     PULONGLONG m_pOut;
     PULONGLONG m_pTarget;
     PULONGLONG m_pControl;
+    gcroot<Function^> m_function;
 
   public:
     QuAlgorithm(void){}
 
-    QuAlgorithm(int nBits, int nTerms)
+    QuAlgorithm(Function^ function)
     {
-      m_nBits = nBits;
-      m_nTerms = nTerms;
+      m_function = function;
+      m_nBits = m_function->nBits();
+      m_nTerms = m_function->nTerms();
       m_pIn = m_pOut = NULL;
       m_pTarget = m_pControl = NULL;
     }
@@ -40,7 +44,7 @@ namespace QuLogic {
       m_pControl = m_pTarget = NULL;
     }
 
-    void virtual Synthesize(PULONGLONG pOut) {throw "Must implement this";}
+    void virtual Synthesize() {throw "Must implement this";}
     void virtual Mutate(double Prob) {throw "Must implement this";}
     QuAlgorithm virtual *Copy() {throw "Must implement this";}
     QuAlgorithm virtual *Clone() {
@@ -57,6 +61,7 @@ namespace QuLogic {
     void inline Delete(PULONGLONG p) {if(p) delete p;}
     virtual ~QuAlgorithm(){
       Delete(m_pIn); 
+      Delete(m_pOut); 
       Delete(m_pControl); 
       Delete(m_pTarget);
     }
