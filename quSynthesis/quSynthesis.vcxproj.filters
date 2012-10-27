@@ -3,67 +3,67 @@
   <ItemGroup>
     <ClCompile Include="quSynthesis.cpp" />
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="Queue.cpp">
+    <ClCompile Include="Utility\Queue.cpp">
       <Filter>Algorithms</Filter>
     </ClCompile>
-    <ClCompile Include="Rand.cpp">
+    <ClCompile Include="Utility\Rand.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Synthesizer.cpp">
+    <ClCompile Include="Algorithms\Synthesizer.cpp">
       <Filter>Algorithms</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="GAConductor.h">
+    <ClInclude Include="Conductors\GAConductor.h">
       <Filter>Conductors</Filter>
     </ClInclude>
-    <ClInclude Include="CoveredSetPartition.h">
+    <ClInclude Include="Algorithms\QuAlgorithm.h">
       <Filter>Algorithms</Filter>
     </ClInclude>
-    <ClInclude Include="Globals.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Hasse.h">
+    <ClInclude Include="Algorithms\CoveredSetPartition.h">
       <Filter>Algorithms</Filter>
     </ClInclude>
-    <ClInclude Include="QuAlgorithm.h">
+    <ClInclude Include="Utility\Queue.h">
       <Filter>Algorithms</Filter>
     </ClInclude>
-    <ClInclude Include="QuConductor.h">
+    <ClInclude Include="Conductors\QuConductor.h">
       <Filter>Conductors</Filter>
     </ClInclude>
-    <ClInclude Include="Queue.h">
-      <Filter>Algorithms</Filter>
-    </ClInclude>
-    <ClInclude Include="Rand.h">
+    <ClInclude Include="Utility\Globals.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Synthesizer.h">
+    <ClInclude Include="Algorithms\Hasse.h">
       <Filter>Algorithms</Filter>
     </ClInclude>
-    <ClInclude Include="Thread.h">
+    <ClInclude Include="Utility\Rand.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Function.h">
+    <ClInclude Include="InOut\Result.h">
       <Filter>IO</Filter>
     </ClInclude>
-    <ClInclude Include="Result.h">
+    <ClInclude Include="InOut\Function.h">
       <Filter>IO</Filter>
     </ClInclude>
-    <ClInclude Include="PassThrough.h" />
+    <ClInclude Include="Algorithms\Synthesizer.h">
+      <Filter>Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Thread.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Conductors\PassThroughConductor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
-    <None Include="GAParams.csv">
-      <Filter>Conductors</Filter>
-    </None>
     <None Include="Support\YamlSerializer\ChangeLog.txt" />
     <None Include="Support\YamlSerializer\YamlSerializer.XML" />
     <None Include="Support\YamlSerializer\Readme.txt" />
     <None Include="Support\YamlSerializer\YAML Serializer.chm" />
     <None Include="Support\YamlSerializer\YamlSerializer.dll" />
+    <None Include="Conductors\GAParams.csv">
+      <Filter>Conductors</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Conductors">

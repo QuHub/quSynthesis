@@ -5,8 +5,9 @@
 #include <Windows.h>
 #include "FileSrc.h"
 #include "QuAlgorithm.h"
-#include "PassThrough.h"
+#include "PassThroughConductor.h"
 #include "FunctionReader.h"
+#include "RandomConductor.h"
 
 
 HANDLE *gphMutex;    // Set of mutex objects to indicate when a Synthesizer finishes synthesis.
@@ -38,7 +39,7 @@ namespace QuLogic {
 int main(array<System::String ^> ^args)
 {
   QuLogic::TotalReset();
-  QuLogic::PartitionSize = 7;
+  QuLogic::PartitionSize = 1;
   if (args->Length > 0) {
     QuLogic::PartitionSize = Convert::ToInt64(args[0]);
   }
@@ -50,7 +51,7 @@ int main(array<System::String ^> ^args)
   for(int i=0; i < reader.Count(); i++) {
     Function^ function = reader.Next();
    
-    PassThrough *pAlgo = new PassThrough(function);
+    RandomConductor *pAlgo = new RandomConductor(function);
     Console::WriteLine("Function: " + function->Name());
     pAlgo->Synthesize();
     delete pAlgo;

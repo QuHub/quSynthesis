@@ -101,6 +101,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions), _SCL_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
+      <AdditionalIncludeDirectories>$(ProjectDir)/Utility;$(ProjectDir)/Algorithms;$(ProjectDir)/Conductors;$(ProjectDir)/InOut;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,6 +134,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>$(ProjectDir)/Utility;$(ProjectDir)/Algorithms;$(ProjectDir)/Conductors;$(ProjectDir)/InOut;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,7 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="GAParams.csv" />
+    <None Include="Conductors\GAParams.csv" />
     <None Include="ReadMe.txt" />
     <None Include="Support\YamlSerializer\ChangeLog.txt" />
     <None Include="Support\YamlSerializer\Readme.txt" />
@@ -151,33 +153,33 @@
     <None Include="Support\YamlSerializer\YamlSerializer.XML" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CoveredSetPartition.h" />
-    <ClInclude Include="Function.h" />
-    <ClInclude Include="GAConductor.h" />
-    <ClInclude Include="Globals.h" />
-    <ClInclude Include="Hasse.h" />
-    <ClInclude Include="PassThrough.h" />
-    <ClInclude Include="QuAlgorithm.h" />
-    <ClInclude Include="QuConductor.h" />
-    <ClInclude Include="Queue.h" />
-    <ClInclude Include="Rand.h" />
-    <ClInclude Include="Result.h" />
+    <ClInclude Include="Algorithms\CoveredSetPartition.h" />
+    <ClInclude Include="InOut\Function.h" />
+    <ClInclude Include="Conductors\GAConductor.h" />
+    <ClInclude Include="Utility\Globals.h" />
+    <ClInclude Include="Algorithms\Hasse.h" />
+    <ClInclude Include="Conductors\PassThroughConductor.h" />
+    <ClInclude Include="Algorithms\QuAlgorithm.h" />
+    <ClInclude Include="Conductors\QuConductor.h" />
+    <ClInclude Include="Utility\Queue.h" />
+    <ClInclude Include="Utility\Rand.h" />
+    <ClInclude Include="InOut\Result.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="Synthesizer.h" />
+    <ClInclude Include="Algorithms\Synthesizer.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Thread.h" />
+    <ClInclude Include="Utility\Thread.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Queue.cpp" />
+    <ClCompile Include="Utility\Queue.cpp" />
     <ClCompile Include="quSynthesis.cpp" />
-    <ClCompile Include="Rand.cpp" />
+    <ClCompile Include="Utility\Rand.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Synthesizer.cpp" />
+    <ClCompile Include="Algorithms\Synthesizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

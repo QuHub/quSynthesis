@@ -37,7 +37,9 @@ namespace QuLogic {
       m_nGates = base.m_nGates;
       m_QuantumCost = base.m_QuantumCost;
       Name = base.Name;
-      m_pOut = base.m_pOut;
+
+      m_pOut = new ULONGLONG[m_nTerms];
+      CopyMemory(m_pOut, base.m_pOut, m_nTerms*sizeof(ULONGLONG));
 
       m_pIn = new ULONGLONG[m_nTerms];
       CopyMemory(m_pIn, base.m_pIn, m_nTerms*sizeof(ULONGLONG));
