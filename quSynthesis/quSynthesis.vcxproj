@@ -156,6 +156,7 @@
     <ClInclude Include="GAConductor.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Hasse.h" />
+    <ClInclude Include="PassThrough.h" />
     <ClInclude Include="QuAlgorithm.h" />
     <ClInclude Include="QuConductor.h" />
     <ClInclude Include="Queue.h" />

@@ -52,6 +52,7 @@
     <ClInclude Include="Result.h">
       <Filter>IO</Filter>
     </ClInclude>
+    <ClInclude Include="PassThrough.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

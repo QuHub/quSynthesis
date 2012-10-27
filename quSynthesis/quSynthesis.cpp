@@ -5,6 +5,7 @@
 #include <Windows.h>
 #include "FileSrc.h"
 #include "QuAlgorithm.h"
+#include "PassThrough.h"
 #include "FunctionReader.h"
 
 
@@ -49,11 +50,9 @@ int main(array<System::String ^> ^args)
   for(int i=0; i < reader.Count(); i++) {
     Function^ function = reader.Next();
    
-    CoveredSetPartition *pAlgo = new CoveredSetPartition(function);
-//    GAConductor *algo = new GAConductor(function, ALGO);
+    PassThrough *pAlgo = new PassThrough(function);
     Console::WriteLine("Function: " + function->Name());
     pAlgo->Synthesize();
-   // delete algo;
     delete pAlgo;
     delete function;
   }
