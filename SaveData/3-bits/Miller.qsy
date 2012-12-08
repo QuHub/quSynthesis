@@ -1,0 +1,11 @@
+Configuration:  
+QuantomCost:
+20
+Input Data:
+0,1,2,3,4,5,6,7,
+Output Data:
+7,1,2,3,4,5,6,0,
+Control:
+6,4,0,1,2,3,4,6,
+Target:
+1,2,4,4,4,4,2,1,
